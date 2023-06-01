@@ -1,4 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
+import 'dart:developer' as developer;
+import 'dart:core';
 
 void main() {
   runApp(const MyApp());
@@ -13,21 +17,6 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Patient on Call',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // TRY THIS: Try running your application with "flutter run". You'll see
-        // the application has a blue toolbar. Then, without quitting the app,
-        // try changing the seedColor in the colorScheme below to Colors.green
-        // and then invoke "hot reload" (save your changes or press the "hot
-        // reload" button in a Flutter-supported IDE, or press "r" if you used
-        // the command line to start the app).
-        //
-        // Notice that the counter didn't reset back to zero; the application
-        // state is not lost during the reload. To reset the state, use hot
-        // restart instead.
-        //
-        // This works for code too, not just values: Most code changes can be
-        // tested with just a hot reload.
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
@@ -38,6 +27,21 @@ class MyApp extends StatelessWidget {
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key, required this.title});
+
+  static Future<Patient> getData() async {
+    var response = await http.get(
+      Uri.parse('https://patientoncall.herokuapp.com/api/patient-data/')
+    );
+    print(response);
+    
+    if (response.statusCode == 200) {
+      print(response.body);
+      return Patient.fromJson(json.decode(response.body));
+    } else {
+    // If that call was not successful, throw an error.
+    throw Exception('Failed to load post');
+  }
+  }
 
   // This widget is the home page of your application. It is stateful, meaning
   // that it has a State object (defined below) that contains fields that affect
@@ -60,6 +64,61 @@ class _MyHomePageState extends State<MyHomePage> {
         ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20));
   static const TextStyle optionStyle =
       TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
+
+  //          Patient patient;
+
+  // static void _getMh(Future<Patient> future) {
+  //   future.then((data) => {
+  //     setState(() {
+  //       patient = data;
+  //   });
+  //   }
+  //   ).catchError((error) => throw Exception(error))
+  // }
+
+  TextEditingController dateController = TextEditingController();
+  TextEditingController summaryController = TextEditingController();
+
+  Future<void> postData() async {
+    final response = await http.post(
+      Uri.parse('https://patientoncall.herokuapp.com/api/patient-data/medical-history/'),
+      body: json.encode({
+        'date': dateController.text,
+        'summary': summaryController.text,
+      }),
+      headers: {'Content-Type': 'application/json'},
+    );
+
+    if (response.statusCode == 201) {
+      // Data successfully posted
+      print('Data posted successfully');
+    } else {
+      // Handle error if the request fails
+      print('Failed to post data');
+    }
+  }
+
+  Patient? fetchedData;
+
+  Future<void> fetchData() async {
+    final response = await http.get(Uri.parse('https://patientoncall.herokuapp.com/api/patient-data/'));
+    
+    if (response.statusCode == 200) {
+      setState(() {
+        fetchedData = Patient.fromJson(json.decode(response.body));
+      });
+    } else {
+      // Handle error if the request fails
+      print('Failed to fetch data');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    fetchData();
+  }
+  
   static List<Widget> _widgetOptions = <Widget>[
     Text(
       'Index 0: Home',
@@ -80,16 +139,19 @@ class _MyHomePageState extends State<MyHomePage> {
         style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
       ),
     ),
+    Text('Date'),
     Row(
         children: [
           Expanded(
             child: Text('Date')
           ),
           SizedBox(
-            width: 5,
+            width: 6,
           ),
           Expanded(
-            child: Text('history')
+            child: Text('history',
+            style: TextStyle(
+            backgroundColor: Colors.grey))
           ),
         ],
       ),
@@ -101,8 +163,9 @@ class _MyHomePageState extends State<MyHomePage> {
       width: 350,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
+        // onPressed: () => {_getMh(MyHomePage.getData())},
         onPressed: null,
-        child: Text('Add Medical History'),
+        child: Text('Get Medical History'),
       )
     ),    
   ],
@@ -119,21 +182,67 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  void refreshData() {
+    print(dateController.text);
+    print(summaryController.text);
+    postData();
+    fetchData();
+  }
+
   @override
   Widget build(BuildContext context) {
-    // This method is rerun every time setState is called, for instance as done
-    // by the _incrementCounter method above.
-    //
-    // The Flutter framework has been optimized to make rerunning build methods
-    // fast, so that you can just rebuild anything that needs updating rather
-    // than having to individually change instances of widgets.
     return Scaffold(
       appBar: AppBar(
         title: const Text('Patient On Call'),
       ),
-      body: Center(
-        child: _widgetOptions.elementAt(_selectedIndex),
+      body: 
+      // Center(
+      //   child: _widgetOptions.elementAt(_selectedIndex),
+      // ),
+      Column(
+        children: [Text(fetchedData.toString()),
+      // ListView.builder(
+      //   itemCount: fetchedData.length,
+      //   itemBuilder: (BuildContext context, int index) {
+      //     return ListTile(
+      //       title: Text(fetchedData[index]['title']),
+      //       subtitle: Text(fetchedData[index]['description']),
+      //     );
+      //   },
+      // ),
+          ListTile(
+      title: Text('Date'),
+      subtitle: TextFormField(
+        controller: dateController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          hintText: 'Date',
+        ),
       ),
+    ),
+    ListTile(
+      title: Text('Summary'),
+      subtitle: TextFormField(
+        controller: summaryController,
+        decoration: const InputDecoration(
+          border: OutlineInputBorder(
+              borderRadius: BorderRadius.all(Radius.circular(8))),
+          hintText: 'Summary',
+        ),
+      ),
+    ),
+      SizedBox(
+      width: 350,
+      child: ElevatedButton(
+        style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
+        // onPressed: () => {_getMh(MyHomePage.getData())},
+        onPressed: refreshData,
+        child: Text('Add Medical History'),
+      )
+    ), ]
+      ),
+      
       bottomNavigationBar: BottomNavigationBar(
         items: const <BottomNavigationBarItem>[
           BottomNavigationBarItem(
@@ -163,5 +272,52 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
-
 }
+
+class Patient {
+    final String first_name;
+    final String last_name;
+    final List<MedicalHistoryEntry> medical_history;
+
+    Patient({
+      required this.first_name,
+      required this.last_name,
+      required this.medical_history
+    });
+
+    factory Patient.fromJson(Map<String, dynamic> json) {
+      var list = json['medical-history'];
+      List<MedicalHistoryEntry> mh_list = list.map<MedicalHistoryEntry>((mh) => MedicalHistoryEntry.fromDic(mh)).toList();
+      return Patient(
+        first_name: json['patient-first-name'],
+        last_name: json['patient-last-name'],
+        medical_history: mh_list,
+      );
+  } 
+  @override
+    String toString() {
+      return '{ ${this.first_name}, ${this.last_name}, ${this.medical_history}}';
+    }
+  
+}
+
+  class MedicalHistoryEntry {
+    final String date;
+    final String summary;
+
+    MedicalHistoryEntry({
+      required this.date,
+      required this.summary
+    });
+
+    factory MedicalHistoryEntry.fromDic(Map<String, dynamic> dic) {
+      return MedicalHistoryEntry(
+        date: dic['date'],
+        summary: dic['summary']
+      );
+    }
+    @override
+    String toString() {
+      return '{ ${this.date}, ${this.summary}}';
+    }
+  }
