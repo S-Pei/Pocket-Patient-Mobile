@@ -17,7 +17,7 @@ workflows:
           flutter packages pub get
       - name: Build APK with Flutter
         script: |
-          flutter build apk --release
+          flutter build apk --debug
       # - name: Create debug and test APK
       #   script: |
       #     set -ex
