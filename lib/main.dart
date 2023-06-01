@@ -185,8 +185,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void refreshData() {
     print(dateController.text);
     print(summaryController.text);
-    postData();
-    fetchData();
+    postData().then((_) {fetchData();});
   }
 
   @override
