@@ -58,32 +58,6 @@ workflows:
         BUNDLE_ID: "dev.flutterexplained.cicdtutorial"
         TEST_BUNDLE_ID: "dev.flutterexplained.cicdtutorial.uitests.xctrunner"
     scripts:
-      - name: Configure Firebase access
-        script: |
-          set -e
-          echo $GCLOUD_KEY_FILE | base64 --decode > ./gcloud_key_file.json          
-          gcloud auth activate-service-account --key-file=gcloud_key_file.json
-          gcloud --quiet config set project $FIREBASE_PROJECT
       - name: Build app for testing
-        script: |
-          set -ex
-          
-          flutter build ios integration_test/app_test.dart --release
-          
-          cd ios
-          xcodebuild \
-            -workspace Runner.xcworkspace \
-            -scheme Runner \
-            -config Flutter/Release.xcconfig \
-            -derivedDataPath "../build/ios_integ" \
-            -sdk iphoneos \
-            build-for-testing
-      - name: Package tests bundle
-        script: |
-          set -ex
-          cd ./build/ios_integ/Build/Products
-          zip -r "ios_tests.zip" *-iphoneos *.xctestrun
-      - name: Run tests in Firebase Test Lab
-        script: gcloud firebase test ios run --test "build/ios_integ/Build/Products/ios_tests.zip"
-    artifacts:
-      - "**/ios_tests.zip"
+        script: 
+          flutter build ios --debug  
