@@ -237,7 +237,7 @@ class _MyHomePageState extends State<MyHomePage> {
         style: ElevatedButton.styleFrom(textStyle: const TextStyle(fontSize: 20)),
         // onPressed: () => {_getMh(MyHomePage.getData())},
         onPressed: refreshData,
-        child: Text('Add Medical History'),
+        child: Text('Add Medical History added today'),
       )
     ), ]
       ),
