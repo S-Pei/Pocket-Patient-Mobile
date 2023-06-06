@@ -1,10 +1,37 @@
 import 'package:flutter/material.dart';
+import 'package:web_socket_channel/web_socket_channel.dart';
 import 'components.dart';
 import 'fonts.dart' as fonts;
 import 'colours.dart' as colours;
 
 // HOME PAGE
-class HomePage extends StatelessWidget {
+class HomePage extends StatefulWidget {
+
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+
+  String message = 'No message received';
+
+  final channel = WebSocketChannel.connect(
+    Uri.parse('wss://patientoncall.herokuapp.com/ws/patientoncall/'),
+  );
+
+  @override
+  void initState() {
+    super.initState();
+    channel.sink.add('Hello!');
+    channel.stream.listen((data) {
+      setState(() {
+        message = data;
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,7 +40,7 @@ class HomePage extends StatelessWidget {
           Center(
               child: Container(
                   padding: const EdgeInsets.all(50.0),
-                  child: const Column(
+                  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
@@ -43,26 +70,15 @@ class HomePage extends StatelessWidget {
                         LongButton(
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),
-                      ]))),
+                        ElevatedButton(onPressed: () {CustomOverlay().showOverlay(context);}, child: Text('show overlay')),
+                      Text(message),]))),
           const MedInsAccLogo(),
           const HomeIcon(),
         ],
       ),
     );
   }
-
-  const HomePage({super.key});
-
-  // @override
-  // State<HomePage> createState() => _HomePageState();
 }
-
-// class _HomePageState extends State<HomePage> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return
-//   }
-// }
 
 // NAV BAR
 class InfoPage extends StatefulWidget {
@@ -159,7 +175,7 @@ class PrescriptionPage extends StatelessWidget {
                         ),
                         Row(children: [
                           Text('Prescriptions', style: fonts.subtitle),
-                          SizedBox(width: 70),
+                          Expanded(child: SizedBox(width: 70)),
                           PrintButton(),
                         ]),
                       ]))),

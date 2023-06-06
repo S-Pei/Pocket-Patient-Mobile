@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'colours.dart' as colours;
 import 'fonts.dart' as fonts;
@@ -151,9 +153,8 @@ class NavBarElem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      width: 124,
-      height: 100,
+    return Expanded(
+      // flex: 5,
       child: DecoratedBox(
         decoration: BoxDecoration(
           color: colours.mainCyan,
@@ -179,7 +180,7 @@ class NavBarElem extends StatelessWidget {
                 icon: Icon(icon, size: selected ? 26 : 25, color: Colors.black),
               ),
               SizedBox(
-                width: 110,
+                width: 100,
                 child: Text(
                   text,
                   style: TextStyle(
@@ -197,4 +198,133 @@ class NavBarElem extends StatelessWidget {
       ),
     );
   }
+}
+
+// AUTHENTICATION OVERLAY
+class CustomOverlay {
+  OverlayEntry? _overlayEntry;
+  static late OverlayState overlayState;
+
+  void showOverlay(BuildContext context) {
+    overlayState = Overlay.of(context);
+    _overlayEntry = OverlayEntry(
+      builder: (BuildContext context) {
+        return Center(
+          child: OverlayWidget(),);
+      },
+    );
+    print(_overlayEntry);
+    overlayState?.insert(_overlayEntry!);
+  }
+
+  void hideOverlay() {
+    _overlayEntry?.remove();
+    _overlayEntry = null;
+  }
+}
+
+// OVERLAY WIDGET
+class OverlayWidget extends StatefulWidget {
+  const OverlayWidget({super.key});
+
+  @override
+  State<StatefulWidget> createState() => _OverlayState();
+  
+}
+
+class _OverlayState extends State<OverlayWidget> {
+  List<bool> _isCheckedList = [false, false];
+  List<String> strs = ['I consent to share all medical data to this hospital for treatment '
+      'purposes only for 7 days', 'I wish to share selected data only for 7 days'];
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Colors.white.withOpacity(0.5),
+      child: Center(
+          child: Material(child: SizedBox(
+              height: MediaQuery.of(context).size.height/2,
+              width: MediaQuery.of(context).size.width,
+              child: Padding(padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+              child:
+              DecoratedBox(
+                  decoration: BoxDecoration(color: colours.bgGrey,
+                    borderRadius: BorderRadius.all(Radius.circular(30)),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.grey.withOpacity(0.5),
+                        spreadRadius: 5,
+                        blurRadius: 7,
+                        offset: Offset(4, 8), // changes position of shadow
+                      ),
+                    ],),
+                  child: Padding(padding: const EdgeInsets.only(left: 35.0, right: 35.0, top: 35.0, bottom: 35.0),
+                      child: SingleChildScrollView(
+                      child: Column(
+                        children: [
+                        Text('St Mary Hospital is requesting for your data.',
+                          style: fonts.title,
+                          softWrap: true,),
+                        Column(
+                            children: [
+                              ListTileTheme(
+                                contentPadding: EdgeInsets.all(0),
+                                child: CheckboxListTile(
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  title: Text(strs[0]),
+                                  value: _isCheckedList[0],
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      _isCheckedList[0] = value!;
+                                      _isCheckedList[1] = !value!;
+                                    });
+                              },
+                            ),),
+                              ListTileTheme(
+                                contentPadding: EdgeInsets.all(0),
+                                child: CheckboxListTile(
+                                  controlAffinity: ListTileControlAffinity.leading,
+                                  title: Text(strs[1]),
+                                  value: _isCheckedList[1],
+                                  onChanged: (bool? value) {
+                                    setState(() {
+                                      _isCheckedList[1] = value!;
+                                      _isCheckedList[0] = !value!;
+                                    });
+                                  },
+                                ),),
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                children :[
+                                  ShortButton(text: 'decline', color: colours.buttonRed,),
+                                  ShortButton(text: 'accept', color: colours.buttonGreen,),
+                                ]
+                              )
+                          ]
+                        )
+                        ]))))
+          )
+      ),),
+    ),
+    );
+  }
+}
+
+// SHORT BUTTON
+class ShortButton extends StatelessWidget {
+  const ShortButton({super.key, required this.text, required this.color});
+  final String text;
+  final Color color;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(onPressed: () {}, child: Text(text),
+    style: ElevatedButton.styleFrom(backgroundColor: color, foregroundColor: Colors.white,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(0.0),
+      ),
+    elevation: 10,
+      minimumSize: const Size(100, 30),),
+    );
+  }
+
 }
