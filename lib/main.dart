@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'dart:core';
-import 'objects.dart' as objects;
-import 'globals.dart' as globals;
+import 'resources/objects.dart' as objects;
+import 'resources/globals.dart' as globals;
 
 void main() {
   runApp(const MyApp());

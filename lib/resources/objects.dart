@@ -1,5 +1,4 @@
 // OBJECT CLASSES
-import 'package:patient_mobile_app/globals.dart';
 import 'package:dartx/dartx.dart';
 
 class Patient {
