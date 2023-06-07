@@ -8,3 +8,6 @@ const buttonPink = Color.fromRGBO(226, 124, 161, 1.000);
 const bgGrey = Color.fromRGBO(153,150,150, 1.000);
 const buttonRed = Color.fromRGBO(197, 82, 82, 1.000);
 const buttonGreen = Color.fromRGBO(79, 141, 68, 1.000);
+const superLightCyan = Color.fromRGBO(219, 241, 245, 1.000);
+const contentCyan = Color.fromRGBO(191, 226, 241, 1.000);
+const unselectGrey = Color.fromRGBO(222, 233, 238, 1.0);

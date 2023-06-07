@@ -1,4 +1,7 @@
 // OBJECT CLASSES
+import 'package:patient_mobile_app/globals.dart';
+import 'package:dartx/dartx.dart';
+
 class Patient {
     final String first_name;
     final String last_name;
@@ -18,31 +21,55 @@ class Patient {
         last_name: json['patient-last-name'],
         medical_history: mh_list,
       );
-  } 
+    }
+
+    Map<String, Pair<String, String>> getMedHisSummary() {
+      print(medical_history);
+      Map<String, Pair<String, String>> data = {};
+      for (var mh in medical_history) {
+        data[mh.id] = Pair(mh.admissionDate, mh.summary);
+      }
+      return data;
+    }
   @override
     String toString() {
-      return '{ ${this.first_name}, ${this.last_name}, ${this.medical_history}}';
+      return '{ ${first_name}, ${last_name}, ${medical_history}}';
     }
-  
 }
 
   class MedicalHistoryEntry {
-    final String date;
+    final String id;
+    final String admissionDate;
+    final String dischargeDate;
+    final String consultant;
     final String summary;
+    final String visitType;
+    final String? letterUrl;
 
     MedicalHistoryEntry({
-      required this.date,
+      required this.id,
+      required this.admissionDate,
+      required this.dischargeDate,
+      required this.consultant,
+      required this.visitType,
+      this.letterUrl,
       required this.summary
     });
 
     factory MedicalHistoryEntry.fromDic(Map<String, dynamic> dic) {
       return MedicalHistoryEntry(
-        date: dic['date'],
+        id: dic['id'],
+        admissionDate: dic['admissionDate'],
+        dischargeDate: dic['dischargeDate'],
+        consultant: dic['consultant'],
+        visitType: dic['visitType'],
+        letterUrl: dic['letter'],
         summary: dic['summary']
       );
     }
+
     @override
     String toString() {
-      return '{ ${this.date}, ${this.summary}}';
+      return '{ ${admissionDate} : ${summary}}';
     }
   }

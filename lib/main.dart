@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'dart:developer' as developer;
 import 'dart:core';
 import 'objects.dart' as objects;
-import 'components.dart' as widgets;
-import 'pages.dart' as pages;
+import 'globals.dart' as globals;
 
 void main() {
   runApp(const MyApp());
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: const pages.HomePage(),
+      home: globals.homePage,
     );
   }
 }

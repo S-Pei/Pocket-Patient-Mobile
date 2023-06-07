@@ -1,8 +1,11 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
 import 'components.dart';
 import 'fonts.dart' as fonts;
 import 'colours.dart' as colours;
+import 'globals.dart' as globals;
+import 'objects.dart' as objects;
 
 // HOME PAGE
 class HomePage extends StatefulWidget {
@@ -14,22 +17,25 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-
   String message = 'No message received';
-
-  final channel = WebSocketChannel.connect(
-    Uri.parse('wss://patientoncall.herokuapp.com/ws/patientoncall/'),
-  );
 
   @override
   void initState() {
     super.initState();
-    channel.sink.add('Hello!');
-    channel.stream.listen((data) {
-      setState(() {
-        message = data;
+    if (globals.firstRender == true) {
+      globals.fetchData('https://patientoncall.herokuapp.com/api/patient-data/')
+          .then((val) => {globals.patientData = val});
+      globals.channel.stream.listen((data) {
+        print(data);
+        final map = jsonDecode(data);
+        if (map['event'] == 'REQUEST_PATIENT_DATA_ACCESS') {
+          setState(() {
+            globals.overlay.showOverlay(context, const OverlayWidget());
+          });
+        }
       });
-    });
+      globals.firstRender = false;
+    }
   }
 
   @override
@@ -55,25 +61,25 @@ class _HomePageState extends State<HomePage> {
                         SizedBox(
                           height: 50,
                         ),
-                        LongButton(
+                        NavigateLongButton(
                             word: 'My Prescriptions',
                             nextPage: InfoPage(selectedIndex: 0)),
                         SizedBox(
                           height: 50,
                         ),
-                        LongButton(
+                        NavigateLongButton(
                             word: 'My Medical History',
                             nextPage: InfoPage(selectedIndex: 1)),
                         SizedBox(
                           height: 50,
                         ),
-                        LongButton(
+                        NavigateLongButton(
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),
-                        ElevatedButton(onPressed: () {CustomOverlay().showOverlay(context);}, child: Text('show overlay')),
+                        ElevatedButton(onPressed: () {globals.overlay.showOverlay(context, const OverlayWidget());}, child: Text('show overlay')),
                       Text(message),]))),
           const MedInsAccLogo(),
-          const HomeIcon(),
+          globals.homeIcon,
         ],
       ),
     );
@@ -113,7 +119,7 @@ class _InfoPageState extends State<InfoPage> {
             child: Padding(
                 padding: const EdgeInsets.only(left: 25.0, right: 25.0),
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     NavBarElem(
                       text: 'Prescriptions',
@@ -179,7 +185,7 @@ class PrescriptionPage extends StatelessWidget {
                           PrintButton(),
                         ]),
                       ]))),
-          const HomeIcon(),
+          globals.homeIcon,
         ],
       ),
     );
@@ -192,15 +198,30 @@ class MedicalHistoryPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Map<String, String> medHis = {'20/4/23': 'Broke a leg, fixed leg zsdfgasdfsdfasfdssdf', '30/4/23': 'died'};
     return Scaffold(
-      body: Center(
-        child: Text('Medical History Page'),
-      ),
+      body: Stack(
+        children: [
+          Container(
+            padding: const EdgeInsets.all(50.0),
+            child: SingleChildScrollView(
+              child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 100,
+                ),
+                globals.medicalHistoryTitle,
+                SizedBox(height: 30,),
+              ] + showMedicalHistory(globals.patientData!.getMedHisSummary(), context, false)))),
+          globals.homeIcon,
+        ],
+    ),
     );
   }
 }
 
-// MEDICAL HISTORY PAGE
+// HOSPITAL VISIT HISTORY PAGE
 class HospitalVisitPage extends StatelessWidget {
   const HospitalVisitPage({super.key});
 
