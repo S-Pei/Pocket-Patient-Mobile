@@ -22,11 +22,12 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    print('toHide: ${globals.toHide}');
     if (globals.firstRender == true) {
       globals.fetchData('https://patientoncall.herokuapp.com/api/patient-data/')
           .then((val) => {globals.patientData = val});
       globals.channel.stream.listen((data) {
-        print(data);
+        print('Received: ${data}');
         final map = jsonDecode(data);
         if (map['event'] == 'REQUEST_PATIENT_DATA_ACCESS') {
           setState(() {
@@ -75,9 +76,7 @@ class _HomePageState extends State<HomePage> {
                         ),
                         NavigateLongButton(
                             word: 'Hospital Visit History',
-                            nextPage: InfoPage(selectedIndex: 2)),
-                        ElevatedButton(onPressed: () {globals.overlay.showOverlay(context, const OverlayWidget());}, child: Text('show overlay')),
-                      Text(message),]))),
+                            nextPage: InfoPage(selectedIndex: 2)),]))),
           const MedInsAccLogo(),
           globals.homeIcon,
         ],

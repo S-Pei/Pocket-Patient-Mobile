@@ -24,7 +24,7 @@ class Patient {
     }
 
     Map<String, Pair<String, String>> getMedHisSummary() {
-      print(medical_history);
+      print('medical history: ${medical_history}');
       Map<String, Pair<String, String>> data = {};
       for (var mh in medical_history) {
         data[mh.id] = Pair(mh.admissionDate, mh.summary);

@@ -232,7 +232,7 @@ class CustomOverlay {
   }
 
   void hideOverlay() {
-    print(_overlayEntry);
+    print('overlay: ${_overlayEntry}');
     _overlayEntry?.remove();
     _overlayEntry = null;
   }
@@ -251,6 +251,7 @@ class _OverlayState extends State<OverlayWidget> {
   void grantAccess() {
     Map<String, dynamic> data = {};
     data['event'] = 'GRANT_PATIENT_DATA_ACCESS';
+    data['ids'] = [];
     final json = jsonEncode(data);
     print(data);
     globals.channel.sink.add(json);
@@ -315,10 +316,12 @@ class _OverlayState extends State<OverlayWidget> {
                                   ShortButton(
                                       text: 'accept',
                                       color: colours.buttonGreen,
-                                      onPress: () => {grantAccess(),
+                                      onPress: () => {
                                         globals.overlay.hideOverlay(),
                                         if (_isCheckedList[1]) {
                                           globals.overlay.showOverlay(context, const SelectMedicalHistoryOverlay())
+                                        } else {
+                                          grantAccess()
                                         }
                                       }),
                                 ]
@@ -390,7 +393,7 @@ class ColouredBox extends StatelessWidget {
 }
 
 List<Widget> showMedicalHistory(Map<String, Pair<String, String>> data, BuildContext context, bool editMode) {
-  print(data);
+  print('show medical history: ${data}');
   List<Widget> widgets = [];
   for (var entry in data.entries) {
     widgets.add(VisibilityTile(data: entry.value, editMode: editMode, uuid : entry.key));
@@ -497,16 +500,16 @@ class MedicalHistoryTitle extends StatelessWidget {
 
   class _SelectMedicalHistoryOverlayState extends State<SelectMedicalHistoryOverlay> {
   
-    void sendToHideMh(List<String> ids) {
+    void sendToHideMh(Set<String> ids) {
       Map<String, dynamic> data = {};
-      data['event'] = 'PATIENT_HIDE_RECORDS';
-      data['ids'] = ids;
+      data['event'] = 'GRANT_PATIENT_DATA_ACCESS';
+      data['ids'] = ids.toList();
       final json = jsonEncode(data);
       print(data);
       globals.channel.sink.add(json);
+      globals.toHide.clear();
     }
 
-    List<String> toHide = [];
     @override
     Widget build(BuildContext context) {
       List<Widget> entriesWidgets = showMedicalHistory(globals.patientData!.getMedHisSummary(), context, true);

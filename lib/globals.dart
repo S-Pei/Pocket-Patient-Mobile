@@ -36,4 +36,4 @@ Future<objects.Patient> fetchData(String url) async {
   }
 }
 
-List<String> toHide = [];
+Set<String> toHide = {};
