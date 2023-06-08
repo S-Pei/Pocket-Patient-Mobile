@@ -35,7 +35,9 @@ class _OverlayState extends State<OverlayWidget> {
       color: Colors.white.withOpacity(0.5),
       child: Center(
         child: Material(child:
-        ColouredBox(colour: bgGrey,
+            Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [ColouredBox(colour: bgGrey,
           height: MediaQuery.of(context).size.height/2,
           width: MediaQuery.of(context).size.width,
           padding: 35.0,
@@ -98,8 +100,8 @@ class _OverlayState extends State<OverlayWidget> {
                         ]
                     )
                   ])),
+        )]),
         )),
-      ),
     );
   }
 }
