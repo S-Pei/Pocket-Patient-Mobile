@@ -3,7 +3,6 @@ import 'package:patient_mobile_app/pages/PersonalInfoSubPage.dart';
 import '../resources/globals.dart';
 import '../resources/fonts.dart';
 import '../resources/components.dart';
-import '../resources/navBar.dart';
 
 class ProfilePage extends StatelessWidget {
   const ProfilePage({super.key});
@@ -19,15 +18,17 @@ class ProfilePage extends StatelessWidget {
           Center(
               child: Container(
                   padding: const EdgeInsets.all(40.0),
-                  child: Column(
+                  child: Column(children: [
+                    Flexible(flex: 2,
+                    fit: FlexFit.loose,
+                    child: SizedBox(
+                      height: 110,
+                    )),
+                    Flexible(flex: 8, child: SingleChildScrollView(  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
-                          height: 110,
-                        ),
-                        Flexible(flex: 12, child: TitleColouredBox(widgets: [Expanded(
-                            child: SingleChildScrollView(
-                        child: Column(
+                        TitleColouredBox(widgets: [Expanded(
+                          child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
@@ -42,18 +43,18 @@ class ProfilePage extends StatelessWidget {
                             DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'BMI', info: '32.87'), softWrap: true),
                           ],
                         ),
-                        )),], height: 320)),
-                        Flexible(flex: 1, child: SizedBox(height: 20,)),
-                        Flexible(flex: 3, child: rowOfTwoButtons('Drugs and Allergies', 'Vaccinations',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage())),
-                        Flexible(flex: 1, child: SizedBox(height: 20,)),
-                        Flexible(flex: 3, child: rowOfTwoButtons('Treatment Escalation Plans', 'Power of Attorney',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage())),
-                        Flexible(flex: 1, child: SizedBox(height: 20,)),
-                        Flexible(flex: 3, child: rowOfTwoButtons('Advanced Care Plan', 'Organ Donation',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage())),
-                        Flexible(flex: 1, child: SizedBox(height: 20,)),
-                        Flexible(flex: 3, child: Row(
+                        ),], height: 320),
+                        SizedBox(height: 20,),
+                        rowOfTwoButtons('Drugs and Allergies', 'Vaccinations',
+                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+                        SizedBox(height: 20,),
+                        rowOfTwoButtons('Treatment Escalation Plans', 'Power of Attorney',
+                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+                        SizedBox(height: 20,),
+                        rowOfTwoButtons('Advanced Care Plan', 'Organ Donation',
+                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+                        SizedBox(height: 20,),
+                        Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Flexible(
@@ -66,9 +67,8 @@ class ProfilePage extends StatelessWidget {
                               Flexible(
                                 flex: 5,
                                 child: SizedBox(width: 170,))
-                            ]))
-                        ]))),
-
+                            ])
+                        ])))]))),
           homeIcon,
         ],
       ),
