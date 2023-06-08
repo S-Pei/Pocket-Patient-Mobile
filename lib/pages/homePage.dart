@@ -91,7 +91,6 @@ class MainPageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Future<Patient> _patientData = fetchData('https://patientoncall.herokuapp.com/api/patient-data/');
     return ColouredBox(
         height: 160,
         width: MediaQuery.of(context).size.width,
@@ -100,11 +99,10 @@ class MainPageTitle extends StatelessWidget {
         radius: 10.0,
         outerPadding: 0.0,
         child: FutureBuilder<Patient>(
-          future: _patientData, // a previously-obtained Future<String> or null
+          future: fetchData('https://patientoncall.herokuapp.com/api/patient-data/').then((value) => patientData = value), // a previously-obtained Future<String> or null
           builder: (BuildContext context, AsyncSnapshot<Patient> snapshot) {
             List<Widget> children;
             if (snapshot.hasData) {
-              _patientData.then((value) => patientData = value);
               String patientName = '${patientData?.first_name} ${patientData?.last_name}';
               String dob = '${patientData?.dob}';
               String address = '${patientData?.patient_address}';
