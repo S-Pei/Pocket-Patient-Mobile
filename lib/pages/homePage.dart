@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 import '../resources/colours.dart';
 import '../resources/globals.dart';
 import '../resources/fonts.dart';
@@ -165,7 +166,10 @@ class MedInsAcc extends StatelessWidget {
         style: TextButton.styleFrom(
           textStyle: contentButton,
         ),
-        onPressed: () {},
+        onPressed: () {Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => const MedAccInsPage()),
+        );},
         child: Container(
           width: MediaQuery.of(context).size.width,
           padding: EdgeInsets.only(right: 40, left: 40),

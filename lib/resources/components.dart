@@ -225,3 +225,26 @@ class ColouredBox extends StatelessWidget {
     );
   }
 }
+
+// TITLE COLOURED BOX
+class TitleColouredBox extends StatelessWidget {
+  final List<Widget> widgets;
+  final double height;
+
+  const TitleColouredBox({super.key, required this.widgets, required this.height});
+
+  @override
+  Widget build(BuildContext context) {
+    return ColouredBox(
+        height: height,
+        width: MediaQuery.of(context).size.width,
+        padding: 10.0,
+        colour: superLightCyan,
+        radius: 10.0,
+        outerPadding: 0.0,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: widgets,
+        ));
+  }
+}
