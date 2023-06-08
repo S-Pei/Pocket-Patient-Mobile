@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import '../resources/colours.dart';
 import '../resources/globals.dart';
 import '../resources/fonts.dart';
+import '../resources/objects.dart';
 import 'authenticationOverlay.dart';
 import '../resources/components.dart';
 import '../resources/navBar.dart';
@@ -23,10 +24,10 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    fetchData('https://patientoncall.herokuapp.com/api/patient-data/')
+        .then((val) => {patientData = val});
     print('toHide: ${toHide}');
     if (firstRender == true) {
-      fetchData('https://patientoncall.herokuapp.com/api/patient-data/')
-          .then((val) => {patientData = val});
       channel.stream.listen((data) {
         print('Received: ${data}');
         final map = jsonDecode(data);
@@ -42,6 +43,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    print(patientData);
     return Scaffold(
       body: Stack(
         children: [
@@ -52,14 +54,9 @@ class _HomePageState extends State<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 150,
+                          height: 120,
                         ),
-                        Text('Bob Choy', style: title, softWrap: true),
-                        InfoFormat(title: 'NHS Number', info: '123 456 7890'),
-                        InfoFormat(title: 'D.O.B', info: '29 Feb 1983'),
-                        InfoFormat(
-                            title: 'Address',
-                            info: '12, Smith Road, AB 321 London'),
+                        MainPageTitle(),
                         SizedBox(
                           height: 50,
                         ),
@@ -78,8 +75,8 @@ class _HomePageState extends State<HomePage> {
                         NavigateLongButton(
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),]))),
-          const MedInsAccLogo(),
           homeIcon,
+          MedInsAcc()
         ],
       ),
     );
@@ -92,20 +89,90 @@ class MainPageTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Future<Patient> _patientData = fetchData('https://patientoncall.herokuapp.com/api/patient-data/');
     return ColouredBox(
-        height: 80,
+        height: 160,
         width: MediaQuery.of(context).size.width,
-        padding: 10.0,
+        padding: 15.0,
         colour: superLightCyan,
         radius: 10.0,
         outerPadding: 0.0,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            DefaultTextStyle(style: smallTitle, child: Text('My Medical History')),
-            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 25/4/2023')),
-          ],
-        ));
+        child: FutureBuilder<Patient>(
+          future: _patientData, // a previously-obtained Future<String> or null
+          builder: (BuildContext context, AsyncSnapshot<Patient> snapshot) {
+            List<Widget> children;
+            if (snapshot.hasData) {
+              _patientData.then((value) => patientData = value);
+              String patientName = '${patientData?.first_name} ${patientData?.last_name}';
+              String dob = '${patientData?.dob}';
+              String address = '${patientData?.patient_address}';
+              children = <Widget>[Expanded(child: SingleChildScrollView(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
+                    DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
+                    DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'D.O.B', info: dob), softWrap: true),
+                    DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Address', info: address), softWrap: true),
+                  ],
+                ),
+              ))
+              ];
+            } else if (snapshot.hasError) {
+              children = <Widget>[
+                const Icon(
+                  Icons.error_outline,
+                  color: Colors.red,
+                  size: 60,
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Text('Error: ${snapshot.error}'),
+                ),
+              ];
+            } else {
+              children = const <Widget>[
+                SizedBox(
+                  width: 60,
+                  height: 60,
+                  child: CircularProgressIndicator(),
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: 16),
+                  child: Text('Awaiting result...'),
+                ),
+              ];
+            }
+            return Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: children,
+              ),
+            );
+          },
+        ),
+        );
+  }
+}
+
+// HOSPITALS WITH ACCESS
+class MedInsAcc extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      bottom: 60.0,
+      child: TextButton(
+        style: TextButton.styleFrom(
+          textStyle: contentButton,
+        ),
+        onPressed: () {},
+        child: Container(
+          width: MediaQuery.of(context).size.width,
+          padding: EdgeInsets.only(right: 40, left: 40),
+          child: const Text('Manage Medical Institutions with access to your data', softWrap: true,),
+        )
+      ),
+      );
   }
 
 }

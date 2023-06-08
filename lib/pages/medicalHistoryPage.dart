@@ -15,13 +15,13 @@ class MedicalHistoryPage extends StatelessWidget {
       body: Stack(
         children: [
           Container(
-              padding: const EdgeInsets.all(50.0),
+              padding: const EdgeInsets.all(30.0),
               child: SingleChildScrollView(
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         SizedBox(
-                          height: 100,
+                          height: 120,
                         ),
                         medicalHistoryTitle,
                         SizedBox(height: 30,),
@@ -39,7 +39,7 @@ class MedicalHistoryTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColouredBox(
-        height: 80,
+        height: 70,
         width: MediaQuery.of(context).size.width,
         padding: 10.0,
         colour: superLightCyan,

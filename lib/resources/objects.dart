@@ -4,11 +4,15 @@ import 'package:dartx/dartx.dart';
 class Patient {
     final String first_name;
     final String last_name;
+    final String dob;
+    final String patient_address;
     final List<MedicalHistoryEntry> medical_history;
 
     Patient({
       required this.first_name,
       required this.last_name,
+      required this.dob,
+      required this.patient_address,
       required this.medical_history
     });
 
@@ -18,6 +22,8 @@ class Patient {
       return Patient(
         first_name: json['patient-first-name'],
         last_name: json['patient-last-name'],
+        dob: json['patient-dob'],
+        patient_address: json['patient-address'],
         medical_history: mh_list,
       );
     }

@@ -6,31 +6,31 @@ import 'globals.dart';
 
 // MEDICAL INST WITH ACCESS LOGO
 // At top right corner of home page
-class MedInsAccLogo extends StatelessWidget {
-  const MedInsAccLogo({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-        top: 60.0,
-        right: 20.0,
-        child: Container(
-          width: 80,
-          height: 80,
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            // color: const Color(0xa1dade),
-            color: mainCyan,
-            borderRadius: BorderRadius.circular(50),
-          ),
-          child: const Icon(
-            Icons.apartment,
-            size: 40.0,
-            color: Colors.black,
-          ),
-        ));
-  }
-}
+// class MedInsAccLogo extends StatelessWidget {
+//   const MedInsAccLogo({super.key});
+//
+//   @override
+//   Widget build(BuildContext context) {
+//     return Positioned(
+//         top: 60.0,
+//         right: 20.0,
+//         child: Container(
+//           width: 80,
+//           height: 80,
+//           alignment: Alignment.center,
+//           decoration: BoxDecoration(
+//             // color: const Color(0xa1dade),
+//             color: mainCyan,
+//             borderRadius: BorderRadius.circular(50),
+//           ),
+//           child: const Icon(
+//             Icons.apartment,
+//             size: 40.0,
+//             color: Colors.black,
+//           ),
+//         ));
+//   }
+// }
 
 // HOME ICON
 class HomeIcon extends StatelessWidget {
@@ -40,7 +40,7 @@ class HomeIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return Positioned(
       top: 90.0,
-      left: 40.0,
+      left: 28.0,
       child: IconButton(
         icon: const Icon(
           Icons.home,
@@ -73,7 +73,7 @@ class InfoFormat extends StatelessWidget {
       TextSpan(
           text: '$title: ',
           style: subtitle,
-          children: <TextSpan>[TextSpan(text: info, style: infoFont)]),
+          children: <TextSpan>[TextSpan(text: info, style: infoFont,)]),
     );
   }
 }
@@ -105,13 +105,14 @@ class LongButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 50,
+      height: 60,
       width: 350,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
             shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0.0),
+              borderRadius: BorderRadius.circular(10.0),
             ),
+            elevation: 10,
             textStyle: subtitle,
             backgroundColor: buttonCyan,
             foregroundColor: Colors.white),

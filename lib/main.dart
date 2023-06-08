@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:patient_mobile_app/resources/colours.dart';
 import 'dart:convert';
 import 'dart:core';
 import 'resources/objects.dart' as objects;
@@ -19,7 +20,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Patient On Call',
       theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+        colorScheme: ColorScheme.fromSeed(seedColor: mainCyan),
         useMaterial3: true,
       ),
       home: globals.homePage,
@@ -109,59 +110,6 @@ class _MyHomePageState extends State<MyHomePage> {
     super.initState();
     fetchData();
   }
-
-
-  static List<Widget> _widgetOptions = <Widget>[
-    Text(
-      'Index 0: Home',
-      style: optionStyle,
-    ),
-    Text(
-      'Index 1: Business',
-      style: optionStyle,
-    ),
-    Column(
-      children: <Widget>[
-        SizedBox(
-          height: 50,
-        ),
-        Center(
-          child: Text(
-            'My Medical History',
-            style: TextStyle(fontSize: 35, fontWeight: FontWeight.bold),
-          ),
-        ),
-        Text('Date'),
-        Row(
-          children: [
-            Expanded(child: Text('Date')),
-            SizedBox(
-              width: 6,
-            ),
-            Expanded(
-                child: Text('history',
-                    style: TextStyle(backgroundColor: Colors.grey))),
-          ],
-        ),
-        // SizedBox(
-        //   width: 350,
-        //   height:400,
-        // ),
-        SizedBox(
-            width: 350,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                  textStyle: const TextStyle(fontSize: 20)),
-              onPressed: null,
-              child: Text('Get Medical History'),
-            )),
-      ],
-    ),
-    Text(
-      'Index 3: Settings',
-      style: optionStyle,
-    ),
-  ];
 
   void _onItemTapped(int index) {
     setState(() {

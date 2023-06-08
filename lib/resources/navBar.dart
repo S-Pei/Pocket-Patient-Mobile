@@ -34,47 +34,45 @@ class _InfoPageState extends State<InfoPage> {
           width: MediaQuery.of(context).size.width,
           child: DecoratedBox(
             decoration: BoxDecoration(color: mainCyan),
-            child: Padding(
-                padding: const EdgeInsets.only(left: 25.0, right: 25.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    NavBarElem(
-                      text: 'Prescriptions',
-                      icon: Icons.vaccines,
-                      selected: _selectedIndex == 0,
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 0;
-                        });
-                      },
-                      index: 0,
-                    ),
-                    NavBarElem(
-                      text: 'My Medical History',
-                      icon: Icons.medical_information,
-                      selected: _selectedIndex == 1,
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 1;
-                        });
-                      },
-                      index: 1,
-                    ),
-                    NavBarElem(
-                      text: 'Hospital Visit History',
-                      icon: Icons.local_hospital,
-                      selected: _selectedIndex == 2,
-                      onPressed: () {
-                        setState(() {
-                          _selectedIndex = 2;
-                        });
-                      },
-                      index: 2,
-                    )
-                  ],
-                )),
-          )),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  NavBarElem(
+                    text: 'Prescriptions',
+                    icon: Icons.vaccines,
+                    selected: _selectedIndex == 0,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 0;
+                      });
+                    },
+                    index: 0,
+                  ),
+                  NavBarElem(
+                    text: 'My Medical History',
+                    icon: Icons.medical_information,
+                    selected: _selectedIndex == 1,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 1;
+                      });
+                    },
+                    index: 1,
+                  ),
+                  NavBarElem(
+                    text: 'Hospital Visit History',
+                    icon: Icons.local_hospital,
+                    selected: _selectedIndex == 2,
+                    onPressed: () {
+                      setState(() {
+                        _selectedIndex = 2;
+                      });
+                    },
+                    index: 2,
+                  )
+                ],
+              )),
+          )
     );
   }
 }
