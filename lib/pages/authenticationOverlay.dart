@@ -78,11 +78,11 @@ class _OverlayState extends State<OverlayWidget> {
                           Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children :[
-                                ShortButton(
+                                SmallButton(
                                     text: 'decline',
                                     color: buttonRed,
                                     onPress: () => {}),
-                                ShortButton(
+                                SmallButton(
                                     text: 'accept',
                                     color: buttonGreen,
                                     onPress: () => {

@@ -77,7 +77,8 @@ class _HomePageState extends State<HomePage> {
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),]))),
           homeIcon,
-          MedInsAcc()
+          MedInsAcc(),
+          const ProfileLogo(),
         ],
       ),
     );
