@@ -48,7 +48,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
+          SingleChildScrollView(child: Center(
               child: Container(
                   padding: const EdgeInsets.all(50.0),
                   child: Column(
@@ -75,9 +75,10 @@ class _HomePageState extends State<HomePage> {
                         ),
                         NavigateLongButton(
                             word: 'Hospital Visit History',
-                            nextPage: InfoPage(selectedIndex: 2)),]))),
+                            nextPage: InfoPage(selectedIndex: 2)),
+                        SizedBox(height: 20,),
+                        MedInsAcc(),])))),
           homeIcon,
-          MedInsAcc(),
           const ProfileLogo(),
         ],
       ),
@@ -159,9 +160,7 @@ class MainPageTitle extends StatelessWidget {
 class MedInsAcc extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      bottom: 60.0,
-      child: TextButton(
+    return TextButton(
         style: TextButton.styleFrom(
           textStyle: contentButton,
         ),
@@ -171,10 +170,9 @@ class MedInsAcc extends StatelessWidget {
         );},
         child: Container(
           width: MediaQuery.of(context).size.width,
-          padding: EdgeInsets.only(right: 40, left: 40),
+          // padding: EdgeInsets.only(right: 40, left: 40),
           child: const Text('Manage Medical Institutions with access to your data', softWrap: true,),
         )
-      ),
       );
   }
 
