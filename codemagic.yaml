@@ -44,6 +44,13 @@ workflows:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
+    triggering:
+      events: 
+        - push
+      branch_patterns:             
+      - pattern: 'main'
+        include: true
+        source: true
   ios-workflow:
     name: iOS Workflow
     instance_type: mac_mini_m1
