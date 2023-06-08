@@ -76,7 +76,7 @@ class _HomePageState extends State<HomePage> {
                         NavigateLongButton(
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),
-                        SizedBox(height: 20,),
+                        SizedBox(height: 40,),
                         MedInsAcc(),])))),
           homeIcon,
           const ProfileLogo(),
@@ -93,7 +93,7 @@ class MainPageTitle extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ColouredBox(
-        height: 160,
+        height: 180,
         width: MediaQuery.of(context).size.width,
         padding: 15.0,
         colour: superLightCyan,
@@ -107,9 +107,10 @@ class MainPageTitle extends StatelessWidget {
               String patientName = '${patientData?.first_name} ${patientData?.last_name}';
               String dob = '${patientData?.dob}';
               String address = '${patientData?.patient_address}';
-              children = <Widget>[Expanded(child: SingleChildScrollView(
+              children = <Widget>[Expanded(
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
                     DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
@@ -117,7 +118,7 @@ class MainPageTitle extends StatelessWidget {
                     DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Address', info: address), softWrap: true),
                   ],
                 ),
-              ))
+              )
               ];
             } else if (snapshot.hasError) {
               children = <Widget>[

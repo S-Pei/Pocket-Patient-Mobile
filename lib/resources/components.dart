@@ -260,7 +260,7 @@ class ColouredBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
+    return Container(child: Column(children: [SizedBox(
         height: height,
         width: width,
         child: Padding(padding: EdgeInsets.only(left: outerPadding, right: outerPadding),
@@ -279,7 +279,7 @@ class ColouredBox extends StatelessWidget {
                 child: Padding(padding: EdgeInsets.all(padding),
                     child: child))
         )
-    );
+    )]));
   }
 }
 
