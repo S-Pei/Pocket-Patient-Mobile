@@ -47,10 +47,10 @@ workflows:
     triggering:
       events: 
         - push
-      branch_patterns:             
-      - pattern: 'master'
-        include: true
-        source: true
+      # branch_patterns:             
+      # - pattern: 'master'
+      #   include: true
+      #   source: true
   ios-workflow:
     name: iOS Workflow
     instance_type: mac_mini_m1
