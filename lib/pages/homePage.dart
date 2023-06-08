@@ -48,16 +48,16 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          SingleChildScrollView(child: Center(
+          Center(
               child: Container(
                   padding: const EdgeInsets.all(50.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        SizedBox(
+                        Flexible(flex: 2, child: SizedBox(
                           height: 120,
-                        ),
-                        MainPageTitle(),
+                        )),
+                        Flexible(flex: 8, child: SingleChildScrollView(child: Column(children: [MainPageTitle(),
                         SizedBox(
                           height: 50,
                         ),
@@ -77,10 +77,10 @@ class _HomePageState extends State<HomePage> {
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),
                         SizedBox(height: 40,),
-                        MedInsAcc(),])))),
+                        MedInsAcc(),])))]))),
           homeIcon,
           const ProfileLogo(),
-        ],
+          ],
       ),
     );
   }
