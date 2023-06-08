@@ -13,7 +13,7 @@ class ProfileLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-        top: 90.0,
+        top: 50.0,
         right: 28.0,
         // child: Container(
           // width: 80,
@@ -43,7 +43,7 @@ class HomeIcon extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Positioned(
-      top: 90.0,
+      top: 50.0,
       left: 28.0,
       child: IconButton(
         icon: const Icon(
