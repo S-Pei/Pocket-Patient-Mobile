@@ -50,14 +50,14 @@ class _HomePageState extends State<HomePage> {
         children: [
           Center(
               child: Container(
-                  padding: const EdgeInsets.all(50.0),
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                   child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Flexible(flex: 2, child: SizedBox(
-                          height: 120,
+                        Flexible(flex: 2, fit: FlexFit.tight, child: SizedBox(
+                          height: 110,
                         )),
-                        Flexible(flex: 8, child: SingleChildScrollView(child: Column(children: [MainPageTitle(),
+                        Flexible(flex: 12, child: SingleChildScrollView(child: Column(children: [MainPageTitle(),
                         SizedBox(
                           height: 50,
                         ),
@@ -77,7 +77,8 @@ class _HomePageState extends State<HomePage> {
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),
                         SizedBox(height: 40,),
-                        MedInsAcc(),])))]))),
+                        NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage())
+                        ])))]))),
           homeIcon,
           const ProfileLogo(),
           ],
@@ -167,7 +168,7 @@ class MedInsAcc extends StatelessWidget {
         ),
         onPressed: () {Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => const MedAccInsPage()),
+          MaterialPageRoute(builder: (context) => MedAccInsPage()),
         );},
         child: Container(
           width: MediaQuery.of(context).size.width,

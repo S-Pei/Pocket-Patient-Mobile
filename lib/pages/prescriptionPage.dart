@@ -28,6 +28,7 @@ class PrescriptionPage extends StatelessWidget {
                         ]),
                       ]))),
           homeIcon,
+          const ProfileLogo(),
         ],
       ),
     );

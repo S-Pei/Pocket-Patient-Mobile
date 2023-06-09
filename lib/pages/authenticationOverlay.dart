@@ -16,15 +16,6 @@ class OverlayWidget extends StatefulWidget {
 }
 
 class _OverlayState extends State<OverlayWidget> {
-
-  void grantAccess() {
-    Map<String, dynamic> data = {};
-    data['event'] = 'GRANT_PATIENT_DATA_ACCESS';
-    data['ids'] = [];
-    final json = jsonEncode(data);
-    print(data);
-    channel.sink.add(json);
-  }
   final List<bool> _isCheckedList = [false, false];
   List<String> strs = ['I consent to share all medical data to this hospital for treatment '
       'purposes only for 7 days', 'I wish to share selected data only for 7 days'];
@@ -83,7 +74,7 @@ class _OverlayState extends State<OverlayWidget> {
                                 SmallButton(
                                     text: 'decline',
                                     color: buttonRed,
-                                    onPress: () => {}),
+                                    onPress: () => {overlay.hideOverlay(), denyAccess()}),
                                 SmallButton(
                                     text: 'accept',
                                     color: buttonGreen,
@@ -92,7 +83,7 @@ class _OverlayState extends State<OverlayWidget> {
                                       if (_isCheckedList[1]) {
                                         overlay.showOverlay(context, const SelectMedicalHistoryOverlay())
                                       } else {
-                                        grantAccess()
+                                        grantAccess({})
                                       }
                                     }),
                               ]

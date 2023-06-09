@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_mobile_app/pages/PersonalInfoSubPage.dart';
+import 'package:patient_mobile_app/pages/personalInfoSubPage.dart';
 import '../resources/globals.dart';
 import '../resources/fonts.dart';
 import '../resources/components.dart';
@@ -17,19 +17,20 @@ class ProfilePage extends StatelessWidget {
         children: [
           Center(
               child: Container(
-                  padding: const EdgeInsets.all(40.0),
+                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                   child: Column(children: [
                     Flexible(flex: 2,
-                    fit: FlexFit.loose,
+                    fit: FlexFit.tight,
                     child: SizedBox(
-                      height: 110,
+                      height: 80,
                     )),
-                    Flexible(flex: 8, child: SingleChildScrollView(  child: Column(
+                    Flexible(flex: 12, child: SingleChildScrollView(  child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleColouredBox(widgets: [Expanded(
                           child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
                             DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
@@ -44,7 +45,7 @@ class ProfilePage extends StatelessWidget {
                           ],
                         ),
                         ),], height: 320),
-                        SizedBox(height: 20,),
+                        SizedBox(height: 40,),
                         rowOfTwoButtons('Drugs and Allergies', 'Vaccinations',
                             const PersonalInfoSubPage(), const PersonalInfoSubPage()),
                         SizedBox(height: 20,),
@@ -54,20 +55,8 @@ class ProfilePage extends StatelessWidget {
                         rowOfTwoButtons('Advanced Care Plan', 'Organ Donation',
                             const PersonalInfoSubPage(), const PersonalInfoSubPage()),
                         SizedBox(height: 20,),
-                        Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Flexible(
-                                flex: 5,
-                                child: NavigateShortButton(
-                                    word: 'Social History',
-                                    nextPage: const PersonalInfoSubPage()
-                                ),),
-                              Flexible(flex: 1,child: SizedBox(width: 10,)),
-                              Flexible(
-                                flex: 5,
-                                child: SizedBox(width: 170,))
-                            ])
+                        rowOfTwoButtons('Social History', 'DNACPR',
+                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
                         ])))]))),
           homeIcon,
         ],

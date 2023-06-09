@@ -1,7 +1,6 @@
-import 'dart:convert';
-
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/disclaimerOverlay.dart';
 import '../resources/colours.dart';
 import '../resources/fonts.dart';
 import '../resources/globals.dart';
@@ -17,16 +16,6 @@ class SelectMedicalHistoryOverlay extends StatefulWidget {
 }
 
 class _SelectMedicalHistoryOverlayState extends State<SelectMedicalHistoryOverlay> {
-
-  void sendToHideMh(Set<String> ids) {
-    Map<String, dynamic> data = {};
-    data['event'] = 'GRANT_PATIENT_DATA_ACCESS';
-    data['ids'] = ids.toList();
-    final json = jsonEncode(data);
-    print(data);
-    channel.sink.add(json);
-    toHide.clear();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -53,10 +42,11 @@ class _SelectMedicalHistoryOverlayState extends State<SelectMedicalHistoryOverla
                                 [
                                   SizedBox(height: 30,),
                                   LongButton(word: 'Confirm Data Selection', onPress: () {
-                                    sendToHideMh(toHide);
-                                    overlay.hideOverlay();})
+                                    overlay.hideOverlay();
+                                    overlay.showOverlay(context, const DisclaimerWidget());
+                                  })
                                 ]))),
-                  Container(height: 100, color: Colors.transparent,),
+                  // Container(height: 100, color: Colors.transparent,),
                 ],),
                 homeIcon,
               ]),

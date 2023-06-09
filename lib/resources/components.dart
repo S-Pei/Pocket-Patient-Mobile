@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:patient_mobile_app/pages/ProfilePage.dart';
+import 'package:patient_mobile_app/pages/profilePage.dart';
 import 'colours.dart';
 import 'fonts.dart';
 import '../pages/homePage.dart';

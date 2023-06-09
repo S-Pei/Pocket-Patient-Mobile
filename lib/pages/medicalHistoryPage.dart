@@ -27,6 +27,7 @@ class MedicalHistoryPage extends StatelessWidget {
                         SizedBox(height: 30,),
                       ] + showMedicalHistory(patientData!.getMedHisSummary(), context, false)))),
           homeIcon,
+          const ProfileLogo(),
         ],
       ),
     );
@@ -53,5 +54,4 @@ class MedicalHistoryTitle extends StatelessWidget {
           ],
         ));
   }
-
 }
