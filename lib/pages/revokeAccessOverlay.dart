@@ -48,10 +48,11 @@ class RevokeAccessOverlay extends StatelessWidget {
                                       onPress: () => {
                                         medAccIncVisibility[toRevokeId] = true,
                                         overlay.hideOverlay(),
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(builder: (context) => MedAccInsPage()),
-                                      ),
+                                        Navigator.pop(context),
+                                        Navigator.push(
+                                          context,
+                                          MaterialPageRoute(builder: (context) => MedAccInsPage()),
+                                        ),
                                       }),
                                   SmallButton(
                                       text: 'confirm',
@@ -60,6 +61,7 @@ class RevokeAccessOverlay extends StatelessWidget {
                                         overlay.hideOverlay(),
                                         revokeAccess(),
                                         medAccIncVisibility.remove(toRevokeId),
+                                        Navigator.pop(context),
                                         Navigator.push(
                                           context,
                                           MaterialPageRoute(builder: (context) => MedAccInsPage()),

@@ -19,7 +19,7 @@ class MedAccInsPage extends StatefulWidget {
 class _MedAccInsPageState extends State<MedAccInsPage> {
 
   Widget title = TitleColouredBox(
-      widgets: [Text('Medical Institutions with Access to My Data', style: subtitle, softWrap: true,)], height: 80);
+      widgets: [Text('Medical Institutions with Access to My Data', style: subtitle, softWrap: true,)], height: 90);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
