@@ -1,3 +1,5 @@
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:patient_mobile_app/resources/colours.dart';
@@ -5,8 +7,23 @@ import 'dart:convert';
 import 'dart:core';
 import 'resources/objects.dart' as objects;
 import 'resources/globals.dart' as globals;
+import 'package:awesome_notifications/awesome_notifications.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
+  AwesomeNotifications().initialize(null,
+    [
+      NotificationChannel(
+        channelKey: 'basic_channel',
+        channelName: 'Authorisation Notifications',
+        channelDescription: 'Notification channel for authorisation',
+        playSound: true,)
+   ],
+    debug: true
+  );
+  FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+
   runApp(const MyApp());
 }
 
@@ -75,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
       Uri.parse(
           'https://patientoncall.herokuapp.com/api/patient-data/medical-history/'),
       body: json.encode({
-        'date': dateController.text,
+        'admissionDate': dateController.text,
         'summary': summaryController.text,
       }),
       headers: {'Content-Type': 'application/json'},
@@ -194,4 +211,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
     );
   }
+}
+
+Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
+  print("Handling a background message: ${message.messageId}");
+  //call awesomenotification to how the push notification.
+  AwesomeNotifications().createNotificationFromJsonData(message.data);
 }

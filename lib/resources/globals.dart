@@ -2,6 +2,7 @@ library globals;
 
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/resources/components.dart';
@@ -112,4 +113,15 @@ void revokeAccess() {
   print(data);
   channel.sink.add(json);
   toHide.clear();
+}
+
+void sendAuthNotif() {
+  AwesomeNotifications().createNotification(
+      content: NotificationContent(
+          id: 10,
+          channelKey: 'basic_channel',
+          title: 'Authorisation Request',
+          body: 'St Mary Hospital is requesting for access to your data. Click here to take action'
+      ),
+  );
 }

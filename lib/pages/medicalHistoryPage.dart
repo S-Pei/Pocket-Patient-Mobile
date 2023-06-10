@@ -14,18 +14,9 @@ class MedicalHistoryPage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-              padding: const EdgeInsets.all(30.0),
-              child: SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 120,
-                        ),
-                        medicalHistoryTitle,
-                        SizedBox(height: 30,),
-                      ] + showMedicalHistory(patientData!.getMedHisSummary(), context, false)))),
+          TitlePageFormat(
+              children: [SizedBox(height: 15,),medicalHistoryTitle, SizedBox(height: 30,),] +
+                  showMedicalHistory(patientData!.getMedHisSummary(), context, false)),
           homeIcon,
           const ProfileLogo(),
         ],

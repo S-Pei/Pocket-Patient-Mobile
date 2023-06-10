@@ -305,3 +305,36 @@ class TitleColouredBox extends StatelessWidget {
         ));
   }
 }
+
+// FORMAT FOR PAGES WITH TITLES
+class TitlePageFormat extends StatelessWidget {
+
+  final List<Widget> children;
+
+  const TitlePageFormat({super.key, required this.children});
+
+  @override
+  Widget build(BuildContext context) {
+    return Center(
+        child: Container(
+            padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+            child: Column(children: [
+              Flexible(flex: 2,
+                  fit: FlexFit.tight,
+                  child: SizedBox(
+                    height: 80,
+                  )),
+              Flexible(flex: 12,
+                  child: SingleChildScrollView(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: children
+                      )
+                  )
+              )]
+            )
+        )
+    );
+  }
+
+}

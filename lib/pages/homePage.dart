@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 import '../resources/colours.dart';
@@ -25,14 +26,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    fetchData('https://patientoncall.herokuapp.com/api/patient-data/')
-        .then((val) => {patientData = val});
+    AwesomeNotifications().isNotificationAllowed().then((isAllowed) => {
+      if (!isAllowed) {
+        AwesomeNotifications().requestPermissionToSendNotifications()
+      }
+    });
     print('toHide: ${toHide}');
     if (firstRender == true) {
       channel.stream.listen((data) {
         print('Received: ${data}');
         final map = jsonDecode(data);
         if (map['event'] == 'REQUEST_PATIENT_DATA_ACCESS') {
+          sendAuthNotif();
           setState(() {
             overlay.showOverlay(context, const OverlayWidget());
           });
@@ -48,16 +53,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
-              child: Container(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Flexible(flex: 2, fit: FlexFit.tight, child: SizedBox(
-                          height: 110,
-                        )),
-                        Flexible(flex: 12, child: SingleChildScrollView(child: Column(children: [MainPageTitle(),
+          TitlePageFormat(children: [MainPageTitle(),
                         SizedBox(
                           height: 50,
                         ),
@@ -78,7 +74,7 @@ class _HomePageState extends State<HomePage> {
                             nextPage: InfoPage(selectedIndex: 2)),
                         SizedBox(height: 40,),
                         NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage())
-                        ])))]))),
+                        ]),
           homeIcon,
           const ProfileLogo(),
           ],

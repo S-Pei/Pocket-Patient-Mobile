@@ -82,7 +82,7 @@ class _OverlayState extends State<OverlayWidget> {
                                       overlay.hideOverlay(),
                                       if (_isCheckedList[1]) {
                                         overlay.showOverlay(context, const SelectMedicalHistoryOverlay())
-                                      } else {
+                                      } else if (_isCheckedList[0] && !_isCheckedList[1]){
                                         grantAccess({})
                                       }
                                     }),

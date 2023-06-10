@@ -15,49 +15,38 @@ class ProfilePage extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Center(
-              child: Container(
-                  padding: const EdgeInsets.only(left: 30.0, right: 30.0),
-                  child: Column(children: [
-                    Flexible(flex: 2,
-                    fit: FlexFit.tight,
-                    child: SizedBox(
-                      height: 80,
-                    )),
-                    Flexible(flex: 12, child: SingleChildScrollView(  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        TitleColouredBox(widgets: [Expanded(
-                          child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'D.O.B', info: dob), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Address', info: address), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Contact', info: '7435 123128'), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Emergency Contact', info: '7786 112345'), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Blood Type', info: 'A+'), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Weight', info: '95kg'), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Height', info: '170cm'), softWrap: true),
-                            DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'BMI', info: '32.87'), softWrap: true),
-                          ],
-                        ),
-                        ),], height: 320),
-                        SizedBox(height: 40,),
-                        rowOfTwoButtons('Drugs and Allergies', 'Vaccinations',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
-                        SizedBox(height: 20,),
-                        rowOfTwoButtons('Treatment Escalation Plans', 'Power of Attorney',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
-                        SizedBox(height: 20,),
-                        rowOfTwoButtons('Advanced Care Plan', 'Organ Donation',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
-                        SizedBox(height: 20,),
-                        rowOfTwoButtons('Social History', 'DNACPR',
-                            const PersonalInfoSubPage(), const PersonalInfoSubPage()),
-                        ])))]))),
+          TitlePageFormat(children: [
+            TitleColouredBox(widgets: [Expanded(
+              child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'D.O.B', info: dob), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Address', info: address), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Contact', info: '7435 123128'), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Emergency Contact', info: '7786 112345'), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Blood Type', info: 'A+'), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Weight', info: '95kg'), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Height', info: '170cm'), softWrap: true),
+                DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'BMI', info: '32.87'), softWrap: true),
+              ],
+            ),
+            ),], height: 320),
+            SizedBox(height: 40,),
+            rowOfTwoButtons('Drugs and Allergies', 'Vaccinations',
+                const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+            SizedBox(height: 20,),
+            rowOfTwoButtons('Treatment Escalation Plans', 'Power of Attorney',
+                const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+            SizedBox(height: 20,),
+            rowOfTwoButtons('Advanced Care Plan', 'Organ Donation',
+                const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+            SizedBox(height: 20,),
+            rowOfTwoButtons('Social History', 'DNACPR',
+                const PersonalInfoSubPage(), const PersonalInfoSubPage()),
+            ]),
           homeIcon,
         ],
       ),
