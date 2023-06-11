@@ -7,8 +7,8 @@ import 'package:patient_mobile_app/resources/globals.dart';
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final LoginInput nhsNum = LoginInput(label: 'Enter username');
-  final LoginInput password = LoginInput(label: 'Enter password');
+  final LoginInput nhsNum = LoginInput(label: 'Enter username', isPassword: false,);
+  final LoginInput password = LoginInput(label: 'Enter password', isPassword: true,);
 
   @override
   Widget build(BuildContext context) {
@@ -49,14 +49,16 @@ class LoginPage extends StatelessWidget {
 
 // LOGIN INPUT WIDGET
 class LoginInput extends StatelessWidget {
-  LoginInput({super.key, required this.label});
+  LoginInput({super.key, required this.label, required this.isPassword});
 
   final inputController = TextEditingController();
   final String label;
+  final bool isPassword;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      obscureText: isPassword,
       controller: inputController,
       decoration: InputDecoration(
         label: Text.rich(
