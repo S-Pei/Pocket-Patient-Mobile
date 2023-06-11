@@ -88,7 +88,7 @@ class PatientUser {
     required this.access
   });
 
-  factory PatientUser.fromJson(Map<String, String> json) {
+  factory PatientUser.fromJson(Map<String, dynamic> json) {
     String refresh = json['refresh']!;
     String access = json['access']!;
     return PatientUser(refresh: refresh, access: access);

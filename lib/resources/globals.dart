@@ -17,10 +17,13 @@ import '../pages/loginPage.dart';
 import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
 
+const localHost = '10.0.2.2:8000';
+const deployedHost = 'patientoncall.herokuapp.com';
+
 const debug = true;
 
 final channel = WebSocketChannel.connect(
-  Uri.parse('wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/'),
+  Uri.parse(debug ? 'ws://$localHost/ws/patientoncall/12345/bobchoy/' : 'wss://$deployedHost/ws/patientoncall/12345/bobchoy/'),
 );
 
 final overlay = CustomOverlay();
@@ -42,6 +45,8 @@ Map<String, bool> medAccIncVisibility = {'1': true, '2': true};
 
 Patient? patientData;
 
+PatientUser? patientUser;
+
 Future<Patient> fetchData(String url) async {
 
   final response = await http.get(
@@ -52,6 +57,26 @@ Future<Patient> fetchData(String url) async {
   } else {
     // Handle error if the request fails
     throw Future.error('Failed to fetch data');
+  }
+}
+
+void fetchToken(context, username, password) async {
+  final response = await http.post(
+    Uri.parse(debug ? 'http://$localHost/api/token/' : 'https://$deployedHost/api/token/'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': username,
+      'password': password,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    patientUser = PatientUser.fromJson(json.decode(response.body));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+  } else {
+    print("Invalid user");
   }
 }
 
