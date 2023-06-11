@@ -17,7 +17,7 @@ import 'package:http/http.dart' as http;
 
 import '../pages/medicalHistoryPage.dart';
 
-bool debug = true;
+bool debug = false;
 bool ios = false;
 String debugWebSocket = ios ?  'ws://127.0.0.1:8000/ws/patientoncall/12345/bobchoy/' : 'ws://10.0.2.2:8000/ws/patientoncall/12345/bobchoy/';
 String webSocketUrl = debug ? debugWebSocket : 'wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/';
