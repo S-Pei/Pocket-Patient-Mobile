@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'colours.dart';
 import '../pages/hospitalVisitPage.dart';
-import '../pages/prescriptionPage.dart';
+import '../pages/medicationPage.dart';
 import '../pages/medicalHistoryPage.dart';
 
 // NAV BAR
@@ -20,7 +20,7 @@ class _InfoPageState extends State<InfoPage> {
   }
 
   final List<Widget> _pages = [
-    const PrescriptionPage(),
+    const MedicationPage(),
     const MedicalHistoryPage(),
     const HospitalVisitPage()
   ];
@@ -38,7 +38,7 @@ class _InfoPageState extends State<InfoPage> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   NavBarElem(
-                    text: 'Prescriptions',
+                    text: 'Medications',
                     icon: Icons.vaccines,
                     selected: _selectedIndex == 0,
                     onPressed: () {

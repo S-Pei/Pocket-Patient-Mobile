@@ -16,6 +16,7 @@ import 'package:http/http.dart' as http;
 import '../pages/loginPage.dart';
 import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
+import '../pages/medicationPage.dart';
 
 const localHost = '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
@@ -35,6 +36,8 @@ final overlay = CustomOverlay();
 const homeIcon = HomeIcon();
 
 final medicalHistoryTitle = MedicalHistoryTitle();
+
+final medicationTitle = MedicationTitle();
 
 var firstRender = true;
 
@@ -117,10 +120,32 @@ List<Widget> showMedicalHistory(Map<String, Pair<String, String>> data, BuildCon
   );
   widgets.add(SizedBox(height: 10,));
   for (var entry in data.entries) {
+    print(entry.value);
     widgets.add(VisibilityTile(data: entry.value, editMode: editMode, uuid : entry.key));
     widgets.add(SizedBox(height: 10,));
   }
   return widgets;
+}
+
+List<TableRow> showMedications(List<MedicationEntry> data) {
+  print('show medical history: ${data}');
+  List<TableRow> tableRow = [];
+  for (var entry in data) {
+    tableRow.add(TableRow(
+      children: [
+        TableCell(
+          child: Text(entry.drug, textAlign: TextAlign.center,), // Content of column 1
+        ),
+        TableCell(
+          child: Text(entry.dosage, textAlign: TextAlign.center,), // Content of column 2
+        ),
+        TableCell(
+          child: Text('More Info', textAlign: TextAlign.center,), // Content of column 3
+        ),
+      ],
+    ),);
+  }
+  return tableRow;
 }
 
 // Sends permission to server

@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> {
                           height: 50,
                         ),
                         NavigateLongButton(
-                            word: 'My Prescriptions',
+                            word: 'My Medications',
                             nextPage: InfoPage(selectedIndex: 0)),
                         SizedBox(
                           height: 50,
