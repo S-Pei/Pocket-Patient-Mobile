@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/fullMedicationPage.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
@@ -88,20 +89,38 @@ List<Widget> showMedicalHistory(Map<String, Pair<String, String>> data, BuildCon
   return widgets;
 }
 
-List<TableRow> showMedications(List<MedicationEntry> data) {
-  print('show medical history: ${data}');
+List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context) {
   List<TableRow> tableRow = [];
   for (var entry in data) {
     tableRow.add(TableRow(
       children: [
         TableCell(
-          child: Text(entry.drug, textAlign: TextAlign.center,), // Content of column 1
+          child: Text(entry.drug, textAlign: TextAlign.center,),
         ),
         TableCell(
-          child: Text(entry.dosage, textAlign: TextAlign.center,), // Content of column 2
+          child: Text(entry.dosage, textAlign: TextAlign.center,),
         ),
         TableCell(
-          child: Text('More Info', textAlign: TextAlign.center,), // Content of column 3
+          child: InkWell(
+            onTap: () {
+              // Handle button tap here
+              // Navigate to another page
+
+            },
+            child: Container(
+              padding: EdgeInsets.all(8.0),
+              child: TextButton(
+                onPressed: () {
+                  // Handle button tap here if needed
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => FullMedicationPage(fullData: entry)),
+                  );
+                },
+                child: Text('More Info'),
+              ),
+            ),
+          ),
         ),
       ],
     ),);
