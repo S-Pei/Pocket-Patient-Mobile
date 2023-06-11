@@ -78,3 +78,19 @@ class Patient {
       return '{ ${admissionDate} : ${summary}}';
     }
   }
+
+class PatientUser {
+  String refresh;
+  String access;
+
+  PatientUser({
+    required this.refresh,
+    required this.access
+  });
+
+  factory PatientUser.fromJson(Map<String, String> json) {
+    String refresh = json['refresh']!;
+    String access = json['access']!;
+    return PatientUser(refresh: refresh, access: access);
+  }
+}

@@ -17,6 +17,8 @@ import '../pages/loginPage.dart';
 import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
 
+const debug = true;
+
 final channel = WebSocketChannel.connect(
   Uri.parse('wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/'),
 );
@@ -31,7 +33,7 @@ var firstRender = true;
 
 final homePage = HomePage();
 
-const loginPage = LoginPage();
+final loginPage = LoginPage();
 
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 

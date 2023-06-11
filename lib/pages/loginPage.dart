@@ -3,14 +3,32 @@ import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/resources/colours.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
-  @override
-  State<StatefulWidget> createState() => _LoginPageState();
-}
+import '../resources/globals.dart';
 
-class _LoginPageState extends State<LoginPage> {
+class LoginPage extends StatelessWidget {
+  LoginPage({super.key});
+
+  final LoginInput nhsNum = LoginInput(label: 'Enter username');
+  final LoginInput password = LoginInput(label: 'Enter password');
+
+  Future<http.Response> buttonPress() {
+    int number = nhsNum.inputController.text as int;
+    String pwd = password.inputController.text;
+    return http.post(
+      Uri.parse(debug ? 'http://10.0.2.2:8000/api/token' : 'https://patientoncall.herokuapp.com/api/token'),
+      headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+      body: jsonEncode(<String, String>{
+        'number': ,
+      }),
+    );
+
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -23,10 +41,10 @@ class _LoginPageState extends State<LoginPage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                const LoginInput(label: 'Enter NHS number'),
+                nhsNum,
                 Container(
                   margin: const EdgeInsets.only(top: 10.0),
-                  child: const LoginInput(label: 'Enter password'),
+                  child: password,
                 ),
                 Container(
                   margin: const EdgeInsets.only(top: 50.0),
@@ -42,14 +60,17 @@ class _LoginPageState extends State<LoginPage> {
   }
 }
 
+// LOGIN INPUT WIDGET
 class LoginInput extends StatelessWidget {
-  const LoginInput({super.key, required this.label});
+  LoginInput({super.key, required this.label});
 
+  final inputController = TextEditingController();
   final String label;
 
   @override
   Widget build(BuildContext context) {
     return TextField(
+      controller: inputController,
       decoration: InputDecoration(
         label: Text.rich(
           TextSpan(
