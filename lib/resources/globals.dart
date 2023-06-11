@@ -13,6 +13,7 @@ import '../pages/hideInfoOverlay.dart';
 import '../pages/homePage.dart';
 import 'package:http/http.dart' as http;
 
+import '../pages/loginPage.dart';
 import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
 
@@ -29,6 +30,8 @@ final medicalHistoryTitle = MedicalHistoryTitle();
 var firstRender = true;
 
 final homePage = HomePage();
+
+const loginPage = LoginPage();
 
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 
