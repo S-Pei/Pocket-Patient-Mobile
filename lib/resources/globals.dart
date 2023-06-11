@@ -19,6 +19,10 @@ import '../pages/medicalHistoryPage.dart';
 
 const localHost = '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
+const localHostUrl = 'http://$localHost';
+const deployedHostUrl = 'https://$deployedHost';
+
+const autoUrl = debug ? localHostUrl : deployedHostUrl;
 
 const debug = true;
 
@@ -50,7 +54,12 @@ PatientUser? patientUser;
 Future<Patient> fetchData(String url) async {
 
   final response = await http.get(
-      Uri.parse(url));
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${patientUser!.access}'
+      },
+  );
   if (response.statusCode == 200) {
     print('patient data: ${json.decode(response.body)}');
     return Patient.fromJson(json.decode(response.body));
