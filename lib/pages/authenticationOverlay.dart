@@ -24,6 +24,7 @@ class _OverlayState extends State<OverlayWidget> {
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white.withOpacity(0.5),
+      alignment: Alignment.center,
       child: Center(
         child: Material(child:
             Column(
@@ -34,7 +35,7 @@ class _OverlayState extends State<OverlayWidget> {
           padding: 35.0,
           radius: 30.0,
           outerPadding: 25.0,
-          child: SingleChildScrollView(
+          // child: SingleChildScrollView(
               child: Column(
                   children: [
                     Text('St Mary Hospital is requesting for your data.',
@@ -90,7 +91,7 @@ class _OverlayState extends State<OverlayWidget> {
                           )
                         ]
                     )
-                  ])),
+                  ]),
         )]),
         )),
     );

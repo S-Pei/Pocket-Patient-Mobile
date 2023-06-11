@@ -6,7 +6,7 @@ class Patient {
     final String last_name;
     final String dob;
     final String patient_address;
-    final List<MedicalHistoryEntry> medical_history;
+    final List<HealthcareHistoryDataEntry> medical_history;
 
     Patient({
       required this.first_name,
@@ -18,7 +18,7 @@ class Patient {
 
     factory Patient.fromJson(Map<String, dynamic> json) {
       var list = json['medical-history'];
-      List<MedicalHistoryEntry> mh_list = list.map<MedicalHistoryEntry>((mh) => MedicalHistoryEntry.fromDic(mh)).toList();
+      List<HealthcareHistoryDataEntry> mh_list = list.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
       return Patient(
         first_name: json['patient-first-name'],
         last_name: json['patient-last-name'],
@@ -32,17 +32,29 @@ class Patient {
       print('medical history: ${medical_history}');
       Map<String, Pair<String, String>> data = {};
       for (var mh in medical_history) {
-        data[mh.id] = Pair(mh.admissionDate, mh.summary);
+        if (mh.addToMedicalHistory) {
+          data[mh.id] = Pair(mh.admissionDate, mh.summary);
+        }
       }
       return data;
     }
+
+    Map<String, HealthcareHistoryDataEntry> getHealthcareVisits() {
+      print('healthcare visit history: ${medical_history}');
+      Map<String, HealthcareHistoryDataEntry> data = {};
+      for (var mh in medical_history) {
+          data[mh.id] = mh;
+      }
+      return data;
+    }
+
   @override
     String toString() {
       return '{ ${first_name}, ${last_name}, ${medical_history}}';
     }
 }
 
-  class MedicalHistoryEntry {
+  class HealthcareHistoryDataEntry {
     final String id;
     final String admissionDate;
     final String dischargeDate;
@@ -50,26 +62,29 @@ class Patient {
     final String summary;
     final String visitType;
     final String? letterUrl;
+    final bool addToMedicalHistory;
 
-    MedicalHistoryEntry({
+    HealthcareHistoryDataEntry({
       required this.id,
       required this.admissionDate,
       required this.dischargeDate,
       required this.consultant,
       required this.visitType,
       this.letterUrl,
-      required this.summary
+      required this.summary,
+      required this.addToMedicalHistory
     });
 
-    factory MedicalHistoryEntry.fromDic(Map<String, dynamic> dic) {
-      return MedicalHistoryEntry(
+    factory HealthcareHistoryDataEntry.fromDic(Map<String, dynamic> dic) {
+      return HealthcareHistoryDataEntry(
         id: dic['id'],
         admissionDate: dic['admissionDate'],
         dischargeDate: dic['dischargeDate'],
         consultant: dic['consultant'],
         visitType: dic['visitType'],
         letterUrl: dic['letter'],
-        summary: dic['summary']
+        summary: dic['summary'],
+        addToMedicalHistory: dic['addToMedicalHistory']
       );
     }
 

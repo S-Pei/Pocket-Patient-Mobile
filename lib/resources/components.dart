@@ -127,7 +127,7 @@ class LongButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
-      width: 350,
+      width: MediaQuery.of(context).size.width,
       child: GeneralButton(word: word, onPress: onPress, length: 350, style: subtitle,)
     );
   }
@@ -208,22 +208,31 @@ class PrintButton extends StatelessWidget {
 class CustomOverlay {
   OverlayEntry? _overlayEntry;
   static late OverlayState overlayState;
+  OverlayEntry? _prevOverlayEntry;
 
   void showOverlay(BuildContext context, Widget toShow) {
     overlayState = Overlay.of(context);
+    if (_overlayEntry != null) {
+      _prevOverlayEntry = _overlayEntry;
+    }
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Center(
           child: toShow,);
       },
     );
-    overlayState?.insert(_overlayEntry!);
+    overlayState.insert(_overlayEntry!);
   }
 
   void hideOverlay() {
     print('overlay: ${_overlayEntry}');
     _overlayEntry?.remove();
-    _overlayEntry = null;
+    if (_prevOverlayEntry != null) {
+      _overlayEntry = _prevOverlayEntry;
+      _prevOverlayEntry = null;
+    } else {
+      _overlayEntry = null;
+    }
   }
 }
 
@@ -260,8 +269,10 @@ class ColouredBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Column(children: [SizedBox(
-        height: height,
+    return Container(
+      alignment: Alignment.center,
+        child: Column(children: [SizedBox(
+        // height: height,
         width: width,
         child: Padding(padding: EdgeInsets.only(left: outerPadding, right: outerPadding),
             child:

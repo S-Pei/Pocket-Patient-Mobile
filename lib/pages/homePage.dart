@@ -85,10 +85,12 @@ class _HomePageState extends State<HomePage> {
 
 // MAIN PAGE TITLE
 class MainPageTitle extends StatelessWidget {
-  const MainPageTitle({super.key});
+  MainPageTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
+    String debugUrl = ios ? 'http://127.0.0.1:8000/api/patient-data/' : 'http://10.0.2.2:8000/api/patient-data/';
+    String url = debug ? debugUrl :  'https://patientoncall.herokuapp.com/api/patient-data/';
     return ColouredBox(
         height: 180,
         width: MediaQuery.of(context).size.width,
@@ -97,17 +99,17 @@ class MainPageTitle extends StatelessWidget {
         radius: 10.0,
         outerPadding: 0.0,
         child: FutureBuilder<Patient>(
-          future: fetchData('https://patientoncall.herokuapp.com/api/patient-data/').then((value) => patientData = value), // a previously-obtained Future<String> or null
+          future: fetchData(url).then((value) => patientData = value), // a previously-obtained Future<String> or null
           builder: (BuildContext context, AsyncSnapshot<Patient> snapshot) {
             List<Widget> children;
             if (snapshot.hasData) {
               String patientName = '${patientData?.first_name} ${patientData?.last_name}';
               String dob = '${patientData?.dob}';
               String address = '${patientData?.patient_address}';
-              children = <Widget>[Expanded(
-                child: Column(
+              children = <Widget>[Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
                     DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
@@ -115,7 +117,6 @@ class MainPageTitle extends StatelessWidget {
                     DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Address', info: address), softWrap: true),
                   ],
                 ),
-              )
               ];
             } else if (snapshot.hasError) {
               children = <Widget>[

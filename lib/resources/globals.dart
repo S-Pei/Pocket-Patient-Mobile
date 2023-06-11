@@ -4,20 +4,26 @@ import 'dart:convert';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
+
 import '../pages/hideInfoOverlay.dart';
 import '../pages/homePage.dart';
 import 'package:http/http.dart' as http;
 
-import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
 
+bool debug = true;
+bool ios = false;
+String debugWebSocket = ios ?  'ws://127.0.0.1:8000/ws/patientoncall/12345/bobchoy/' : 'ws://10.0.2.2:8000/ws/patientoncall/12345/bobchoy/';
+String webSocketUrl = debug ? debugWebSocket : 'wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/';
+
 final channel = WebSocketChannel.connect(
-  Uri.parse('wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/'),
+  Uri.parse(webSocketUrl),
 );
 
 final overlay = CustomOverlay();
