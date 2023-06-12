@@ -35,12 +35,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Patient On Call',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: mainCyan),
         useMaterial3: true,
       ),
-      home: globals.homePage,
+      // home: globals.homePage,
+      home: globals.loginPage,
     );
   }
 }

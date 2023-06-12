@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
@@ -45,6 +46,7 @@ class _HomePageState extends State<HomePage> {
       });
       firstRender = false;
     }
+    Timer refreshTimer = refreshTokenTimer;
   }
 
   @override
@@ -58,7 +60,7 @@ class _HomePageState extends State<HomePage> {
                           height: 50,
                         ),
                         NavigateLongButton(
-                            word: 'My Prescriptions',
+                            word: 'My Medications',
                             nextPage: InfoPage(selectedIndex: 0)),
                         SizedBox(
                           height: 50,
@@ -97,7 +99,7 @@ class MainPageTitle extends StatelessWidget {
         radius: 10.0,
         outerPadding: 0.0,
         child: FutureBuilder<Patient>(
-          future: fetchData('https://patientoncall.herokuapp.com/api/patient-data/').then((value) => patientData = value), // a previously-obtained Future<String> or null
+          future: fetchData('$autoUrl/api/patient-data/').then((value) => patientData = value), // a previously-obtained Future<String> or null
           builder: (BuildContext context, AsyncSnapshot<Patient> snapshot) {
             List<Widget> children;
             if (snapshot.hasData) {
