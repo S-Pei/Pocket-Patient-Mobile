@@ -66,7 +66,7 @@ class AddDiaryEntryButton extends StatelessWidget {
           LongButton(word: 'add diary entry', onPress: (){
             Navigator.push(
               context,
-              MaterialPageRoute(builder: (context) => const AddDiaryEntryPage()),
+              MaterialPageRoute(builder: (context) => AddDiaryEntryPage()),
             );
           }),
         ],

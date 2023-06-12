@@ -253,6 +253,15 @@ void revokeAccess() {
   toHide.clear();
 }
 
+void submitNewDiaryEntry(DateTime date, String content) {
+  Map<String, dynamic> data = {};
+  data['event'] = 'NEW_DIARY_ENTRY';
+  data['date'] = date.date.toString();
+  data['content'] = content;
+  final json = jsonEncode(data);
+  channel.sink.add(json);
+}
+
 void sendAuthNotif() {
   AwesomeNotifications().createNotification(
       content: NotificationContent(
