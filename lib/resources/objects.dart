@@ -56,7 +56,7 @@ class Patient {
       Map<String, Pair<String, String>> data = {};
       var i = 0;
       for (var dr in diary) {
-        data['$i'] = Pair(dr.date, '${dr.content.substring(0, 30)}...');
+        data['$i'] = Pair(dr.date, '${dr.content.substring(0, 35)}...');
         i++;
       }
       return data;

@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/addDiaryEntryPage.dart';
 import 'package:patient_mobile_app/resources/colours.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
@@ -18,7 +19,8 @@ class DiaryPage extends StatelessWidget {
                 const SizedBox(height: 15,),
                 diaryPageTitle,
                 const SizedBox(height: 30,),
-              ] + showDiaryList(patientData!.getDiarySummary(), context)),
+              ] + showDiaryList(patientData!.getDiarySummary(), context),
+          ),
           homeIcon,
           const ProfileLogo(),
           const AddDiaryEntryButton(),
@@ -61,7 +63,12 @@ class AddDiaryEntryButton extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          LongButton(word: 'add diary entry', onPress: (){}),
+          LongButton(word: 'add diary entry', onPress: (){
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => const AddDiaryEntryPage()),
+            );
+          }),
         ],
       ),
     );
