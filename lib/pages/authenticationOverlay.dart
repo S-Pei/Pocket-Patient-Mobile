@@ -80,11 +80,12 @@ class _OverlayState extends State<OverlayWidget> {
                                     text: 'accept',
                                     color: buttonGreen,
                                     onPress: () => {
-                                      overlay.hideOverlay(),
                                       if (_isCheckedList[1]) {
-                                        overlay.showOverlay(context, const SelectMedicalHistoryOverlay())
+                                        overlay.showOverlay(context, const SelectMedicalHistoryOverlay()),
+                                        overlay.hideOverlay(),
                                       } else if (_isCheckedList[0] && !_isCheckedList[1]){
-                                        grantAccess({})
+                                        grantAccess({}),
+                                        overlay.hideOverlay(),
                                       }
                                     }),
                               ]

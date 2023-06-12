@@ -1,14 +1,19 @@
 library globals;
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
+import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
 import '../pages/hideInfoOverlay.dart';
@@ -18,7 +23,7 @@ import 'package:http/http.dart' as http;
 import '../pages/medicalHistoryPage.dart';
 
 bool debug = false;
-bool ios = true;
+bool ios = false;
 String debugWebSocket = ios ?  'ws://127.0.0.1:8000/ws/patientoncall/12345/bobchoy/' : 'ws://10.0.2.2:8000/ws/patientoncall/12345/bobchoy/';
 String webSocketUrl = debug ? debugWebSocket : 'wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/';
 
@@ -40,6 +45,8 @@ Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/20
 
 Map<String, Widget> medAccIncEntries = {};
 Map<String, bool> medAccIncVisibility = {'1': true, '2': true};
+
+Map<String, Widget> idToHospVisitDet = {};
 
 Patient? patientData;
 
@@ -130,4 +137,39 @@ void sendAuthNotif() {
           body: 'St Mary Hospital is requesting for access to your data. Click here to take action'
       ),
   );
+}
+
+Future askRequiredPermission() async {
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.storage,
+    Permission.manageExternalStorage,
+    Permission.accessMediaLocation
+  ].request();
+}
+
+void download(String url) async {
+
+  List<String> splitted = url.split('/');
+  String path = splitted.last;
+
+  String downloadDirPath;
+  if (Platform.isAndroid) {
+    // For Android, use the getExternalStorageDirectory() method
+    final directory = await getExternalStorageDirectory();
+    downloadDirPath = directory!.path;
+  } else if (Platform.isIOS) {
+    // For iOS, use the getApplicationDocumentsDirectory() method
+    final directory = await getApplicationDocumentsDirectory();
+    downloadDirPath = directory.path;
+  } else {
+    downloadDirPath = '';
+  }
+
+  String filePath = '/storage/emulated/0/Download';
+
+  Dio dio = Dio();
+  await dio.download(url, "$downloadDirPath/$path");
+
+  // opens the file
+  OpenFile.open("$downloadDirPath/$path", type: 'application/pdf');
 }

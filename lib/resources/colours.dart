@@ -13,3 +13,4 @@ const contentCyan = Color.fromRGBO(191, 226, 241, 1.000);
 const unselectGrey = Color.fromRGBO(222, 233, 238, 1.0);
 const letterButtonBlue = Color.fromRGBO(107, 196, 235, 1.0);
 const letterButtonPink = Color.fromRGBO(208, 118, 137, 1.0);
+const lightGrey = Color.fromRGBO(192, 187, 187, 1.0);

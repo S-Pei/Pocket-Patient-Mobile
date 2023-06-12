@@ -8,7 +8,7 @@
         android:label="patient_mobile_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
-        <provider
+        <!-- <provider
             android:name="vn.hunghd.flutterdownloader.DownloadedFileProvider"
             android:authorities="${applicationId}.flutter_downloader.provider"
             android:exported="false"
@@ -16,7 +16,7 @@
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/provider_paths"/>
-        </provider>
+        </provider> -->
         <activity
             android:name=".MainActivity"
             android:exported="true"

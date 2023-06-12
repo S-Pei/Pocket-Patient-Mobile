@@ -9,13 +9,15 @@
 /* Begin PBXBuildFile section */
 		1498D2341E8E89220040F4C2 /* GeneratedPluginRegistrant.m in Sources */ = {isa = PBXBuildFile; fileRef = 1498D2331E8E89220040F4C2 /* GeneratedPluginRegistrant.m */; };
 		1B659DBC2A34CF2C00396150 /* GoogleService-Info.plist in Sources */ = {isa = PBXBuildFile; fileRef = 1B659DBA2A34CF0B00396150 /* GoogleService-Info.plist */; };
+		1B659DBF2A362AC700396150 /* libsqlite3.tbd in Frameworks */ = {isa = PBXBuildFile; fileRef = 1B659DBE2A362ABA00396150 /* libsqlite3.tbd */; };
+		1B659DC02A37645C00396150 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3AB181A0C65810765603BB /* Pods_Runner.framework */; };
 		331C808B294A63AB00263BE5 /* RunnerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 331C807B294A618700263BE5 /* RunnerTests.swift */; };
 		3B3967161E833CAA004F5970 /* AppFrameworkInfo.plist in Resources */ = {isa = PBXBuildFile; fileRef = 3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */; };
+		60651BB905C0915447FA1C78 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3AB181A0C65810765603BB /* Pods_Runner.framework */; };
 		74858FAF1ED2DC5600515810 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 74858FAE1ED2DC5600515810 /* AppDelegate.swift */; };
 		97C146FC1CF9000F007C117D /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FA1CF9000F007C117D /* Main.storyboard */; };
 		97C146FE1CF9000F007C117D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FD1CF9000F007C117D /* Assets.xcassets */; };
 		97C147011CF9000F007C117D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 97C146FF1CF9000F007C117D /* LaunchScreen.storyboard */; };
-		BEC0202423378FAE9724BA77 /* Pods_Runner.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1A3AB181A0C65810765603BB /* Pods_Runner.framework */; };
 		E000DEC88BC528F25CD77A18 /* Pods_RunnerTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 764D5D165DF570F8BAB2569F /* Pods_RunnerTests.framework */; };
 /* End PBXBuildFile section */
 
@@ -29,19 +31,6 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		9705A1C41CF9048500538489 /* Embed Frameworks */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 10;
-			files = (
-			);
-			name = "Embed Frameworks";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
-
 /* Begin PBXFileReference section */
 		0892D7F4FABC6674AF4CEE26 /* Pods-Runner.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Runner.release.xcconfig"; path = "Target Support Files/Pods-Runner/Pods-Runner.release.xcconfig"; sourceTree = "<group>"; };
 		1498D2321E8E86230040F4C2 /* GeneratedPluginRegistrant.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GeneratedPluginRegistrant.h; sourceTree = "<group>"; };
@@ -49,6 +38,9 @@
 		1A3AB181A0C65810765603BB /* Pods_Runner.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Runner.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B659DBA2A34CF0B00396150 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		1B659DBD2A34DB1A00396150 /* Runner.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Runner.entitlements; sourceTree = "<group>"; };
+		1B659DBE2A362ABA00396150 /* libsqlite3.tbd */ = {isa = PBXFileReference; lastKnownFileType = "sourcecode.text-based-dylib-definition"; name = libsqlite3.tbd; path = usr/lib/libsqlite3.tbd; sourceTree = SDKROOT; };
+		1B659DC22A3769B700396150 /* flutter_downloader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = flutter_downloader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		1BEA12112A376D7400AE86C1 /* flutter_downloader.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = flutter_downloader.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		331C807B294A618700263BE5 /* RunnerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RunnerTests.swift; sourceTree = "<group>"; };
 		331C8081294A63A400263BE5 /* RunnerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RunnerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B3967151E833CAA004F5970 /* AppFrameworkInfo.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = AppFrameworkInfo.plist; path = Flutter/AppFrameworkInfo.plist; sourceTree = "<group>"; };
@@ -83,7 +75,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				BEC0202423378FAE9724BA77 /* Pods_Runner.framework in Frameworks */,
+				1B659DBF2A362AC700396150 /* libsqlite3.tbd in Frameworks */,
+				60651BB905C0915447FA1C78 /* Pods_Runner.framework in Frameworks */,
+				1B659DC02A37645C00396150 /* Pods_Runner.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -101,6 +95,9 @@
 		900EA7A21EF93343466FA013 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				1BEA12112A376D7400AE86C1 /* flutter_downloader.framework */,
+				1B659DC22A3769B700396150 /* flutter_downloader.framework */,
+				1B659DBE2A362ABA00396150 /* libsqlite3.tbd */,
 				1A3AB181A0C65810765603BB /* Pods_Runner.framework */,
 				764D5D165DF570F8BAB2569F /* Pods_RunnerTests.framework */,
 			);
@@ -200,7 +197,6 @@
 				97C146EA1CF9000F007C117D /* Sources */,
 				97C146EB1CF9000F007C117D /* Frameworks */,
 				97C146EC1CF9000F007C117D /* Resources */,
-				9705A1C41CF9048500538489 /* Embed Frameworks */,
 				3B06AD1E1E4923F5004D2608 /* Thin Binary */,
 				022930A3181A9219124B5437 /* [CP] Embed Pods Frameworks */,
 			);
@@ -209,8 +205,6 @@
 			dependencies = (
 			);
 			name = Runner;
-			packageProductDependencies = (
-			);
 			productName = Runner;
 			productReference = 97C146EE1CF9000F007C117D /* Runner.app */;
 			productType = "com.apple.product-type.application";
@@ -243,8 +237,6 @@
 				Base,
 			);
 			mainGroup = 97C146E51CF9000F007C117D;
-			packageReferences = (
-			);
 			productRefGroup = 97C146EF1CF9000F007C117D /* Products */;
 			projectDirPath = "";
 			projectRoot = "";

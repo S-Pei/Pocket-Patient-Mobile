@@ -43,7 +43,6 @@ dependencies:
   firebase_messaging: ^14.6.2
   flutter_file_downloader: ^1.1.2
   string_validator: ^1.0.0
-  flutter_downloader: ^1.10.4
   cloud_firestore: ^4.8.0
   path_provider: ^2.0.15
   permission_handler: ^10.3.0

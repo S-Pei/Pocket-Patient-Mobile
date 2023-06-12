@@ -10,7 +10,6 @@ import '../resources/objects.dart';
 import 'authenticationOverlay.dart';
 import '../resources/components.dart';
 import '../resources/navBar.dart';
-import 'hospitalVisitPage.dart';
 
 // HOME PAGE
 class HomePage extends StatefulWidget {
@@ -55,28 +54,29 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       body: Stack(
         children: [
-          TitlePageFormat(children: [MainPageTitle(),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        NavigateLongButton(
-                            word: 'My Prescriptions',
-                            nextPage: InfoPage(selectedIndex: 0)),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        NavigateLongButton(
-                            word: 'My Medical History',
-                            nextPage: InfoPage(selectedIndex: 1)),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        NavigateLongButton(
-                            word: 'Hospital Visit History',
-                            nextPage: InfoPage(selectedIndex: 2)),
-                        SizedBox(height: 40,),
-                        NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage())
-                        ]),
+          TitlePageFormat(
+              children: [MainPageTitle(),
+            SizedBox(
+              height: 50,
+            ),
+            NavigateLongButton(
+                word: 'My Prescriptions',
+                nextPage: InfoPage(selectedIndex: 0)),
+            SizedBox(
+              height: 50,
+            ),
+            NavigateLongButton(
+                word: 'My Medical History',
+                nextPage: InfoPage(selectedIndex: 1)),
+            SizedBox(
+              height: 50,
+            ),
+            NavigateLongButton(
+                word: 'Hospital Visit History',
+                nextPage: InfoPage(selectedIndex: 2)),
+            SizedBox(height: 40,),
+            NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage())
+          ]),
           homeIcon,
           const ProfileLogo(),
           ],

@@ -1,18 +1,11 @@
-import 'dart:io';
-import 'dart:isolate';
 import 'dart:ui';
 
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:open_file/open_file.dart';
-import 'package:permission_handler/permission_handler.dart';
+import 'package:patient_mobile_app/pages/hospitalVisitDetails.dart';
 import '../resources/colours.dart';
 import '../resources/components.dart';
 import '../resources/fonts.dart';
 import '../resources/globals.dart';
-import 'package:flutter_file_downloader/flutter_file_downloader.dart';
-import 'package:flutter_downloader/flutter_downloader.dart';
-import 'package:path_provider/path_provider.dart';
 
 import '../resources/objects.dart';
 
@@ -87,7 +80,7 @@ List<Widget> showHealthcareVisitHistory(Map<String, HealthcareHistoryDataEntry> 
           flex: 24,
           child: Container(
               width: 250,
-              child: DefaultTextStyle(child: Text('Letter'), style: boldContent, softWrap: true,)
+              child: DefaultTextStyle(child: Text(''), style: boldContent, softWrap: true,)
           )),
     ]),
   );
@@ -107,7 +100,14 @@ class HealthcareVisitEntry extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool isHospital = data.visitType == 'Hospital Visit';
-    return ColouredBox(
+    return GestureDetector(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) =>
+              HospitalVisitDetailsPage(data: data,)),
+          );},
+        child: ColouredBox(
         height: 70,
         width: MediaQuery.of(context).size.width,
         padding: 10.0,
@@ -146,15 +146,17 @@ class HealthcareVisitEntry extends StatelessWidget {
           ),
           Flexible(
               fit: FlexFit.tight,
-              flex: 5,
-              child: Container(
-                  width: 250,
-                  child: DefaultTextStyle(
-                    child: data.letterUrl != null ? LetterButton(isHospital: isHospital, letterUrl: data.letterUrl!): Text(''),
-                    style: content, softWrap: true,)
+              flex: 4,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  data.letterUrl != null ? LetterButton(isHospital: isHospital, letterUrl: data.letterUrl!): Text(''),
+                  MoreInfoButton(data: data)
+                ]
               ))]),
         radius: 0,
-        outerPadding: 0);
+        outerPadding: 0));
   }
 
 }
@@ -174,81 +176,51 @@ class LetterButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(5.0),
         ),
         padding: EdgeInsets.all(3),
-        textStyle: content,
+        textStyle: boldContent,
         backgroundColor: isHospital ? letterButtonBlue : letterButtonPink,
         foregroundColor: Colors.black,
         elevation: 10,
         minimumSize: const Size(100, 20),
       ),
-      // onPressed: () {FileDownloader.downloadFile(
-      //   url: letterUrl
-      // );},
       onPressed: () {
-        addTask(letterUrl);
+        download(letterUrl);
       },
       child: Text(buttonText, textAlign: TextAlign.center,),
     );
   }
 }
 
-void addTask(String url) async {
-  // FlutterDownloader.registerCallback(downloadCallback);
-  // Get File path to download
+class MoreInfoButton extends StatelessWidget {
+  const MoreInfoButton({super.key, required this.data});
+  final HealthcareHistoryDataEntry data;
 
-  // await askRequiredPermission();
-
-  List<String> splitted = url.split('/');
-  String path = splitted.last;
-  // Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-  // String appDocumentsPath = appDocumentsDirectory.path;
-  String downloadDirPath;
-  if (Platform.isAndroid) {
-    // For Android, use the getExternalStorageDirectory() method
-    final directory = await getExternalStorageDirectory();
-    downloadDirPath = directory!.path;
-  } else if (Platform.isIOS) {
-    // For iOS, use the getApplicationDocumentsDirectory() method
-    final directory = await getApplicationDocumentsDirectory();
-    downloadDirPath = directory.path;
-  } else {
-    downloadDirPath = '';
+  @override
+  Widget build(BuildContext context) {
+    Widget detailsPage = HospitalVisitDetailsPage(data: data,);
+    idToHospVisitDet[data.id] = detailsPage;
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(5.0),
+        ),
+        padding: EdgeInsets.all(3),
+        textStyle: boldContent,
+        backgroundColor: lightGrey,
+        foregroundColor: Colors.black,
+        elevation: 10,
+        minimumSize: const Size(100, 20),
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) =>
+              detailsPage),
+        );
+      },
+      child: Text('More Info', textAlign: TextAlign.center,),
+    );
   }
-  // String filePath = appDocumentsPath;
-  String filePath = '/storage/emulated/0/Download';
 
-  // final taskId = await FlutterDownloader.enqueue(
-  //   url: url,
-  //   headers: {}, // optional: header send with url (auth token etc)
-  //   savedDir: downloadDirPath,
-  //   fileName: path,
-  //   showNotification: true, // show download progress in status bar (for Android)
-  //   openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-  // );
-  // // final tasks = await FlutterDownloader.loadTasks();
-  // FlutterDownloader.registerCallback((id, status, progress) {
-  //   if (taskId == id && status == DownloadTaskStatus.complete) {
-  //     print('File downloaded successfully. Path: $downloadDirPath/$path');
-  //   }
-  // });
-  //
-  // FlutterDownloader.open(taskId: taskId!);
-
-  Dio dio = Dio();
-  await dio.download(url, "$downloadDirPath/$path");
-
-  // opens the file
-  OpenFile.open("$downloadDirPath/$path", type: 'application/png');
 }
 
-// void downloadCallback(String id, int status, int progress) {
-//   final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port')!;
-//   send.send([id, status, progress]);
-// }
 
-Future askRequiredPermission() async {
-  Map<Permission, PermissionStatus> statuses = await [
-    Permission.storage,
-    Permission.manageExternalStorage,
-    Permission.accessMediaLocation
-  ].request();
-}
