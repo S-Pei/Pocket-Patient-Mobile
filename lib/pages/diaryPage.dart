@@ -21,16 +21,7 @@ class DiaryPage extends StatelessWidget {
               ] + showDiaryList(patientData!.getDiarySummary(), context)),
           homeIcon,
           const ProfileLogo(),
-          Positioned(
-            top: MediaQuery.of(context).size.height - 100,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                LongButton(word: 'add diary entry', onPress: (){}),
-              ],
-            ),
-          ),
+          const AddDiaryEntryButton(),
         ],
       ),
     );
@@ -57,4 +48,24 @@ class DiaryPageTitle extends StatelessWidget {
           ],
         ));
   }
+}
+
+class AddDiaryEntryButton extends StatelessWidget {
+  const AddDiaryEntryButton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      top: MediaQuery.of(context).size.height - 100,
+      width: MediaQuery.of(context).size.width,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          LongButton(word: 'add diary entry', onPress: (){}),
+        ],
+      ),
+    );
+  }
+
+
 }
