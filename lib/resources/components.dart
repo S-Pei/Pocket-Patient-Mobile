@@ -319,7 +319,7 @@ class TitlePageFormat extends StatelessWidget {
         child: Container(
             padding: const EdgeInsets.only(left: 30.0, right: 30.0),
             child: Column(children: [
-              Flexible(flex: 2,
+              const Flexible(flex: 2,
                   fit: FlexFit.tight,
                   child: SizedBox(
                     height: 80,
@@ -336,5 +336,4 @@ class TitlePageFormat extends StatelessWidget {
         )
     );
   }
-
 }
