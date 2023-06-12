@@ -1,9 +1,6 @@
-import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:date_field/date_field.dart';
 import 'package:flutter/services.dart';
-import 'package:intl/intl.dart';
 
 import 'package:patient_mobile_app/resources/colours.dart';
 import 'package:patient_mobile_app/resources/components.dart';
@@ -45,21 +42,17 @@ class AddDiaryEntryTitle extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Positioned(
-      top: 120,
-      width: MediaQuery.of(context).size.width,
-      child: const Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Text(
-            'Add Diary Entry',
-            style: TextStyle(
-                fontSize: 30,
-                fontWeight: FontWeight.bold,
-            ),
+    return const Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(
+          'Add Diary Entry',
+          style: TextStyle(
+              fontSize: 30,
+              fontWeight: FontWeight.bold,
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -97,7 +90,11 @@ class _DiaryInputsState extends State<DiaryInputs> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              DiaryDateField(getDateFunc: getSelectedDate, updateDateFunc: updateSelectedDate,),
+              DiaryDateField(
+                width: 200.0,
+                height: 50.0,
+                getDateFunc: getSelectedDate,
+                updateDateFunc: updateSelectedDate,),
               Container(height: 30, width: 100,),
               DiaryContentTextField(inputController: inputController,),
               LongButton(word: 'Submit diary', onPress: (){
@@ -107,44 +104,6 @@ class _DiaryInputsState extends State<DiaryInputs> {
           ),
         ),
     );
-  }
-}
-
-
-// DATE FIELD
-class DiaryDateField extends StatefulWidget {
-  const DiaryDateField({super.key, required this.getDateFunc, required this.updateDateFunc});
-
-  final ValueGetter<DateTime> getDateFunc;
-  final ValueSetter<DateTime> updateDateFunc;
-
-  @override
-  State<StatefulWidget> createState() => _DiaryDateFieldState(getDateFunc: getDateFunc, updateDateFunc: updateDateFunc);
-}
-
-class _DiaryDateFieldState extends State<DiaryDateField> {
-  _DiaryDateFieldState({required this.getDateFunc, required this.updateDateFunc});
-  DateTime selectedData = DateTime.now();
-
-  final ValueGetter<DateTime> getDateFunc;
-  final ValueSetter<DateTime> updateDateFunc;
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-        width: 200,
-        height: 50,
-        child: DateTimeField(
-            onDateSelected: (DateTime value) {
-              updateDateFunc(value);
-              setState(() {
-                selectedData = value;
-              });
-            },
-            dateFormat: DateFormat.yMd(),
-            selectedDate: getDateFunc()
-        ),
-      );
   }
 }
 
@@ -174,21 +133,3 @@ class DiaryContentTextField extends StatelessWidget {
     );
   }
 }
-
-// class DiarySubmitButton extends StatelessWidget {
-//   const DiarySubmitButton({super.key});
-//
-//   @override
-//   Widget build(BuildContext context) {
-//     return Positioned(
-//       top: MediaQuery.of(context).size.height - 100,
-//       width: MediaQuery.of(context).size.width,
-//       child: Row(
-//         mainAxisAlignment: MainAxisAlignment.center,
-//         children: [
-//
-//         ],
-//       ),
-//     );
-//   }
-// }

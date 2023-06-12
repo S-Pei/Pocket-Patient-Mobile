@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:date_field/date_field.dart';
+import 'package:intl/intl.dart';
 import 'package:patient_mobile_app/pages/profilePage.dart';
 import 'colours.dart';
 import 'fonts.dart';
@@ -334,6 +336,59 @@ class TitlePageFormat extends StatelessWidget {
               )]
             )
         )
+    );
+  }
+}
+
+// DATE FIELD
+class DiaryDateField extends StatefulWidget {
+  const DiaryDateField({super.key,
+    required this.width,
+    required this.height,
+    required this.getDateFunc,
+    required this.updateDateFunc
+  });
+
+  final double width;
+  final double height;
+  final ValueGetter<DateTime> getDateFunc;
+  final ValueSetter<DateTime> updateDateFunc;
+
+  @override
+  State<StatefulWidget> createState() => _DiaryDateFieldState(
+      width: width, height: height,
+      getDateFunc: getDateFunc, updateDateFunc: updateDateFunc);
+}
+
+class _DiaryDateFieldState extends State<DiaryDateField> {
+  _DiaryDateFieldState({required this.getDateFunc,
+    required this.updateDateFunc,
+    required this.width,
+    required this.height,
+  });
+
+  DateTime selectedData = DateTime.now();
+
+  final double width;
+  final double height;
+  final ValueGetter<DateTime> getDateFunc;
+  final ValueSetter<DateTime> updateDateFunc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      child: DateTimeField(
+          onDateSelected: (DateTime value) {
+            updateDateFunc(value);
+            setState(() {
+              selectedData = value;
+            });
+          },
+          dateFormat: DateFormat.yMd(),
+          selectedDate: getDateFunc()
+      ),
     );
   }
 }
