@@ -60,16 +60,17 @@ class AddDiaryEntryButton extends StatelessWidget {
     return Positioned(
       top: MediaQuery.of(context).size.height - 100,
       width: MediaQuery.of(context).size.width,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          LongButton(word: 'add diary entry', onPress: (){
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => AddDiaryEntryPage()),
-            );
-          }),
-        ],
+      child: Container(
+        padding: const EdgeInsets.only(
+            left: 25,
+            right: 25
+        ),
+        child: LongButton(word: 'add diary entry', onPress: (){
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => AddDiaryEntryPage()),
+          );
+        }),
       ),
     );
   }

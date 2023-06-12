@@ -19,24 +19,27 @@ class MedicationPage extends StatelessWidget {
                       Expanded(child: SizedBox(width: 70)),
                       PrintButton(),
                     ]),
-                Table(
-                  border: TableBorder.all(), // Add border to the table
-                  children: [
-                    TableRow(
+                Container(
+                  color: superLightCyan,
+                    child: Table(
+                      border: TableBorder.all(), // Add border to the table
                       children: [
-                        TableCell(
-                          child: Text('Drug', textAlign: TextAlign.center,), // Content of column 1
+                        TableRow(
+                          children: [
+                            TableCell(
+                              child: Text('Drug', textAlign: TextAlign.center,), // Content of column 1
+                            ),
+                            TableCell(
+                              child: Text('Dosage', textAlign: TextAlign.center,), // Content of column 2
+                            ),
+                            TableCell(
+                              child: Text('More Info', textAlign: TextAlign.center,), // Content of column 3
+                            ),
+                          ],
                         ),
-                        TableCell(
-                          child: Text('Dosage', textAlign: TextAlign.center,), // Content of column 2
-                        ),
-                        TableCell(
-                          child: Text('More Info', textAlign: TextAlign.center,), // Content of column 3
-                        ),
-                      ],
-                    ),
-                  ] + showMedications(patientData!.medication),
-                ),
+                    ] + showMedications(patientData!.medication, context),
+                  ),
+                )
               ]
           ),
           homeIcon,

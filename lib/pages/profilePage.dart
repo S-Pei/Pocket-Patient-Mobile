@@ -16,8 +16,7 @@ class ProfilePage extends StatelessWidget {
       body: Stack(
         children: [
           TitlePageFormat(children: [
-            TitleColouredBox(widgets: [Expanded(
-              child: Column(
+            TitleColouredBox(widgets: [Column(
             crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
@@ -32,7 +31,6 @@ class ProfilePage extends StatelessWidget {
                 DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Height', info: '170cm'), softWrap: true),
                 DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'BMI', info: '32.87'), softWrap: true),
               ],
-            ),
             ),], height: 320),
             SizedBox(height: 40,),
             rowOfTwoButtons('Drugs and Allergies', 'Vaccinations',

@@ -8,9 +8,9 @@ class Patient {
     final String last_name;
     final String dob;
     final String patient_address;
-    final List<MedicalHistoryEntry> medical_history;
     final List<MedicationEntry> medication;
     final List<DiaryEntry> diary;
+    final List<HealthcareHistoryDataEntry> medical_history;
 
     Patient({
       required this.patient_id,
@@ -28,7 +28,7 @@ class Patient {
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
       var diarylist = json['diary'];
-      List<MedicalHistoryEntry> mhList = medicalHistoryList.map<MedicalHistoryEntry>((mh) => MedicalHistoryEntry.fromDic(mh)).toList();
+      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
       List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
       List<DiaryEntry> drList = diarylist.map<DiaryEntry>((dr) => DiaryEntry.fromDic(dr)).toList();
       return Patient(
@@ -44,10 +44,12 @@ class Patient {
       );
     }
 
-    Map<String, Pair<String, String>> getMedHisSummary() {
-      Map<String, Pair<String, String>> data = {};
+    List<HealthcareHistoryDataEntry> getMedHisSummary() {
+     List<HealthcareHistoryDataEntry> data = [];
       for (var mh in medical_history) {
-        data[mh.id] = Pair(mh.admissionDate, mh.summary);
+        if (mh.addToMedicalHistory) {
+          data.add(mh);
+        }
       }
       return data;
     }
@@ -56,19 +58,20 @@ class Patient {
       Map<String, Pair<String, String>> data = {};
       var i = 0;
       for (var dr in diary) {
-        data['$i'] = Pair(dr.date, '${dr.content.substring(0, 35)}...');
+        data['$i'] = Pair(dr.date, dr.content);
         i++;
       }
       return data;
     }
 
-    // Map<String, Pair<String, String>> getMedicationBasics() {
-    //   Map<String, Pair<String, String>> data = {};
-    //   for (var cm in medication) {
-    //     data[cm.id] = Pair(cm.drug, cm.dosage);
-    //   }
-    //   return data;
-    // }
+    Map<String, HealthcareHistoryDataEntry> getHealthcareVisits() {
+      print('healthcare visit history: ${medical_history}');
+      Map<String, HealthcareHistoryDataEntry> data = {};
+      for (var mh in medical_history) {
+          data[mh.id] = mh;
+      }
+      return data;
+    }
 
   @override
     String toString() {
@@ -191,3 +194,43 @@ class PatientUser {
     this.access = access;
   }
 }
+
+  class HealthcareHistoryDataEntry {
+    final String id;
+    final String admissionDate;
+    final String dischargeDate;
+    final String consultant;
+    final String summary;
+    final String visitType;
+    final String? letterUrl;
+    final bool addToMedicalHistory;
+
+    HealthcareHistoryDataEntry({
+      required this.id,
+      required this.admissionDate,
+      required this.dischargeDate,
+      required this.consultant,
+      required this.visitType,
+      this.letterUrl,
+      required this.summary,
+      required this.addToMedicalHistory
+    });
+
+    factory HealthcareHistoryDataEntry.fromDic(Map<String, dynamic> dic) {
+      return HealthcareHistoryDataEntry(
+        id: dic['id'],
+        admissionDate: dic['admissionDate'],
+        dischargeDate: dic['dischargeDate'],
+        consultant: dic['consultant'],
+        visitType: dic['visitType'],
+        letterUrl: dic['letter'],
+        summary: dic['summary'],
+        addToMedicalHistory: dic['addToMedicalHistory']
+      );
+    }
+
+    @override
+    String toString() {
+      return '{ ${admissionDate} : ${summary}}';
+    }
+  }
