@@ -45,6 +45,11 @@ class _HomePageState extends State<HomePage> {
             overlay.showOverlay(context, const OverlayWidget());
           });
         }
+        else if (map['event'] == 'CHANGE-IN-MEDICATION') {
+          patientData?.setNewMedication(map['currentMedication']);
+          medicationNotifier.updateMedication(patientData!.medication);
+
+        }
       });
       firstRender = false;
     }

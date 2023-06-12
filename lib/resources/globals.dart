@@ -82,6 +82,8 @@ final homePage = HomePage();
 
 final loginPage = LoginPage();
 
+final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.medication);
+
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 
 Map<String, Widget> medAccIncEntries = {};
