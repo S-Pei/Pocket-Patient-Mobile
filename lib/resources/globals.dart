@@ -14,13 +14,50 @@ import '../pages/hideInfoOverlay.dart';
 import '../pages/homePage.dart';
 import 'package:http/http.dart' as http;
 
+import '../pages/loginPage.dart';
 import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
 import '../pages/medicationPage.dart';
+import 'dart:async';
+
+
+const localHost = '10.0.2.2:8000';
+const deployedHost = 'patientoncall.herokuapp.com';
+const localHostUrl = 'http://$localHost';
+const deployedHostUrl = 'https://$deployedHost';
+
+const autoUrl = debug ? localHostUrl : deployedHostUrl;
+
+const debug = true;
 
 final channel = WebSocketChannel.connect(
-  Uri.parse('wss://patientoncall.herokuapp.com/ws/patientoncall/12345/bobchoy/'),
+  Uri.parse(debug ? 'ws://$localHost/ws/patientoncall/${patientUser!.username}/' :
+                    'wss://$deployedHost/ws/patientoncall/${patientUser!.username}/'),
 );
+
+Timer refreshTokenTimer = Timer.periodic(const Duration(minutes: 7), (timer) async {
+  refreshTokenApi();
+});
+
+void refreshTokenApi() async {
+  final response = await http.post(
+      Uri.parse('${debug ? localHostUrl : deployedHostUrl}/api/token/refresh/'),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+      },
+      body: jsonEncode(<String, String>{
+        'refresh': patientUser!.refresh,
+      })
+  );
+
+  if (response.statusCode == 200) {
+    dynamic data = json.decode(response.body);
+    patientUser!.refreshToken(data['access'], data['refresh']);
+  } else {
+    // Handle error if the request fails
+    throw Future.error('Failed to refresh token');
+  }
+}
 
 final overlay = CustomOverlay();
 
@@ -34,6 +71,8 @@ var firstRender = true;
 
 final homePage = HomePage();
 
+final loginPage = LoginPage();
+
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 
 Map<String, Widget> medAccIncEntries = {};
@@ -41,16 +80,43 @@ Map<String, bool> medAccIncVisibility = {'1': true, '2': true};
 
 Patient? patientData;
 
+PatientUser? patientUser;
+
 Future<Patient> fetchData(String url) async {
 
   final response = await http.get(
-      Uri.parse(url));
+      Uri.parse(url),
+      headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        'Authorization': 'Bearer ${patientUser!.access}'
+      },
+  );
   if (response.statusCode == 200) {
     print('patient data: ${json.decode(response.body)}');
     return Patient.fromJson(json.decode(response.body));
   } else {
     // Handle error if the request fails
     throw Future.error('Failed to fetch data');
+  }
+}
+
+void fetchToken(context, username, password) async {
+  final response = await http.post(
+    Uri.parse(debug ? 'http://$localHost/api/token/' : 'https://$deployedHost/api/token/'),
+    headers: <String, String>{
+      'Content-Type': 'application/json; charset=UTF-8',
+    },
+    body: jsonEncode(<String, String>{
+      'username': username,
+      'password': password,
+    }),
+  );
+
+  if (response.statusCode == 200) {
+    patientUser = PatientUser.fromJson(username, json.decode(response.body));
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const HomePage()));
+  } else {
+    print("Invalid user");
   }
 }
 

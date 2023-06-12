@@ -2,6 +2,8 @@
 import 'package:dartx/dartx.dart';
 
 class Patient {
+    final int patient_id;
+    final String patient_name;
     final String first_name;
     final String last_name;
     final String dob;
@@ -10,6 +12,8 @@ class Patient {
     final List<MedicationEntry> medication;
 
     Patient({
+      required this.patient_id,
+      required this.patient_name,
       required this.first_name,
       required this.last_name,
       required this.dob,
@@ -24,6 +28,8 @@ class Patient {
       List<MedicalHistoryEntry> mh_list = medicalHistoryList.map<MedicalHistoryEntry>((mh) => MedicalHistoryEntry.fromDic(mh)).toList();
       List<MedicationEntry> cm_list = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
       return Patient(
+        patient_id: json['patient-id'],
+        patient_name: json['patient-name-small'],
         first_name: json['patient-first-name'],
         last_name: json['patient-last-name'],
         dob: json['patient-dob'],
@@ -129,5 +135,28 @@ class MedicationEntry {
   @override
   String toString() {
     return '{ ${drug} : ${dosage}}';
+  }
+}
+
+class PatientUser {
+  String username;
+  String refresh;
+  String access;
+
+  PatientUser({
+    required this.username,
+    required this.refresh,
+    required this.access
+  });
+
+  factory PatientUser.fromJson(String username, Map<String, dynamic> json) {
+    String refresh = json['refresh']!;
+    String access = json['access']!;
+    return PatientUser(username: username, refresh: refresh, access: access);
+  }
+
+  void refreshToken(String access, String refresh) {
+    this.refresh = refresh;
+    this.access = access;
   }
 }
