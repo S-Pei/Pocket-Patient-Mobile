@@ -10,6 +10,7 @@ import '../resources/objects.dart';
 import 'authenticationOverlay.dart';
 import '../resources/components.dart';
 import '../resources/navBar.dart';
+import 'hospitalVisitPage.dart';
 
 // HOME PAGE
 class HomePage extends StatefulWidget {
@@ -26,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    askRequiredPermission();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) => {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications()

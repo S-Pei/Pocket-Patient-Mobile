@@ -2,7 +2,10 @@ import 'dart:io';
 import 'dart:isolate';
 import 'dart:ui';
 
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:open_file/open_file.dart';
+import 'package:permission_handler/permission_handler.dart';
 import '../resources/colours.dart';
 import '../resources/components.dart';
 import '../resources/fonts.dart';
@@ -189,27 +192,63 @@ class LetterButton extends StatelessWidget {
 }
 
 void addTask(String url) async {
+  // FlutterDownloader.registerCallback(downloadCallback);
   // Get File path to download
+
+  // await askRequiredPermission();
+
   List<String> splitted = url.split('/');
   String path = splitted.last;
-  Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
-  String appDocumentsPath = appDocumentsDirectory.path;
-  String filePath = appDocumentsPath;
+  // Directory appDocumentsDirectory = await getApplicationDocumentsDirectory();
+  // String appDocumentsPath = appDocumentsDirectory.path;
+  String downloadDirPath;
+  if (Platform.isAndroid) {
+    // For Android, use the getExternalStorageDirectory() method
+    final directory = await getExternalStorageDirectory();
+    downloadDirPath = directory!.path;
+  } else if (Platform.isIOS) {
+    // For iOS, use the getApplicationDocumentsDirectory() method
+    final directory = await getApplicationDocumentsDirectory();
+    downloadDirPath = directory.path;
+  } else {
+    downloadDirPath = '';
+  }
+  // String filePath = appDocumentsPath;
+  String filePath = '/storage/emulated/0/Download';
 
-  final taskId = await FlutterDownloader.enqueue(
-    url: url,
-    headers: {}, // optional: header send with url (auth token etc)
-    savedDir: filePath,
-    fileName: path,
-    showNotification: true, // show download progress in status bar (for Android)
-    openFileFromNotification: true, // click on notification to open downloaded file (for Android)
-  );
-  FlutterDownloader.registerCallback(downloadCallback);
-  final tasks = await FlutterDownloader.loadTasks();
-  FlutterDownloader.open(taskId: taskId!);
+  // final taskId = await FlutterDownloader.enqueue(
+  //   url: url,
+  //   headers: {}, // optional: header send with url (auth token etc)
+  //   savedDir: downloadDirPath,
+  //   fileName: path,
+  //   showNotification: true, // show download progress in status bar (for Android)
+  //   openFileFromNotification: true, // click on notification to open downloaded file (for Android)
+  // );
+  // // final tasks = await FlutterDownloader.loadTasks();
+  // FlutterDownloader.registerCallback((id, status, progress) {
+  //   if (taskId == id && status == DownloadTaskStatus.complete) {
+  //     print('File downloaded successfully. Path: $downloadDirPath/$path');
+  //   }
+  // });
+  //
+  // FlutterDownloader.open(taskId: taskId!);
+
+  Dio dio = Dio();
+  await dio.download(url, "$downloadDirPath/$path");
+
+  // opens the file
+  OpenFile.open("$downloadDirPath/$path", type: 'application/png');
 }
 
-void downloadCallback(String id, int status, int progress) {
-  final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port')!;
-  send.send([id, status, progress]);
+// void downloadCallback(String id, int status, int progress) {
+//   final SendPort send = IsolateNameServer.lookupPortByName('downloader_send_port')!;
+//   send.send([id, status, progress]);
+// }
+
+Future askRequiredPermission() async {
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.storage,
+    Permission.manageExternalStorage,
+    Permission.accessMediaLocation
+  ].request();
 }
