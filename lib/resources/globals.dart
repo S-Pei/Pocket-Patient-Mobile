@@ -34,7 +34,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = true;
+const debug = false;
 
 final channel = WebSocketChannel.connect(
   Uri.parse(debug ? 'ws://$localHost/ws/patientoncall/${patientUser!.username}/' :
