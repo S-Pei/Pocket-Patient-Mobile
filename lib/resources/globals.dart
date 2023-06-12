@@ -20,13 +20,14 @@ import '../pages/medicalHistoryPage.dart';
 import '../pages/medicationPage.dart';
 import 'dart:async';
 
-
-const localHost = '10.0.2.2:8000';
+bool ios = true;
+String localHost = ios ? '127.0.0.1:8000' : '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
-const localHostUrl = 'http://$localHost';
+String localHostUrl = 'http://$localHost';
 const deployedHostUrl = 'https://$deployedHost';
 
-const autoUrl = debug ? localHostUrl : deployedHostUrl;
+
+String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
 const debug = true;
 
@@ -101,6 +102,7 @@ Future<Patient> fetchData(String url) async {
 }
 
 void fetchToken(context, username, password) async {
+  print('fetching token');
   final response = await http.post(
     Uri.parse(debug ? 'http://$localHost/api/token/' : 'https://$deployedHost/api/token/'),
     headers: <String, String>{
