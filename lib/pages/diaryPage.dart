@@ -18,7 +18,7 @@ class DiaryPage extends StatelessWidget {
                 const SizedBox(height: 15,),
                 diaryPageTitle,
                 const SizedBox(height: 30,),
-              ] + showDiaryList(patientData!.getDiaryEntries(), context)),
+              ] + showDiaryList(patientData!.getDiarySummary(), context)),
           homeIcon,
           const ProfileLogo(),
         ],

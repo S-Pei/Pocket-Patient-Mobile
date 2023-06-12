@@ -178,7 +178,7 @@ List<TableRow> showMedications(List<MedicationEntry> data) {
   return tableRow;
 }
 
-List<Widget> showDiaryList(List<Pair<String, String>> data, BuildContext context) {
+List<Widget> showDiaryList(Map<String, Pair<String, String>> data, BuildContext context) {
   List<Widget> widgets = [];
   widgets.add(
     const Row(children: [
@@ -214,11 +214,10 @@ List<Widget> showDiaryList(List<Pair<String, String>> data, BuildContext context
     ]),
   );
   widgets.add(const SizedBox(height: 10));
-  print('data $data');
-  for (var entry in data) {
-    print(entry);
-    widgets.add(VisibilityTile(data: entry, editMode: false, uuid : 'null'));
-    widgets.add(const SizedBox(height: 10));
+  for (var entry in data.entries) {
+
+    widgets.add(VisibilityTile(data: entry.value, editMode: false, uuid : entry.key));
+    widgets.add(const SizedBox(height: 10,));
   }
   return widgets;
 }

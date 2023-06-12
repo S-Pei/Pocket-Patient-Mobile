@@ -52,10 +52,12 @@ class Patient {
       return data;
     }
 
-    List<Pair<String, String>> getDiaryEntries() {
-      List<Pair<String, String>> data = [];
+    Map<String, Pair<String, String>> getDiarySummary() {
+      Map<String, Pair<String, String>> data = {};
+      var i = 0;
       for (var dr in diary) {
-        data.add(Pair(dr.date, dr.content));
+        data['$i'] = Pair(dr.date, '${dr.content.substring(0, 30)}...');
+        i++;
       }
       return data;
     }
