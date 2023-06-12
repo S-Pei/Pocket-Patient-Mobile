@@ -34,7 +34,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = false;
+const debug = true;
 
 final channel = WebSocketChannel.connect(
   Uri.parse(debug ? 'ws://$localHost/ws/patientoncall/${patientUser!.username}/' :
@@ -78,6 +78,8 @@ var firstRender = true;
 final homePage = HomePage();
 
 final loginPage = LoginPage();
+
+final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.medication);
 
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 

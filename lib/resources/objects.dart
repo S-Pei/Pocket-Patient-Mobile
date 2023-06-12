@@ -1,4 +1,6 @@
 // OBJECT CLASSES
+import 'dart:convert';
+
 import 'package:dartx/dartx.dart';
 
 class Patient {
@@ -8,7 +10,7 @@ class Patient {
     final String last_name;
     final String dob;
     final String patient_address;
-    final List<MedicationEntry> medication;
+    List<MedicationEntry> medication;
     final List<HealthcareHistoryDataEntry> medical_history;
 
     Patient({
@@ -56,6 +58,18 @@ class Patient {
           data[mh.id] = mh;
       }
       return data;
+    }
+
+    void setNewMedication(medication) {
+      print("print medication: ");
+      print(medication);
+      var medicationList = jsonDecode(medication);
+      print("print medication list: ");
+      print(medicationList);
+      List<MedicationEntry> cm_list = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
+      print("print cm list: ");
+      print(cm_list);
+      this.medication = cm_list;
     }
 
   @override
