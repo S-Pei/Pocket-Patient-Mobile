@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 import '../resources/colours.dart';

@@ -46,3 +46,4 @@ class MedicalHistoryTitle extends StatelessWidget {
         ));
   }
 }
+

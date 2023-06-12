@@ -1,5 +1,8 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/hospitalVisitDetails.dart';
 import 'package:patient_mobile_app/pages/profilePage.dart';
+import 'package:patient_mobile_app/resources/objects.dart';
 import 'colours.dart';
 import 'fonts.dart';
 import '../pages/homePage.dart';
@@ -127,7 +130,7 @@ class LongButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return SizedBox(
       height: 60,
-      width: 350,
+      width: MediaQuery.of(context).size.width,
       child: GeneralButton(word: word, onPress: onPress, length: 350, style: subtitle,)
     );
   }
@@ -208,22 +211,31 @@ class PrintButton extends StatelessWidget {
 class CustomOverlay {
   OverlayEntry? _overlayEntry;
   static late OverlayState overlayState;
+  OverlayEntry? _prevOverlayEntry;
 
   void showOverlay(BuildContext context, Widget toShow) {
     overlayState = Overlay.of(context);
+    if (_overlayEntry != null) {
+      _prevOverlayEntry = _overlayEntry;
+    }
     _overlayEntry = OverlayEntry(
       builder: (BuildContext context) {
         return Center(
           child: toShow,);
       },
     );
-    overlayState?.insert(_overlayEntry!);
+    overlayState.insert(_overlayEntry!);
   }
 
   void hideOverlay() {
     print('overlay: ${_overlayEntry}');
     _overlayEntry?.remove();
-    _overlayEntry = null;
+    if (_prevOverlayEntry != null) {
+      _overlayEntry = _prevOverlayEntry;
+      _prevOverlayEntry = null;
+    } else {
+      _overlayEntry = null;
+    }
   }
 }
 
@@ -247,6 +259,32 @@ class SmallButton extends StatelessWidget {
   }
 }
 
+// BACK BUTTON
+class BackButtonBlue extends StatelessWidget {
+  const BackButtonBlue({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton.icon(
+          style: ElevatedButton.styleFrom(
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(0.0),
+            ),
+            textStyle: subtitle,
+            backgroundColor: mainCyan,
+            foregroundColor: Colors.white,
+            elevation: 10,
+            minimumSize: const Size(100, 30),
+          ),
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.keyboard_double_arrow_left),
+          label: const Text('back'),
+      );
+  }
+}
+
 // COLOURED BOX
 class ColouredBox extends StatelessWidget {
   const ColouredBox({super.key, required this.height, required this.width, required this.padding, required this.colour, required this.child, required this.radius, required this.outerPadding});
@@ -260,8 +298,10 @@ class ColouredBox extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(child: Column(children: [SizedBox(
-        height: height,
+    return Container(
+      alignment: Alignment.center,
+        child: Column(children: [SizedBox(
+        // height: height,
         width: width,
         child: Padding(padding: EdgeInsets.only(left: outerPadding, right: outerPadding),
             child:
@@ -337,4 +377,98 @@ class TitlePageFormat extends StatelessWidget {
     );
   }
 
+}
+
+// EACH ROW TO HIDE MEDICAL INFORMATION
+class VisibilityTile extends StatefulWidget {
+  const VisibilityTile({super.key, required this.data, required this.editMode});
+  final HealthcareHistoryDataEntry data;
+  final bool editMode;
+
+  @override
+  State<StatefulWidget> createState() => _VisibilityTileState(data, editMode);
+}
+
+class _VisibilityTileState extends State<VisibilityTile> {
+  HealthcareHistoryDataEntry _data;
+  _VisibilityTileState(this._data, this.editMode);
+  bool visible = true;
+  bool editMode;
+
+  @override
+  Widget build(BuildContext context) {
+    if (idToHospVisitDet[_data.id] == null) {
+      idToHospVisitDet[_data.id] = HospitalVisitDetailsPage(data: _data);
+    }
+    List<Flexible> moreInfo = editMode ? [] : [Flexible(
+        fit: FlexFit.tight,
+        flex: 2,
+        child: Container(
+            width: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                padding: EdgeInsets.all(3),
+                textStyle: boldContent,
+                backgroundColor: lightGrey,
+                foregroundColor: Colors.black,
+                elevation: 10,
+                minimumSize: const Size(100, 20),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) =>
+                  idToHospVisitDet[_data.id]!),
+                );
+              },
+              child: Text('More Info', textAlign: TextAlign.center,),
+            ))),
+    ];
+    Widget widget = ColouredBox(
+        height: 50.0,
+        width: MediaQuery.of(context).size.width,
+        padding: 10.0,
+        colour: editMode ? (visible ? contentCyan : unselectGrey) :
+        contentCyan,
+        child: Row(children: [
+          Flexible(
+              fit: FlexFit.tight,
+              flex: 3,
+              child: Container(
+                  width: 50,
+                  child: DefaultTextStyle(child: Text(_data.admissionDate), style: content, softWrap: true,))),
+          Flexible(
+              fit: FlexFit.tight,
+              flex: 7,
+              child: Container(
+                  width: 250,
+                  padding: EdgeInsets.only(left:15),
+                  child: DefaultTextStyle(child: Text(_data.summary), style: content, softWrap: true,)
+              ))] + moreInfo),
+        radius: 0,
+        outerPadding: 0);
+    Widget visIcon = IconButton(onPressed: () {
+      setState(() {
+        visible = false;
+        toHide.add(_data.id);
+      });
+    }, icon: Icon(Icons.visibility));
+    Widget nonVisIcon = IconButton(onPressed: () {
+      setState(() {
+        visible = true;
+        toHide.remove(_data.id);
+      });
+    }, icon: Icon(Icons.visibility_off));
+    if (editMode) {
+      return Row(
+          children: [Flexible(flex:2, child: visible ? visIcon : nonVisIcon),
+            SizedBox(width: 10,),
+            Flexible(flex: 20, child: widget),]
+      );
+    }
+    return widget;
+  }
 }

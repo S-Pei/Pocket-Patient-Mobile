@@ -27,6 +27,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
+    askRequiredPermission();
     AwesomeNotifications().isNotificationAllowed().then((isAllowed) => {
       if (!isAllowed) {
         AwesomeNotifications().requestPermissionToSendNotifications()
@@ -87,7 +88,7 @@ class _HomePageState extends State<HomePage> {
 
 // MAIN PAGE TITLE
 class MainPageTitle extends StatelessWidget {
-  const MainPageTitle({super.key});
+  MainPageTitle({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,10 +107,10 @@ class MainPageTitle extends StatelessWidget {
               String patientName = '${patientData?.first_name} ${patientData?.last_name}';
               String dob = '${patientData?.dob}';
               String address = '${patientData?.patient_address}';
-              children = <Widget>[Expanded(
-                child: Column(
+              children = <Widget>[Column(
                   crossAxisAlignment: CrossAxisAlignment.stretch,
                   mainAxisAlignment: MainAxisAlignment.center,
+                  mainAxisSize: MainAxisSize.min,
                   children: [
                     DefaultTextStyle(style: smallTitle, child: Text(patientName, style: smallTitle, softWrap: true)),
                     DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'NHS Number', info: '123 456 7890'), softWrap: true),
@@ -117,7 +118,6 @@ class MainPageTitle extends StatelessWidget {
                     DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Address', info: address), softWrap: true),
                   ],
                 ),
-              )
               ];
             } else if (snapshot.hasError) {
               children = <Widget>[

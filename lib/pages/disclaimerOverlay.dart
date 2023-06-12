@@ -13,6 +13,7 @@ class DisclaimerWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      alignment: Alignment.center,
       color: Colors.white.withOpacity(0.5),
       child: Center(
           child: Material(child:
@@ -24,7 +25,7 @@ class DisclaimerWidget extends StatelessWidget {
                 padding: 35.0,
                 radius: 30.0,
                 outerPadding: 25.0,
-                child: SingleChildScrollView(
+                // child: SingleChildScrollView(
                     child: Column(
                         children: [
                           RichText(text: TextSpan(text: 'DISCLAIMER', style: redTitle,
@@ -54,7 +55,7 @@ class DisclaimerWidget extends StatelessWidget {
                                 )
                               ]
                           )
-                        ])),
+                        ]),
               )]),
           )),
     );

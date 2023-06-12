@@ -1,8 +1,5 @@
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/pages/disclaimerOverlay.dart';
-import '../resources/colours.dart';
-import '../resources/fonts.dart';
 import '../resources/globals.dart';
 import '../resources/components.dart';
 
@@ -55,67 +52,3 @@ class _SelectMedicalHistoryOverlayState extends State<SelectMedicalHistoryOverla
   }
 }
 
-// EACH ROW TO HIDE MEDICAL INFORMATION
-class VisibilityTile extends StatefulWidget {
-  const VisibilityTile({super.key, required this.data, required this.editMode, required this.uuid});
-  final Pair<String, String> data;
-  final bool editMode;
-  final String uuid;
-
-  @override
-  State<StatefulWidget> createState() => _VisibilityTileState(data, editMode, uuid);
-}
-
-class _VisibilityTileState extends State<VisibilityTile> {
-  Pair<String, String> _data;
-  _VisibilityTileState(this._data, this.editMode, this.uuid);
-  bool visible = true;
-  bool editMode;
-  String uuid;
-
-  @override
-  Widget build(BuildContext context) {
-    Widget widget = ColouredBox(
-        height: 50.0,
-        width: MediaQuery.of(context).size.width,
-        padding: 10.0,
-        colour: editMode ? (visible ? contentCyan : unselectGrey) :
-        contentCyan,
-        child: Row(children: [
-          Flexible(
-              fit: FlexFit.tight,
-              flex: 3,
-              child: Container(
-                  width: 50,
-                  child: DefaultTextStyle(child: Text(_data.first), style: content, softWrap: true,))),
-          Flexible(
-              fit: FlexFit.tight,
-              flex: 7,
-              child: Container(
-                  width: 250,
-                  child: DefaultTextStyle(child: Text(_data.second), style: content, softWrap: true,)
-              ))]),
-        radius: 0,
-        outerPadding: 0);
-    Widget visIcon = IconButton(onPressed: () {
-      setState(() {
-        visible = false;
-        toHide.add(uuid);
-      });
-    }, icon: Icon(Icons.visibility));
-    Widget nonVisIcon = IconButton(onPressed: () {
-      setState(() {
-        visible = true;
-        toHide.remove(uuid);
-      });
-    }, icon: Icon(Icons.visibility_off));
-    if (editMode) {
-      return Row(
-          children: [Flexible(flex:2, child: visible ? visIcon : nonVisIcon),
-            SizedBox(width: 10,),
-            Flexible(flex: 20, child: widget),]
-      );
-    }
-    return widget;
-  }
-}

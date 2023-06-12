@@ -1,26 +1,31 @@
 library globals;
 
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
+import 'package:dio/dio.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/pages/fullMedicationPage.dart';
+import 'package:open_file/open_file.dart';
+import 'package:path_provider/path_provider.dart';
+
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
-import '../pages/hideInfoOverlay.dart';
+
 import '../pages/homePage.dart';
 import 'package:http/http.dart' as http;
-
 import '../pages/loginPage.dart';
-import '../pages/medInsAccPage.dart';
 import '../pages/medicalHistoryPage.dart';
 import '../pages/medicationPage.dart';
 import 'dart:async';
 
-bool ios = true;
+bool ios = false;
 String localHost = ios ? '127.0.0.1:8000' : '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
 String localHostUrl = 'http://$localHost';
@@ -79,6 +84,8 @@ Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/20
 Map<String, Widget> medAccIncEntries = {};
 Map<String, bool> medAccIncVisibility = {'1': true, '2': true};
 
+Map<String, Widget> idToHospVisitDet = {};
+
 Patient? patientData;
 
 PatientUser? patientUser;
@@ -124,7 +131,7 @@ void fetchToken(context, username, password) async {
 
 Set<String> toHide = {};
 
-List<Widget> showMedicalHistory(Map<String, Pair<String, String>> data, BuildContext context, bool editMode) {
+List<Widget> showMedicalHistory(List<HealthcareHistoryDataEntry> data, BuildContext context, bool editMode) {
   print('show medical history: ${data}');
   List<Widget> widgets = [];
   widgets.add(
@@ -149,9 +156,8 @@ List<Widget> showMedicalHistory(Map<String, Pair<String, String>> data, BuildCon
       ]),
   );
   widgets.add(SizedBox(height: 10,));
-  for (var entry in data.entries) {
-    print(entry.value);
-    widgets.add(VisibilityTile(data: entry.value, editMode: editMode, uuid : entry.key));
+  for (var entry in data) {
+    widgets.add(VisibilityTile(data: entry, editMode: editMode));
     widgets.add(SizedBox(height: 10,));
   }
   return widgets;
@@ -236,4 +242,37 @@ void sendAuthNotif() {
           body: 'St Mary Hospital is requesting for access to your data. Click here to take action'
       ),
   );
+}
+
+Future askRequiredPermission() async {
+  Map<Permission, PermissionStatus> statuses = await [
+    Permission.storage,
+    Permission.manageExternalStorage,
+    Permission.accessMediaLocation
+  ].request();
+}
+
+void download(String url) async {
+
+  List<String> splitted = url.split('/');
+  String path = splitted.last;
+
+  String downloadDirPath;
+  if (Platform.isAndroid) {
+    // For Android, use the getExternalStorageDirectory() method
+    final directory = await getExternalStorageDirectory();
+    downloadDirPath = directory!.path;
+  } else if (Platform.isIOS) {
+    // For iOS, use the getApplicationDocumentsDirectory() method
+    final directory = await getApplicationDocumentsDirectory();
+    downloadDirPath = directory.path;
+  } else {
+    downloadDirPath = '';
+  }
+
+  Dio dio = Dio();
+  await dio.download(url, "$downloadDirPath/$path");
+
+  // opens the file
+  OpenFile.open("$downloadDirPath/$path", type: 'application/pdf');
 }
