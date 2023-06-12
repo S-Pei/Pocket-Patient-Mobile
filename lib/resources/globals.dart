@@ -5,6 +5,7 @@ import 'dart:convert';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/diaryPage.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
@@ -65,6 +66,8 @@ const homeIcon = HomeIcon();
 final medicalHistoryTitle = MedicalHistoryTitle();
 
 final medicationTitle = MedicationTitle();
+
+const diaryPageTitle = DiaryPageTitle();
 
 var firstRender = true;
 
@@ -173,6 +176,51 @@ List<TableRow> showMedications(List<MedicationEntry> data) {
     ),);
   }
   return tableRow;
+}
+
+List<Widget> showDiaryList(List<Pair<String, String>> data, BuildContext context) {
+  List<Widget> widgets = [];
+  widgets.add(
+    const Row(children: [
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 1,
+          child: SizedBox(width: 5),
+      ),
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 10,
+          child: SizedBox(
+              width: 50,
+              child: DefaultTextStyle(
+                style: boldContent,
+                softWrap: true,
+                child: Text('Date'),
+              ),
+          ),
+      ),
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 25,
+          child: SizedBox(
+              width: 250,
+              child: DefaultTextStyle(
+                  style: boldContent,
+                  softWrap: true,
+                  child: Text('Content'),
+              ),
+          ),
+      ),
+    ]),
+  );
+  widgets.add(const SizedBox(height: 10));
+  print('data $data');
+  for (var entry in data) {
+    print(entry);
+    widgets.add(VisibilityTile(data: entry, editMode: false, uuid : 'null'));
+    widgets.add(const SizedBox(height: 10));
+  }
+  return widgets;
 }
 
 // Sends permission to server

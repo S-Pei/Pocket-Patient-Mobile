@@ -10,6 +10,7 @@ class Patient {
     final String patient_address;
     final List<MedicalHistoryEntry> medical_history;
     final List<MedicationEntry> medication;
+    final List<DiaryEntry> diary;
 
     Patient({
       required this.patient_id,
@@ -19,14 +20,17 @@ class Patient {
       required this.dob,
       required this.patient_address,
       required this.medical_history,
-      required this.medication
+      required this.medication,
+      required this.diary,
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
-      List<MedicalHistoryEntry> mh_list = medicalHistoryList.map<MedicalHistoryEntry>((mh) => MedicalHistoryEntry.fromDic(mh)).toList();
-      List<MedicationEntry> cm_list = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
+      var diarylist = json['diary'];
+      List<MedicalHistoryEntry> mhList = medicalHistoryList.map<MedicalHistoryEntry>((mh) => MedicalHistoryEntry.fromDic(mh)).toList();
+      List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
+      List<DiaryEntry> drList = diarylist.map<DiaryEntry>((dr) => DiaryEntry.fromDic(dr)).toList();
       return Patient(
         patient_id: json['patient-id'],
         patient_name: json['patient-name-small'],
@@ -34,8 +38,9 @@ class Patient {
         last_name: json['patient-last-name'],
         dob: json['patient-dob'],
         patient_address: json['patient-address'],
-        medical_history: mh_list,
-        medication: cm_list
+        medical_history: mhList,
+        medication: cmList,
+        diary: drList,
       );
     }
 
@@ -43,6 +48,14 @@ class Patient {
       Map<String, Pair<String, String>> data = {};
       for (var mh in medical_history) {
         data[mh.id] = Pair(mh.admissionDate, mh.summary);
+      }
+      return data;
+    }
+
+    List<Pair<String, String>> getDiaryEntries() {
+      List<Pair<String, String>> data = [];
+      for (var dr in diary) {
+        data.add(Pair(dr.date, dr.content));
       }
       return data;
     }
@@ -135,6 +148,22 @@ class MedicationEntry {
   @override
   String toString() {
     return '{ ${drug} : ${dosage}}';
+  }
+}
+
+class DiaryEntry {
+  final String date;
+  final String content;
+
+  DiaryEntry({
+    required this.date,
+    required this.content,
+  });
+
+  factory DiaryEntry.fromDic(Map<String, dynamic> dic) {
+    return DiaryEntry(
+      date: dic['date'],
+      content: dic['content']);
   }
 }
 
