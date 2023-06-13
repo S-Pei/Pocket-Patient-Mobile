@@ -57,7 +57,7 @@ void websocketActions(context, listenFunc) {
     initWebsocket(context, listenFunc);
   }, onError: (e) async {
     print('Server error: $e');
-    await Future.delayed(const Duration(milliseconds: 4000));
+
     initWebsocket(context, listenFunc);
   },
   cancelOnError: true);
@@ -321,6 +321,22 @@ void submitNewDiaryEntry(DateTime date, String content) {
   data['patientId'] = patientData!.patient_id;
   final json = jsonEncode(data);
   channel!.sink.add(json);
+}
+
+void submitNewMedicationEntry(String drug, String dosage, DateTime startDate, String duration, String route, String comments) {
+  Map<String, dynamic> data = {};
+  data['event'] = 'NEW_MEDICATION_ENTRY';
+  data['drug'] = drug;
+  data['dosage'] = dosage;
+  data['startDate'] = startDate.date.toString();
+  data['duration'] = duration;
+  data['route'] = route;
+  data['comments'] = comments;
+  data['patientId'] = patientData!.patient_id;
+  final json = jsonEncode(data);
+  channel!.sink.add(json);
+  // patientData?.setNewMedication(json);
+  // medicationNotifier.updateMedication(patientData!.medication);
 }
 
 void sendAuthNotif() {

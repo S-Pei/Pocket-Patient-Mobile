@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/addHospitalVisit.dart';
 import '../resources/colours.dart';
 import '../resources/components.dart';
 import '../resources/fonts.dart';
 import '../resources/globals.dart';
 import '../resources/objects.dart';
+import 'addMedication.dart';
 
 class MedicationNotifier extends ValueNotifier<List<MedicationEntry>> {
   MedicationNotifier(List<MedicationEntry> medication) : super(medication);
@@ -29,6 +31,7 @@ class MedicationPage extends StatelessWidget {
                       TitlePageFormat(
                           children: [SizedBox(height: 15,),medicationTitle, SizedBox(height: 30,),
                             Row(children: [
+                              AddInfoButton(nextPage: AddMedicationPage(), width: 100, height: 30),
                                   Expanded(child: SizedBox(width: 70)),
                                   PrintButton(),
                                 ]),
