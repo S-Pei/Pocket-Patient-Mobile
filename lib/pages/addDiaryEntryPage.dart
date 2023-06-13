@@ -20,11 +20,13 @@ class AddDiaryEntryPage extends StatelessWidget {
           homeIcon,
           const ProfileLogo(),
           Positioned(
-            top: 120,
+            top: 100,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
               child: const Column(
                 children: [
+                  BackButtonWrapper(),
+                  SizedBox(height: 15),
                   AddDiaryEntryTitle(),
                   DiaryInputs(),
                 ],
@@ -37,6 +39,22 @@ class AddDiaryEntryPage extends StatelessWidget {
   }
 }
 
+class BackButtonWrapper extends StatelessWidget {
+  const BackButtonWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.only(left: 20),
+          child: const BackButtonBlue(),
+        ),
+      ],
+    );
+  }
+
+}
 
 // ADD ENTRY TITLE
 class AddDiaryEntryTitle extends StatelessWidget {

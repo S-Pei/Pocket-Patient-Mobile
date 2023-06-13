@@ -86,7 +86,7 @@ class _HomePageState extends State<HomePage> {
                             nextPage: MedAccInsPage()),
                         const SizedBox(height: 40,),
                         const NavigateLongButton(
-                            word: 'Diary',
+                            word: 'My Diary',
                             nextPage: DiaryPage()),
                         ]),
           homeIcon,
