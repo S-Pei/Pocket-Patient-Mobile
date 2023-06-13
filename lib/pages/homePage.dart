@@ -36,7 +36,7 @@ class _HomePageState extends State<HomePage> {
     });
     print('toHide: ${toHide}');
     if (firstRender == true) {
-      channel.stream.listen((data) {
+      initWebsocket(context, (data) {
         print('Received: ${data}');
         final map = jsonDecode(data);
         if (map['event'] == 'REQUEST_PATIENT_DATA_ACCESS') {

@@ -8,6 +8,7 @@ import 'package:dartx/dartx.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/authenticationOverlay.dart';
 import 'package:patient_mobile_app/pages/diaryPage.dart';
 import 'package:patient_mobile_app/pages/fullMedicationPage.dart';
 import 'package:open_file/open_file.dart';
@@ -37,11 +38,40 @@ String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
 const debug = true;
 
-final channel = WebSocketChannel.connect(
-  Uri.parse(debug ? 'ws://$localHost/ws/patientoncall/${patientUser!.username}/' :
-                    'wss://$deployedHost/ws/patientoncall/${patientUser!.username}/'),
-);
 
+// WEBSOCKET INITIALISATION
+WebSocketChannel? channel;
+
+void initWebsocket(context, listenFunc) {
+  channel = connectWebsocket(context);
+  websocketActions(context, listenFunc);
+}
+
+void websocketActions(context, listenFunc) {
+  channel!.stream.listen((data) {
+    listenFunc(data);
+  }, onDone: () async {
+    print("conecting aborted");
+
+    await Future.delayed(const Duration(milliseconds: 4000));
+    initWebsocket(context, listenFunc);
+  }, onError: (e) async {
+    print('Server error: $e');
+    await Future.delayed(const Duration(milliseconds: 4000));
+    initWebsocket(context, listenFunc);
+  },
+  cancelOnError: true);
+}
+
+WebSocketChannel connectWebsocket(context) {
+  return WebSocketChannel.connect(
+    Uri.parse(debug ? 'ws://$localHost/ws/patientoncall/${patientUser!.username}/' :
+    'wss://$deployedHost/ws/patientoncall/${patientUser!.username}/')
+  );
+}
+
+
+// AUTH TOKEN REFRESHING
 Timer refreshTokenTimer = Timer.periodic(const Duration(minutes: 7), (timer) async {
   refreshTokenApi();
 });
@@ -66,6 +96,8 @@ void refreshTokenApi() async {
   }
 }
 
+
+// CUSTOM OVERLAY
 final overlay = CustomOverlay();
 
 const homeIcon = HomeIcon();
@@ -257,7 +289,7 @@ void grantAccess(Set<String> ids) {
   data['ids'] = ids.toList();
   final json = jsonEncode(data);
   print(data);
-  channel.sink.add(json);
+  channel!.sink.add(json);
   toHide.clear();
 }
 
@@ -267,7 +299,7 @@ void denyAccess() {
   data['event'] = 'DENY_PATIENT_DATA_ACCESS';
   final json = jsonEncode(data);
   print(data);
-  channel.sink.add(json);
+  channel!.sink.add(json);
   toHide.clear();
 }
 
@@ -277,7 +309,7 @@ void revokeAccess() {
   data['event'] = 'REVOKE_PATIENT_DATA_ACCESS';
   final json = jsonEncode(data);
   print(data);
-  channel.sink.add(json);
+  channel!.sink.add(json);
   toHide.clear();
 }
 
@@ -286,8 +318,9 @@ void submitNewDiaryEntry(DateTime date, String content) {
   data['event'] = 'NEW_DIARY_ENTRY';
   data['date'] = date.date.toString();
   data['content'] = content;
+  data['patientId'] = patientData!.patient_id;
   final json = jsonEncode(data);
-  channel.sink.add(json);
+  channel!.sink.add(json);
 }
 
 void sendAuthNotif() {
