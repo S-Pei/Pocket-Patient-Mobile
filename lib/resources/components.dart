@@ -460,8 +460,6 @@ class _DiaryDateFieldState extends State<DiaryDateField> {
     required this.height,
   });
 
-  DateTime selectedData = DateTime.now();
-
   final double width;
   final double height;
   final ValueGetter<DateTime> getDateFunc;
@@ -472,16 +470,17 @@ class _DiaryDateFieldState extends State<DiaryDateField> {
     return Container(
       width: width,
       height: height,
-      child: DateTimeField(
+      child: DateTimeFormField(
+          decoration: InputDecoration(
+            suffixIcon: Icon(Icons.arrow_drop_down),
+          ),
           onDateSelected: (DateTime value) {
             updateDateFunc(value);
-            setState(() {
-              selectedData = value;
-            });
           },
           dateFormat: DateFormat.yMd(),
-          selectedDate: getDateFunc()),
-    );
+          initialValue: getDateFunc(),
+          mode: DateTimeFieldPickerMode.date,
+    ));
   }
 }
 

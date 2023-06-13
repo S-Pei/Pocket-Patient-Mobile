@@ -50,8 +50,6 @@ dependencies:
   permission_handler: ^10.3.0
   dio: ^5.2.1
   open_file: ^3.3.2
-  intl: ^0.17.0
-  date_field: ^3.0.3
 
 dev_dependencies:
   flutter_test:

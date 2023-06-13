@@ -286,6 +286,7 @@ void submitNewDiaryEntry(DateTime date, String content) {
   data['event'] = 'NEW_DIARY_ENTRY';
   data['date'] = date.date.toString();
   data['content'] = content;
+  data['patientId'] = patientData!.patient_id;
   final json = jsonEncode(data);
   channel.sink.add(json);
 }
