@@ -66,6 +66,11 @@ class Patient {
       return data;
     }
 
+    void addNewDiaryEntry(DateTime date, String content) {
+      String dateStr = date.toString().split(" ")[0];
+      diary.add(DiaryEntry(date: dateStr, content: content));
+    }
+
     Map<String, HealthcareHistoryDataEntry> getHealthcareVisits() {
       print('healthcare visit history: ${medical_history}');
       Map<String, HealthcareHistoryDataEntry> data = {};

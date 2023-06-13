@@ -48,7 +48,6 @@ class _HomePageState extends State<HomePage> {
         else if (map['event'] == 'CHANGE-IN-MEDICATION') {
           patientData?.setNewMedication(map['currentMedication']);
           medicationNotifier.updateMedication(patientData!.medication);
-
         }
       });
       firstRender = false;

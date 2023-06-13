@@ -1,6 +1,8 @@
+import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_mobile_app/pages/diaryPage.dart';
 
 import 'package:patient_mobile_app/resources/colours.dart';
 import 'package:patient_mobile_app/resources/components.dart';
@@ -97,8 +99,13 @@ class _DiaryInputsState extends State<DiaryInputs> {
                 updateDateFunc: updateSelectedDate,),
               Container(height: 30, width: 100,),
               DiaryContentTextField(inputController: inputController,),
-              LongButton(word: 'Submit diary', onPress: (){
+              LongButton(word: 'Submit diary', onPress: () {
                 submitNewDiaryEntry(selectedDate, inputController.text);
+                patientData!.addNewDiaryEntry(selectedDate, inputController.text);
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => const DiaryPage()),
+                );
               }),
             ],
           ),
