@@ -472,3 +472,36 @@ class _VisibilityTileState extends State<VisibilityTile> {
     return widget;
   }
 }
+
+// ADD BUTTON
+class AddInfoButton extends StatelessWidget {
+  const AddInfoButton({super.key, required this.nextPage, required this.width, required this.height});
+  final Widget nextPage;
+  final double width;
+  final double height;
+
+  @override
+  Widget build(BuildContext context) {
+    return ElevatedButton(
+      style: ElevatedButton.styleFrom(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(0.0),
+        ),
+        textStyle: boldContent,
+        backgroundColor: buttonCyan,
+        foregroundColor: Colors.white,
+        elevation: 10,
+        minimumSize: Size(width, height),
+        padding: EdgeInsets.zero
+      ),
+      onPressed: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => nextPage),
+        );
+      },
+      child: const Text('Add Entry'),
+    );
+  }
+}
+

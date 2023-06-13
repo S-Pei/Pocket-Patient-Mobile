@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/addHospitalVisit.dart';
 import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 import '../resources/colours.dart';
 import '../resources/globals.dart';
@@ -39,6 +40,7 @@ class _HomePageState extends State<HomePage> {
         print('Received: ${data}');
         final map = jsonDecode(data);
         if (map['event'] == 'REQUEST_PATIENT_DATA_ACCESS') {
+          print('request');
           sendAuthNotif();
           setState(() {
             overlay.showOverlay(context, const OverlayWidget());
@@ -57,27 +59,30 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           TitlePageFormat(children: [MainPageTitle(),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        NavigateLongButton(
-                            word: 'My Medications',
-                            nextPage: InfoPage(selectedIndex: 0)),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        NavigateLongButton(
-                            word: 'My Medical History',
-                            nextPage: InfoPage(selectedIndex: 1)),
-                        SizedBox(
-                          height: 50,
-                        ),
-                        NavigateLongButton(
-                            word: 'Hospital Visit History',
-                            nextPage: InfoPage(selectedIndex: 2)),
-                        SizedBox(height: 40,),
-                        NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage())
-                        ]),
+              SizedBox(
+                height: 50,
+              ),
+              NavigateLongButton(
+                  word: 'My Medications',
+                  nextPage: InfoPage(selectedIndex: 0)),
+              SizedBox(
+                height: 50,
+              ),
+              NavigateLongButton(
+                  word: 'My Medical History',
+                  nextPage: InfoPage(selectedIndex: 1)),
+              SizedBox(
+                height: 50,
+              ),
+              NavigateLongButton(
+                  word: 'Hospital Visit History',
+                  nextPage: InfoPage(selectedIndex: 2)),
+              SizedBox(height: 50,),
+              NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage()),
+              SizedBox(height: 50,),
+              NavigateLongButton(word: 'Add Hospital Visit', nextPage: AddHospitalVisitPage()),
+              SizedBox(height: 50,),
+          ]),
           homeIcon,
           const ProfileLogo(),
           ],
