@@ -89,7 +89,7 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: 50,
             ),
-            const NavigateLongButton(word: 'Diary', nextPage: DiaryPage()),
+            const NavigateLongButton(word: 'My Diary', nextPage: DiaryPage()),
             SizedBox(
               height: 50,
             ),

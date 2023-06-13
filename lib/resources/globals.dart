@@ -51,13 +51,13 @@ void websocketActions(context, listenFunc) {
   channel!.stream.listen((data) {
     listenFunc(data);
   }, onDone: () async {
-    print("conecting aborted");
+    print("conecting aborted, attempting to reconnect...");
 
     await Future.delayed(const Duration(milliseconds: 4000));
     initWebsocket(context, listenFunc);
   }, onError: (e) async {
-    print('Server error: $e');
-
+    print('Server error, attempting to reconnect...');
+    await Future.delayed(const Duration(milliseconds: 4000));
     initWebsocket(context, listenFunc);
   },
   cancelOnError: true);
