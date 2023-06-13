@@ -1,4 +1,6 @@
 // OBJECT CLASSES
+import 'dart:convert';
+
 import 'package:dartx/dartx.dart';
 
 class Patient {
@@ -8,7 +10,8 @@ class Patient {
     final String last_name;
     final String dob;
     final String patient_address;
-    final List<MedicationEntry> medication;
+    List<MedicationEntry> medication;
+    final List<DiaryEntry> diary;
     final List<HealthcareHistoryDataEntry> medical_history;
 
     Patient({
@@ -19,14 +22,17 @@ class Patient {
       required this.dob,
       required this.patient_address,
       required this.medical_history,
-      required this.medication
+      required this.medication,
+      required this.diary,
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
-      List<HealthcareHistoryDataEntry> mh_list = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
-      List<MedicationEntry> cm_list = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
+      var diarylist = json['diary'];
+      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
+      List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
+      List<DiaryEntry> drList = diarylist.map<DiaryEntry>((dr) => DiaryEntry.fromDic(dr)).toList();
       return Patient(
         patient_id: json['patient-id'],
         patient_name: json['patient-name-small'],
@@ -34,8 +40,9 @@ class Patient {
         last_name: json['patient-last-name'],
         dob: json['patient-dob'],
         patient_address: json['patient-address'],
-        medical_history: mh_list,
-        medication: cm_list
+        medical_history: mhList,
+        medication: cmList,
+        diary: drList,
       );
     }
 
@@ -49,6 +56,16 @@ class Patient {
       return data;
     }
 
+    Map<String, Pair<String, String>> getDiarySummary() {
+      Map<String, Pair<String, String>> data = {};
+      var i = 0;
+      for (var dr in diary) {
+        data['$i'] = Pair(dr.date, dr.content);
+        i++;
+      }
+      return data;
+    }
+
     Map<String, HealthcareHistoryDataEntry> getHealthcareVisits() {
       print('healthcare visit history: ${medical_history}');
       Map<String, HealthcareHistoryDataEntry> data = {};
@@ -56,6 +73,18 @@ class Patient {
           data[mh.id] = mh;
       }
       return data;
+    }
+
+    void setNewMedication(medication) {
+      print("print medication: ");
+      print(medication);
+      var medicationList = jsonDecode(medication);
+      print("print medication list: ");
+      print(medicationList);
+      List<MedicationEntry> cm_list = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
+      print("print cm list: ");
+      print(cm_list);
+      this.medication = cm_list;
     }
 
   @override
@@ -138,6 +167,22 @@ class MedicationEntry {
   @override
   String toString() {
     return '{ ${drug} : ${dosage}}';
+  }
+}
+
+class DiaryEntry {
+  final String date;
+  final String content;
+
+  DiaryEntry({
+    required this.date,
+    required this.content,
+  });
+
+  factory DiaryEntry.fromDic(Map<String, dynamic> dic) {
+    return DiaryEntry(
+      date: dic['date'],
+      content: dic['content']);
   }
 }
 

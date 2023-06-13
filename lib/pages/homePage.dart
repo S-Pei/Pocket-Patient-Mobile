@@ -3,6 +3,7 @@ import 'dart:async';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/diaryPage.dart';
 import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 import '../resources/colours.dart';
 import '../resources/globals.dart';
@@ -44,6 +45,11 @@ class _HomePageState extends State<HomePage> {
             overlay.showOverlay(context, const OverlayWidget());
           });
         }
+        else if (map['event'] == 'CHANGE-IN-MEDICATION') {
+          patientData?.setNewMedication(map['currentMedication']);
+          medicationNotifier.updateMedication(patientData!.medication);
+
+        }
       });
       firstRender = false;
     }
@@ -57,26 +63,32 @@ class _HomePageState extends State<HomePage> {
       body: Stack(
         children: [
           TitlePageFormat(children: [MainPageTitle(),
-                        SizedBox(
+                        const SizedBox(
                           height: 50,
                         ),
-                        NavigateLongButton(
+                        const NavigateLongButton(
                             word: 'My Medications',
                             nextPage: InfoPage(selectedIndex: 0)),
-                        SizedBox(
-                          height: 50,
+                        const SizedBox(
+                          height: 40,
                         ),
-                        NavigateLongButton(
+                        const NavigateLongButton(
                             word: 'My Medical History',
                             nextPage: InfoPage(selectedIndex: 1)),
-                        SizedBox(
-                          height: 50,
+                        const SizedBox(
+                          height: 40,
                         ),
-                        NavigateLongButton(
+                        const NavigateLongButton(
                             word: 'Hospital Visit History',
                             nextPage: InfoPage(selectedIndex: 2)),
-                        SizedBox(height: 40,),
-                        NavigateLongButton(word: 'Data Access Control', nextPage: MedAccInsPage())
+                        const SizedBox(height: 40,),
+                        NavigateLongButton(
+                            word: 'Data Access Control',
+                            nextPage: MedAccInsPage()),
+                        const SizedBox(height: 40,),
+                        const NavigateLongButton(
+                            word: 'Diary',
+                            nextPage: DiaryPage()),
                         ]),
           homeIcon,
           const ProfileLogo(),

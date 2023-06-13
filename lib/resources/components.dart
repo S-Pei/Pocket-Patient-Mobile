@@ -1,5 +1,6 @@
-import 'package:dartx/dartx.dart';
 import 'package:flutter/material.dart';
+import 'package:date_field/date_field.dart';
+import 'package:intl/intl.dart';
 import 'package:patient_mobile_app/pages/hospitalVisitDetails.dart';
 import 'package:patient_mobile_app/pages/profilePage.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
@@ -359,7 +360,7 @@ class TitlePageFormat extends StatelessWidget {
         child: Container(
             padding: const EdgeInsets.only(left: 30.0, right: 30.0),
             child: Column(children: [
-              Flexible(flex: 2,
+              const Flexible(flex: 2,
                   fit: FlexFit.tight,
                   child: SizedBox(
                     height: 80,
@@ -376,7 +377,59 @@ class TitlePageFormat extends StatelessWidget {
         )
     );
   }
+}
 
+// DATE FIELD
+class DiaryDateField extends StatefulWidget {
+  const DiaryDateField({super.key,
+    required this.width,
+    required this.height,
+    required this.getDateFunc,
+    required this.updateDateFunc
+  });
+
+  final double width;
+  final double height;
+  final ValueGetter<DateTime> getDateFunc;
+  final ValueSetter<DateTime> updateDateFunc;
+
+  @override
+  State<StatefulWidget> createState() => _DiaryDateFieldState(
+      width: width, height: height,
+      getDateFunc: getDateFunc, updateDateFunc: updateDateFunc);
+}
+
+class _DiaryDateFieldState extends State<DiaryDateField> {
+  _DiaryDateFieldState({required this.getDateFunc,
+    required this.updateDateFunc,
+    required this.width,
+    required this.height,
+  });
+
+  DateTime selectedData = DateTime.now();
+
+  final double width;
+  final double height;
+  final ValueGetter<DateTime> getDateFunc;
+  final ValueSetter<DateTime> updateDateFunc;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: width,
+      height: height,
+      child: DateTimeField(
+          onDateSelected: (DateTime value) {
+            updateDateFunc(value);
+            setState(() {
+              selectedData = value;
+            });
+          },
+          dateFormat: DateFormat.yMd(),
+          selectedDate: getDateFunc()
+      ),
+    );
+  }
 }
 
 // EACH ROW TO HIDE MEDICAL INFORMATION
@@ -391,7 +444,9 @@ class VisibilityTile extends StatefulWidget {
 
 class _VisibilityTileState extends State<VisibilityTile> {
   HealthcareHistoryDataEntry _data;
+
   _VisibilityTileState(this._data, this.editMode);
+
   bool visible = true;
   bool editMode;
 
@@ -429,7 +484,10 @@ class _VisibilityTileState extends State<VisibilityTile> {
     ];
     Widget widget = ColouredBox(
         height: 50.0,
-        width: MediaQuery.of(context).size.width,
+        width: MediaQuery
+            .of(context)
+            .size
+            .width,
         padding: 10.0,
         colour: editMode ? (visible ? contentCyan : unselectGrey) :
         contentCyan,
@@ -439,15 +497,19 @@ class _VisibilityTileState extends State<VisibilityTile> {
               flex: 3,
               child: Container(
                   width: 50,
-                  child: DefaultTextStyle(child: Text(_data.admissionDate), style: content, softWrap: true,))),
+                  child: DefaultTextStyle(child: Text(_data.admissionDate),
+                    style: content,
+                    softWrap: true,))),
           Flexible(
               fit: FlexFit.tight,
               flex: 7,
               child: Container(
                   width: 250,
-                  padding: EdgeInsets.only(left:15),
-                  child: DefaultTextStyle(child: Text(_data.summary), style: content, softWrap: true,)
-              ))] + moreInfo),
+                  padding: EdgeInsets.only(left: 15),
+                  child: DefaultTextStyle(
+                    child: Text(_data.summary), style: content, softWrap: true,)
+              ))
+        ] + moreInfo),
         radius: 0,
         outerPadding: 0);
     Widget visIcon = IconButton(onPressed: () {
@@ -464,11 +526,70 @@ class _VisibilityTileState extends State<VisibilityTile> {
     }, icon: Icon(Icons.visibility_off));
     if (editMode) {
       return Row(
-          children: [Flexible(flex:2, child: visible ? visIcon : nonVisIcon),
+          children: [Flexible(flex: 2, child: visible ? visIcon : nonVisIcon),
             SizedBox(width: 10,),
-            Flexible(flex: 20, child: widget),]
+            Flexible(flex: 20, child: widget),
+          ]
       );
     }
     return widget;
   }
+}
+
+// GENERAL TILE FOR TWO INFORMATION
+class TwoInfoTile extends StatelessWidget {
+  const TwoInfoTile({super.key, required this.data1, required this.data2, required this.id});
+
+  final String data1;
+  final String data2;
+  final String id;
+
+  @override
+  Widget build(BuildContext context) {
+    return ColouredBox(
+      height: 50.0,
+      width: MediaQuery
+          .of(context)
+          .size
+          .width,
+      padding: 10.0,
+      colour: contentCyan,
+      radius: 0,
+      outerPadding: 0,
+      child: Row(children: [
+        Flexible(
+          fit: FlexFit.tight,
+          flex: 10,
+          child: Container(
+            width: 50,
+            child: DefaultTextStyle(
+              style: content,
+              softWrap: true,
+              child: Text(data1),
+            ),
+          ),
+        ),
+        Flexible(
+          fit: FlexFit.tight,
+          flex: 25,
+          child: Container(
+            width: 250,
+            padding: const EdgeInsets.only(left: 15),
+            child: DefaultTextStyle(
+              style: content,
+              softWrap: false,
+              child: Text(
+                  data2,
+                  maxLines: 1,
+                  softWrap: false,
+                  overflow: TextOverflow.ellipsis,
+              ),
+            ),
+          ),
+        ),
+      ],
+      ),
+    );
+  }
+
 }
