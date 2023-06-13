@@ -8,6 +8,7 @@ import '../resources/fonts.dart';
 import '../resources/globals.dart';
 
 import '../resources/objects.dart';
+import 'addHospitalVisit.dart';
 
 // HOSPITAL VISIT HISTORY PAGE
 class HospitalVisitPage extends StatelessWidget {
@@ -77,10 +78,11 @@ List<Widget> showHealthcareVisitHistory(Map<String, HealthcareHistoryDataEntry> 
           )),
       Flexible(
           fit: FlexFit.tight,
-          flex: 24,
+          flex: 20,
           child: Container(
               width: 250,
-              child: DefaultTextStyle(child: Text(''), style: boldContent, softWrap: true,)
+              // child: DefaultTextStyle(child: Text(''), style: boldContent, softWrap: true,)
+              child: AddInfoButton(nextPage: AddHospitalVisitPage(), width: 100, height: 35,),
           )),
     ]),
   );
