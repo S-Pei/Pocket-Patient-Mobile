@@ -8,6 +8,7 @@ import 'package:dartx/dartx.dart';
 import 'package:dio/dio.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/diaryPage.dart';
 import 'package:patient_mobile_app/pages/fullMedicationPage.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
@@ -73,11 +74,15 @@ final medicalHistoryTitle = MedicalHistoryTitle();
 
 final medicationTitle = MedicationTitle();
 
+const diaryPageTitle = DiaryPageTitle();
+
 var firstRender = true;
 
 final homePage = HomePage();
 
 final loginPage = LoginPage();
+
+final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.medication);
 
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 
@@ -202,6 +207,49 @@ List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context)
   return tableRow;
 }
 
+List<Widget> showDiaryList(Map<String, Pair<String, String>> data, BuildContext context) {
+  List<Widget> widgets = [];
+  widgets.add(
+    const Row(children: [
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 1,
+          child: SizedBox(width: 5),
+      ),
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 12,
+          child: SizedBox(
+              width: 50,
+              child: DefaultTextStyle(
+                style: boldContent,
+                softWrap: true,
+                child: Text('Date'),
+              ),
+          ),
+      ),
+      Flexible(
+          fit: FlexFit.tight,
+          flex: 25,
+          child: SizedBox(
+              width: 250,
+              child: DefaultTextStyle(
+                  style: boldContent,
+                  softWrap: true,
+                  child: Text('Content'),
+              ),
+          ),
+      ),
+    ]),
+  );
+  widgets.add(const SizedBox(height: 10));
+  for (var entry in data.entries) {
+    widgets.add(TwoInfoTile(data1: entry.value.first, data2: entry.value.second, id : entry.key));
+    widgets.add(const SizedBox(height: 10,));
+  }
+  return widgets;
+}
+
 // Sends permission to server
 void grantAccess(Set<String> ids) {
   Map<String, dynamic> data = {};
@@ -231,6 +279,15 @@ void revokeAccess() {
   print(data);
   channel.sink.add(json);
   toHide.clear();
+}
+
+void submitNewDiaryEntry(DateTime date, String content) {
+  Map<String, dynamic> data = {};
+  data['event'] = 'NEW_DIARY_ENTRY';
+  data['date'] = date.date.toString();
+  data['content'] = content;
+  final json = jsonEncode(data);
+  channel.sink.add(json);
 }
 
 void sendAuthNotif() {
