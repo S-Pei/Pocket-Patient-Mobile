@@ -8,6 +8,16 @@ import '../resources/fonts.dart';
 import '../resources/globals.dart';
 import '../resources/components.dart';
 
+class MedInsAccNotifier extends ValueNotifier<int> {
+  MedInsAccNotifier(int medication) : super(changeNum);
+
+  void updateHospsChanges(int changeNum) {
+    print("print hospital of update: ");
+    print(changeNum);
+    value = changeNum;
+  }
+}
+
 // MEDICAL INSTITUTIONS WITH ACCESS TO MY DATA PAGE
 class MedAccInsPage extends StatefulWidget {
   MedAccInsPage({super.key});
@@ -22,26 +32,31 @@ class _MedAccInsPageState extends State<MedAccInsPage> {
       widgets: [Text('Medical Institutions with Access to My Data', style: subtitle, softWrap: true,)], height: 90);
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          Container(
-              padding: const EdgeInsets.all(30.0),
-              child: SingleChildScrollView(
-                  child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(
-                          height: 120,
-                        ),
-                        title,
-                        SizedBox(height: 30,),
-                      ] + showMedIns(hosps, context) ))),
-          homeIcon,
-          const ProfileLogo(),
-        ],
-      ),
-    );
+    return ValueListenableBuilder<int>(
+        valueListenable: medInsAccNotifier,
+        builder: (context, value, child)
+    {
+      return Scaffold(
+        body: Stack(
+          children: [
+            Container(
+                padding: const EdgeInsets.all(30.0),
+                child: SingleChildScrollView(
+                    child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          SizedBox(
+                            height: 120,
+                          ),
+                          title,
+                          SizedBox(height: 30,),
+                        ] + showMedIns(hosps, context)))),
+            homeIcon,
+            const ProfileLogo(),
+          ],
+        ),
+      );
+    });
   }
 }
 
@@ -135,11 +150,14 @@ class TitleRow extends StatelessWidget {
 
 List<Widget> showMedIns(Map<String, Pair<String, String>> data, BuildContext context) {
   List<Widget> widgets = [];
+  print('hosp: $data');
   widgets.add(TitleRow());
   widgets.add(SizedBox(height: 10,));
   for (var entry in data.entries) {
     bool? visible = medAccIncVisibility[entry.key];
+    print('visibl: $medAccIncVisibility');
     if (visible != null) {
+      print('print entry');
       Widget widget = MedInsAccTile(
         data: entry.value, id: entry.key, visible: visible,);
       widgets.add(widget);

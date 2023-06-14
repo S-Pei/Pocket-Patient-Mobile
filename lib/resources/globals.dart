@@ -12,6 +12,7 @@ import 'package:patient_mobile_app/pages/fullMedicationPage.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:patient_mobile_app/pages/hospitalVisitPage.dart';
+import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
@@ -117,16 +118,20 @@ final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.me
 
 final HospitalVisitNotifier mhNotifier = HospitalVisitNotifier(patientData!.medical_history);
 
-Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
+final MedInsAccNotifier medInsAccNotifier = MedInsAccNotifier(changeNum);
+
+Map<String, Pair<String,String>> hosps = {};
 
 Map<String, Widget> medAccIncEntries = {};
-Map<String, bool> medAccIncVisibility = {'1': true, '2': true};
+Map<String, bool> medAccIncVisibility = {};
 
 Map<String, Widget> idToHospVisitDet = {};
 
 List<String> letterFilePaths = [];
 List<String> scanFilePaths = [];
 List<String> labFilePaths = [];
+
+int changeNum = 0;
 
 String requiredStr = '* ';
 
@@ -291,6 +296,13 @@ List<Widget> showDiaryList(Map<String, Pair<String, String>> data, BuildContext 
 
 // Sends permission to server
 void grantAccess(Set<String> ids) {
+  hosps['1'] = Pair('St Mary Hospital', '25/4/2023');
+  medAccIncVisibility['1'] = true;
+  // final oldChanges = medInsAccChanges;
+  // oldChanges.add(true);
+  int newChangeNum = changeNum + 1;
+  medInsAccNotifier.updateHospsChanges(newChangeNum);
+  changeNum++;
   Map<String, dynamic> data = {};
   data['event'] = 'GRANT_PATIENT_DATA_ACCESS';
   data['ids'] = ids.toList();
