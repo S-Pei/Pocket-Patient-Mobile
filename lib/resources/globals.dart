@@ -26,7 +26,7 @@ import '../pages/medicalHistoryPage.dart';
 import '../pages/medicationPage.dart';
 import 'dart:async';
 
-bool ios = true;
+bool ios = false;
 String localHost = ios ? '127.0.0.1:8000' : '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
 String localHostUrl = 'http://$localHost';
@@ -35,7 +35,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = false;
+const debug = true;
 
 
 // WEBSOCKET INITIALISATION
@@ -337,6 +337,17 @@ void submitNewMedicationEntry(String drug, String dosage, DateTime startDate, St
   data['duration'] = duration;
   data['route'] = route;
   data['comments'] = comments;
+  data['patientId'] = patientData!.patient_id;
+  final json = jsonEncode(data);
+  channel!.sink.add(json);
+  // patientData?.setNewMedication(json);
+  // medicationNotifier.updateMedication(patientData!.medication);
+}
+
+void deleteMedicationEntry(String id) {
+  Map<String, dynamic> data = {};
+  data['event'] = 'REMOVE_MEDICATION_ENTRY';
+  data['id'] = id;
   data['patientId'] = patientData!.patient_id;
   final json = jsonEncode(data);
   channel!.sink.add(json);

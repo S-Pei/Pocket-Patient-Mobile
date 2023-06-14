@@ -13,7 +13,7 @@ class MedicationNotifier extends ValueNotifier<List<MedicationEntry>> {
   void updateMedication(List<MedicationEntry> medication) {
     print("print medication of update: ");
     print(medication);
-    value = medication;
+      value = medication;
   }
 }
 

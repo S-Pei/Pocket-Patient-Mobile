@@ -27,12 +27,13 @@ class Patient {
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
+      print(json);
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
-      var diarylist = json['diary'];
+      var diaryList = json['diary'];
       List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
       List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
-      List<DiaryEntry> drList = diarylist.map<DiaryEntry>((dr) => DiaryEntry.fromDic(dr)).toList();
+      List<DiaryEntry> drList = diaryList.map<DiaryEntry>((dr) => DiaryEntry.fromDic(dr)).toList();
       return Patient(
         patient_id: json['patient-id'],
         patient_name: json['patient-name-small'],
@@ -155,6 +156,7 @@ class MedicationEntry {
   final String duration;
   final String route;
   final String comments;
+  final bool byPatient;
 
   MedicationEntry({
     required this.id,
@@ -165,6 +167,7 @@ class MedicationEntry {
     required this.duration,
     required this.route,
     required this.comments,
+    required this.byPatient
   });
 
   factory MedicationEntry.fromDic(Map<String, dynamic> dic) {
@@ -176,7 +179,8 @@ class MedicationEntry {
         endDate: dic['endDate'],
         duration: dic['duration'],
         route: dic['route'],
-        comments: dic['comments']
+        comments: dic['comments'],
+        byPatient: dic['byPatient']
     );
   }
 

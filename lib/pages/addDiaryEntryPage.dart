@@ -149,7 +149,7 @@ class DiaryContentTextField extends StatelessWidget {
         maxLines: null,
         controller: inputController,
         decoration: const InputDecoration(
-            hintText: "Enter diary",
+            hintText: "Enter Diary",
             focusedBorder: OutlineInputBorder(
                 borderSide: BorderSide(width: 1, color: medCyan)
             )

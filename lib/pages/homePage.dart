@@ -44,7 +44,9 @@ class _HomePageState extends State<HomePage> {
           setState(() {
             overlay.showOverlay(context, const OverlayWidget());
           });
-        } else if (map['event'] == 'CHANGE-IN-MEDICATION' || map['event'] == 'NEW_MEDICATION_ENTRY') {
+        } else if (map['event'] == 'CHANGE-IN-MEDICATION' ||
+                    map['event'] == 'NEW_MEDICATION_ENTRY' ||
+                    map['event'] == 'REMOVE_MEDICATION_ENTRY') {
           print("in the event of " + map['event']);
           print(map['currentMedication']);
           patientData?.setNewMedication(map['currentMedication']);
