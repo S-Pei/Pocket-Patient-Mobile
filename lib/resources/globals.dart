@@ -424,8 +424,15 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
       Map<String, dynamic> data = {};
       data['event'] = 'NEW_HOSP_VISIT_ENTRY';
       data['patientId'] = patientData!.patient_id;
-      final json = jsonEncode(data);
-      channel!.sink.add(json);
+      data['doctor_update'] = false;
+      http.Response.fromStream(response).then((value)
+      {
+        data['mhId'] = jsonDecode(value.body)['id'];
+        print(data['mhId']);
+        final json = jsonEncode(data);
+        channel!.sink.add(json);
+      });
+
     } else {
       print("TT file upload failed");
     }
