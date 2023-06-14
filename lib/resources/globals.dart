@@ -26,7 +26,7 @@ import '../pages/medicalHistoryPage.dart';
 import '../pages/medicationPage.dart';
 import 'dart:async';
 
-bool ios = true;
+bool ios = false;
 String localHost = ios ? '127.0.0.1:8000' : '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
 String localHostUrl = 'http://$localHost';
@@ -35,7 +35,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = false;
+const debug = true;
 
 
 // WEBSOCKET INITIALISATION
@@ -413,8 +413,15 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
       Map<String, dynamic> data = {};
       data['event'] = 'NEW_HOSP_VISIT_ENTRY';
       data['patientId'] = patientData!.patient_id;
-      final json = jsonEncode(data);
-      channel!.sink.add(json);
+      data['doctor_update'] = false;
+      http.Response.fromStream(response).then((value)
+      {
+        data['mhId'] = jsonDecode(value.body)['id'];
+        print(data['mhId']);
+        final json = jsonEncode(data);
+        channel!.sink.add(json);
+      });
+
     } else {
       print("TT file upload failed");
     }

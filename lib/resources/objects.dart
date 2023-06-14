@@ -109,43 +109,6 @@ class Patient {
     }
 }
 
-class MedicalHistoryEntry {
-  final String id;
-  final String admissionDate;
-  final String dischargeDate;
-  final String consultant;
-  final String summary;
-  final String visitType;
-  final String? letterUrl;
-
-  MedicalHistoryEntry({
-    required this.id,
-    required this.admissionDate,
-    required this.dischargeDate,
-    required this.consultant,
-    required this.visitType,
-    this.letterUrl,
-    required this.summary
-  });
-
-  factory MedicalHistoryEntry.fromDic(Map<String, dynamic> dic) {
-    return MedicalHistoryEntry(
-      id: dic['id'],
-      admissionDate: dic['admissionDate'],
-      dischargeDate: dic['dischargeDate'],
-      consultant: dic['consultant'],
-      visitType: dic['visitType'],
-      letterUrl: dic['letter'],
-      summary: dic['summary']
-    );
-  }
-
-  @override
-  String toString() {
-    return '{ ${admissionDate} : ${summary}}';
-  }
-}
-
 class MedicationEntry {
   final String id;
   final String drug;
