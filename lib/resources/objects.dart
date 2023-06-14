@@ -12,7 +12,7 @@ class Patient {
     final String patient_address;
     List<MedicationEntry> medication;
     final List<DiaryEntry> diary;
-    final List<HealthcareHistoryDataEntry> medical_history;
+    List<HealthcareHistoryDataEntry> medical_history;
 
     Patient({
       required this.patient_id,
@@ -86,6 +86,17 @@ class Patient {
       print(cm_list);
       this.medication = cm_list;
     }
+
+    void setNewMedicalHistory(medicalHistoryList) {
+      print("print medHis: ");
+      print(medical_history);
+      print("print medication list: ");
+      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
+      print("print mh list: ");
+      print(mhList);
+      this.medical_history = mhList;
+    }
+
 
   @override
     String toString() {

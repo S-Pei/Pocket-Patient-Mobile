@@ -83,136 +83,188 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
         isExpanded: true,
         items: [
           DropdownMenuItem(
-            value: 'GP Consultation',
-            child: Text('GP Consultation')),
+              value: 'GP Consultation',
+              child: Text('GP Consultation')),
           DropdownMenuItem(
               value: 'Hospital Visit',
               child: Text('Hospital Visit'))
-        ], onChanged: (String? value) {
+        ],
+        onChanged: (String? value) {
           setState(() {
             dropdownValue = value!;
           });
         });
-    return Scaffold(
-      body: Stack(
-        children: [
-          TitlePageFormat(
-              children: [BackButtonBlue(),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      mainAxisSize: MainAxisSize.min,
-                      children:
-                      addDateField('Date of Admission', getAdmissionDate, updateAdmissionDate) +
-                          addDateField('Date Discharged', getDischargeDate, updateAdmissionDate) +
-                          addVisitText('Discharge Summary', summaryController, 'Summary', 80) +
-                          addVisitText('Consultant', consultantController, 'Consultant', 40) +
-                          addDropDown(dropDown) +
-                          [
-                            Flexible(
-                                flex: 5,
-                                fit: FlexFit.loose,
-                                child: SizedBox(height: 20,)),
-                            Flexible(
-                                flex: 10,
-                                fit: FlexFit.loose,
-                                child:
-                                Row(children: [
-                                  Flexible(
-                                      fit: FlexFit.tight,
-                                      flex: 1,
-                                      child: SizedBox(width: 5,)),
-                                  Flexible(
-                                      fit: FlexFit.tight,
-                                      flex: 10,
-                                      child: Container(
-                                          width: 50,
-                                          child: DefaultTextStyle(child: Text('Discharge Letter:'), style: boldContent, softWrap: true,))),
-                                  Flexible(
-                                    fit: FlexFit.tight,
-                                    flex:15,
-                                    child: Container(
-                                      height: 100,
-                                      width: 250,
-                                      child: Column(
-                                        children: [
-                                          Flexible(
-                                            fit: FlexFit.loose,
-                                            flex: 4,
-                                            child: Container(
-                                            width: 250,
-                                            constraints: BoxConstraints(maxHeight: 40),
-                                            child: ElevatedButton.icon(
-                                              icon: Icon(Icons.upload),
-                                              style: ElevatedButton.styleFrom(
-                                                padding: const EdgeInsets.only(left: 10, top: 3, bottom: 3),
-                                                shape: RoundedRectangleBorder(
-                                                  borderRadius: BorderRadius.circular(10.0),
-                                                  side: BorderSide(width: 1, color: Colors.black),
-                                                ),
-                                                backgroundColor: lighterGrey,
-                                                foregroundColor: Colors.black,
-                                              ),
-                                              onPressed: addToLetterUrls,
-                                              label: Text('upload attachment', textAlign: TextAlign.center,),
-                                            ))
-                                        ),
-                                        Flexible(child: SizedBox(height: 5,)),
-                                        Flexible(
-                                            flex:7,
-                                            fit: FlexFit.loose,
-                                            child: Container(
-                                            height: 100,
-                                            width: 250,
-                                            child: FutureBuilder<String?>(
-                                              future: _filePathFuture,
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  print(snapshot.data);
-                                                  if (snapshot.data != '') {
-                                                    letterFilePaths.add(snapshot.data!);
-                                                  }
-                                                  print('letterfilepath: $letterFilePaths');
-                                                  return getUploadedFilePaths(letterFilePaths);
-                                                } else if (snapshot.hasError) {
-                                                  return Text('Error: ${snapshot.error}');
-                                                } else {
-                                                  return CircularProgressIndicator();
-                                                }
-                                              },
-                                            )))
-                                        ],
-                                      )
-                                    )
-                                    ),
-                                  ])
-                            ),
-                            ] +
-                          addToMedHistCheck(checkBox) +
-                        [LongButton(word: 'Add Entry', onPress: () {
-                          _filePathFuture.then((value) {
-                            HealthcareHistoryDataEntry newEntry =
-                              HealthcareHistoryDataEntry(
-                              id: '-1',
-                              admissionDate: admissionDate.date.toString(),
-                              dischargeDate: dischargeDate.date.toString(),
-                              consultant: consultantController.text,
-                              visitType: dropdownValue,
-                              summary: summaryController.text,
-                              addToMedicalHistory: addToMh);
-                                print(letterFilePaths[0]);
-                            addHospVisitEntry(letterFilePaths[0], newEntry);
-                            Navigator.pop(context);
-                          });
-                        })]
-                      // generateVisitDetail('Type of Visit', data.visitType) +
-                        )
-                ]),
-          homeIcon,
-          const ProfileLogo(),
-          ]));
-  }
 
+        return Scaffold(
+            body: Stack(
+                children: [
+                  TitlePageFormat(
+                      children: [BackButtonBlue(),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children:
+                            addDateField(
+                                'Date of Admission', getAdmissionDate,
+                                updateAdmissionDate) +
+                                addDateField(
+                                    'Date Discharged', getDischargeDate,
+                                    updateAdmissionDate) +
+                                addVisitText(
+                                    'Discharge Summary', summaryController,
+                                    'Summary', 80) +
+                                addVisitText(
+                                    'Consultant', consultantController,
+                                    'Consultant', 40) +
+                                addDropDown(dropDown) +
+                                [
+                                  Flexible(
+                                      flex: 5,
+                                      fit: FlexFit.loose,
+                                      child: SizedBox(height: 20,)),
+                                  Flexible(
+                                      flex: 10,
+                                      fit: FlexFit.loose,
+                                      child:
+                                      Row(children: [
+                                        Flexible(
+                                            fit: FlexFit.tight,
+                                            flex: 1,
+                                            child: SizedBox(width: 5,)),
+                                        Flexible(
+                                            fit: FlexFit.tight,
+                                            flex: 10,
+                                            child: Container(
+                                                width: 50,
+                                                child: DefaultTextStyle(
+                                                  child: Text(
+                                                      'Discharge Letter:'),
+                                                  style: boldContent,
+                                                  softWrap: true,))),
+                                        Flexible(
+                                            fit: FlexFit.tight,
+                                            flex: 15,
+                                            child: Container(
+                                                height: 100,
+                                                width: 250,
+                                                child: Column(
+                                                  children: [
+                                                    Flexible(
+                                                        fit: FlexFit.loose,
+                                                        flex: 4,
+                                                        child: Container(
+                                                            width: 250,
+                                                            constraints: BoxConstraints(
+                                                                maxHeight: 40),
+                                                            child: ElevatedButton
+                                                                .icon(
+                                                              icon: Icon(Icons
+                                                                  .upload),
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                padding: const EdgeInsets
+                                                                    .only(
+                                                                    left: 10,
+                                                                    top: 3,
+                                                                    bottom: 3),
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius
+                                                                      .circular(
+                                                                      10.0),
+                                                                  side: BorderSide(
+                                                                      width: 1,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                backgroundColor: lighterGrey,
+                                                                foregroundColor: Colors
+                                                                    .black,
+                                                              ),
+                                                              onPressed: addToLetterUrls,
+                                                              label: Text(
+                                                                'upload attachment',
+                                                                textAlign: TextAlign
+                                                                    .center,),
+                                                            ))
+                                                    ),
+                                                    Flexible(child: SizedBox(
+                                                      height: 5,)),
+                                                    Flexible(
+                                                        flex: 7,
+                                                        fit: FlexFit.loose,
+                                                        child: Container(
+                                                            height: 100,
+                                                            width: 250,
+                                                            child: FutureBuilder<
+                                                                String?>(
+                                                              future: _filePathFuture,
+                                                              builder: (
+                                                                  context,
+                                                                  snapshot) {
+                                                                if (snapshot
+                                                                    .hasData) {
+                                                                  print(
+                                                                      snapshot
+                                                                          .data);
+                                                                  if (snapshot
+                                                                      .data !=
+                                                                      '') {
+                                                                    letterFilePaths
+                                                                        .add(
+                                                                        snapshot
+                                                                            .data!);
+                                                                  }
+                                                                  print(
+                                                                      'letterfilepath: $letterFilePaths');
+                                                                  return getUploadedFilePaths(
+                                                                      letterFilePaths);
+                                                                } else
+                                                                if (snapshot
+                                                                    .hasError) {
+                                                                  return Text(
+                                                                      'Error: ${snapshot
+                                                                          .error}');
+                                                                } else {
+                                                                  return CircularProgressIndicator();
+                                                                }
+                                                              },
+                                                            )))
+                                                  ],
+                                                )
+                                            )
+                                        ),
+                                      ])
+                                  ),
+                                ] +
+                                addToMedHistCheck(checkBox) +
+                                [LongButton(word: 'Add Entry', onPress: () {
+                                  _filePathFuture.then((value) {
+                                    HealthcareHistoryDataEntry newEntry =
+                                    HealthcareHistoryDataEntry(
+                                        id: '-1',
+                                        admissionDate: admissionDate.date
+                                            .toString(),
+                                        dischargeDate: dischargeDate.date
+                                            .toString(),
+                                        consultant: consultantController.text,
+                                        visitType: dropdownValue,
+                                        summary: summaryController.text,
+                                        addToMedicalHistory: addToMh);
+                                    print(letterFilePaths[0]);
+                                    addHospVisitEntry(
+                                        letterFilePaths[0], newEntry);
+                                    Navigator.pop(context);
+                                  });
+                                })
+                                ]
+                          // generateVisitDetail('Type of Visit', data.visitType) +
+                        )
+                      ]),
+                  homeIcon,
+                  const ProfileLogo(),
+                ]));
+      }
 }
 
 class AddVisitDetailsText extends StatelessWidget {
