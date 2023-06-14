@@ -55,180 +55,21 @@ class _FullMedicationPage extends State<FullMedicationPage> {
                         child: Column(
 
                             children: [
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'Drug: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.drug,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Drug: " , fullData.drug),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'Dosage: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.dosage,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Dosage: " , fullData.dosage),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'StartDate: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.startDate,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Start Date: " , fullData.startDate),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'End Date: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.endDate,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("End Date: " , fullData.endDate),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'Duration: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.duration,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Duration: " , fullData.duration),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'Route: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.route,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Route: " , fullData.route),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'Comments: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: fullData.comments,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Comments: " , fullData.comments),
                               const SizedBox(height: 16),
-                              Container(
-                                  alignment: Alignment.bottomLeft,
-
-                                  child: DefaultTextStyle(
-                                    style: const TextStyle(fontSize: 26, color: Colors.black),
-                                    child: RichText(
-                                      text: TextSpan(
-                                        children: <TextSpan>[
-                                          const TextSpan(
-                                            text: 'Submitted by: ',
-                                            style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
-                                          ),
-                                          TextSpan(
-                                            text: submittedBy,
-                                            style: const TextStyle(fontSize: 20, color: Colors.black),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  )
-                              ),
+                              medData("Submitted by: " , submittedBy),
                               const SizedBox(height: 16),
                             Row(
                               mainAxisAlignment: MainAxisAlignment.center,
@@ -279,4 +120,37 @@ class _FullMedicationPage extends State<FullMedicationPage> {
             ]
         ));
   }
+}
+
+Widget medData(String title, String value) {
+  return Container(
+    alignment: Alignment.bottomLeft,
+    child: DefaultTextStyle(
+      style: const TextStyle(fontSize: 26, color: Colors.black),
+      child: Row(
+        children: [
+          Flexible(
+            flex: 14,
+            fit: FlexFit.tight,
+            child: RichText(
+                text: TextSpan(
+                  text: title,
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
+                )
+            ),
+          ),
+          Flexible(
+              flex: 20,
+              fit: FlexFit.tight,
+              child: RichText(
+                text: TextSpan(
+                  text: value,
+                  style: const TextStyle(fontSize: 20, color: Colors.black),
+                ),
+              )
+          )
+        ],
+      ),
+    ),
+  );
 }

@@ -191,24 +191,8 @@ class AddMedicationDetailsText extends StatelessWidget {
               width: 50,
               child:DefaultTextStyle(
                 style: const TextStyle(color: Colors.black),
-                child: RichText(
-                  text: TextSpan(
-                    children: <TextSpan>[
-                      TextSpan(
-                        text: '$title',
-                        style: TextStyle(fontSize:20, fontWeight: FontWeight.bold, color: Colors.black),
-                      ),
-                      TextSpan(
-                        text: '$isRequired',
-                        style: const TextStyle(fontSize:20, color: Colors.red),
-                      ),
-                      TextSpan(
-                        text: ':',
-                        style: const TextStyle(fontSize:20, color: Colors.black),
-                      ),
-                    ],
-                  ),
-                ), softWrap: true,))),
+                child: requiredField(title, isRequired),
+                softWrap: true,))),
       Flexible(
           fit: FlexFit.tight,
           flex:15,
@@ -270,24 +254,8 @@ List<Widget> addDropDown(Widget dropDown, TextEditingController controller, Stri
                   width: 250,
                   child: DefaultTextStyle(
                     style: const TextStyle(color: Colors.black),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          const TextSpan(
-                            text: 'Duration',
-                            style: TextStyle(fontSize:20, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
-                          TextSpan(
-                            text: '* ',
-                            style: const TextStyle(fontSize:20, color: Colors.red),
-                          ),
-                          TextSpan(
-                            text: ':',
-                            style: const TextStyle(fontSize:20, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ), softWrap: true,))),
+                    softWrap: true,
+                    child: requiredField("Duration", "* "),))),
           Flexible(
               fit: FlexFit.tight,
               flex:7,
@@ -352,26 +320,10 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
               flex: 10,
               child: Container(
                   width: 250,
-                  child:DefaultTextStyle(
+                  child: DefaultTextStyle(
                     style: const TextStyle(color: Colors.black),
-                    child: RichText(
-                      text: TextSpan(
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: '$title',
-                            style: TextStyle(fontSize:20, fontWeight: FontWeight.bold, color: Colors.black),
-                          ),
-                          TextSpan(
-                            text: '* ',
-                            style: const TextStyle(fontSize:20, color: Colors.red),
-                          ),
-                          TextSpan(
-                            text: ':',
-                            style: const TextStyle(fontSize:20, color: Colors.black),
-                          ),
-                        ],
-                      ),
-                    ), softWrap: true,))),
+                    softWrap: true,
+                    child: requiredField("Start Date", "* "),))),
           Flexible(
               fit: FlexFit.loose,
               flex:15,
@@ -446,4 +398,25 @@ List<Widget> getUrlInfo(String title, String url) {
                 ),
               )),
         ]))];
+}
+
+Widget requiredField(String title, String isRequired) {
+  return RichText(
+    text: TextSpan(
+      children: <TextSpan>[
+        TextSpan(
+          text: title,
+          style: TextStyle(fontSize:20, fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        TextSpan(
+          text: isRequired,
+          style: const TextStyle(fontSize:20, color: Colors.red),
+        ),
+        TextSpan(
+          text: ':',
+          style: const TextStyle(fontSize:20, color: Colors.black),
+        ),
+      ],
+    ),
+  );
 }
