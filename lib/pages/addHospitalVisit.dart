@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:dartx/dartx.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
@@ -25,6 +27,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
   TextEditingController summaryController = TextEditingController();
   TextEditingController consultantController = TextEditingController();
   late Future<String?> _filePathFuture;
+  bool isVisible = false;
 
   @override
   void initState() {
@@ -137,11 +140,9 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                             flex: 10,
                                             child: Container(
                                                 width: 50,
-                                                child: DefaultTextStyle(
-                                                  child: Text(
-                                                      'Discharge Letter:'),
-                                                  style: boldContent,
-                                                  softWrap: true,))),
+                                                child: requiredField('Discharge Letter', requiredStr)
+                                            )
+                                        ),
                                         Flexible(
                                             fit: FlexFit.tight,
                                             flex: 15,
@@ -152,7 +153,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                   children: [
                                                     Flexible(
                                                         fit: FlexFit.loose,
-                                                        flex: 4,
+                                                        flex: 7,
                                                         child: Container(
                                                             width: 250,
                                                             constraints: BoxConstraints(
@@ -191,10 +192,10 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                     Flexible(child: SizedBox(
                                                       height: 5,)),
                                                     Flexible(
-                                                        flex: 7,
+                                                        flex: 5,
                                                         fit: FlexFit.loose,
                                                         child: Container(
-                                                            height: 100,
+                                                            height: 40,
                                                             width: 250,
                                                             child: FutureBuilder<
                                                                 String?>(
@@ -238,25 +239,57 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                   ),
                                 ] +
                                 addToMedHistCheck(checkBox) +
-                                [LongButton(word: 'Add Entry', onPress: () {
+                                [SizedBox(height: 10,),
+                                  Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Container(
+                                        height: 20,
+                                        child: Visibility(
+                                            visible: isVisible,
+                                            child:Text(
+                                              "* Incomplete Field *",
+                                              style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+                                            )
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(height: 20,),
+                                  LongButton(word: 'Add Entry', onPress: () {
                                   _filePathFuture.then((value) {
-                                    HealthcareHistoryDataEntry newEntry =
-                                    HealthcareHistoryDataEntry(
-                                        id: '-1',
-                                        admissionDate: admissionDate.date
-                                            .toString(),
-                                        dischargeDate: dischargeDate.date
-                                            .toString(),
-                                        consultant: consultantController.text,
-                                        visitType: dropdownValue,
-                                        summary: summaryController.text,
-                                        addToMedicalHistory: addToMh);
-                                    print(letterFilePaths[0]);
-                                    addHospVisitEntry(
-                                        letterFilePaths[0], newEntry);
-                                    Navigator.pop(context);
+                                    if (summaryController.text == "" ||
+                                        consultantController.text == "" ||
+                                        value == "" ) {
+                                      setState(() {
+                                        isVisible = true;
+                                      });
+                                      Timer(Duration(seconds: 3), () {
+                                        if(mounted){
+                                          setState(() {
+                                            isVisible = false;
+                                          });}
+                                      });
+                                    } else {
+                                      HealthcareHistoryDataEntry newEntry =
+                                      HealthcareHistoryDataEntry(
+                                          id: '-1',
+                                          admissionDate: admissionDate.date
+                                              .toString(),
+                                          dischargeDate: dischargeDate.date
+                                              .toString(),
+                                          consultant: consultantController.text,
+                                          visitType: dropdownValue,
+                                          summary: summaryController.text,
+                                          addToMedicalHistory: addToMh);
+                                      print(letterFilePaths[0]);
+                                      addHospVisitEntry(
+                                          letterFilePaths[0], newEntry);
+                                      Navigator.pop(context);
+                                    }
                                   });
-                                })
+                                }),
+                                SizedBox(height: 50,)
                                 ]
                           // generateVisitDetail('Type of Visit', data.visitType) +
                         )
@@ -287,7 +320,9 @@ class AddVisitDetailsText extends StatelessWidget {
           flex: 10,
           child: Container(
               width: 50,
-              child: DefaultTextStyle(child: Text('$title:'), style: boldContent, softWrap: true,))),
+              child: requiredField(title, requiredStr)
+          )
+      ),
       Flexible(
           fit: FlexFit.tight,
           flex:15,
@@ -331,10 +366,6 @@ List<Widget> addVisitText(String title, TextEditingController controller, String
 List<Widget> addToMedHistCheck(Widget checkBox) {
   return [
     Flexible(
-        flex: 5,
-        fit: FlexFit.loose,
-        child: SizedBox(height: 10,)),
-    Flexible(
         flex: 1,
         fit: FlexFit.loose,
         child:
@@ -348,10 +379,12 @@ List<Widget> addToMedHistCheck(Widget checkBox) {
               flex: 15,
               child: Container(
                   width: 250,
-                  child: DefaultTextStyle(child: Text('Added to my medical history:'), style: boldContent, softWrap: true,))),
+                  child: requiredField('Added to my medical history', requiredStr)
+              )
+          ),
           Flexible(
               fit: FlexFit.loose,
-              flex:9,
+              flex:5,
               child: Container(
                   width: 20,
                   child: checkBox
@@ -380,7 +413,9 @@ List<Widget> addDropDown(Widget dropDown) {
               flex: 10,
               child: Container(
                   width: 250,
-                  child: DefaultTextStyle(child: Text('Type of Visit:'), style: boldContent, softWrap: true,))),
+                  child: requiredField('Type of Visit', requiredStr)
+              )
+          ),
           Flexible(
               fit: FlexFit.loose,
               flex:15,
@@ -422,9 +457,9 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
           Flexible(
               fit: FlexFit.loose,
               flex: 10,
-              child: Container(
-                  width: 250,
-                  child: DefaultTextStyle(child: Text('$title:'), style: boldContent, softWrap: true,))),
+              child:
+              requiredField(title, requiredStr)
+          ),
           Flexible(
               fit: FlexFit.loose,
               flex:15,
@@ -436,7 +471,7 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: lighterGrey,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      suffixIcon: Icon(Icons.edit_calendar),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),

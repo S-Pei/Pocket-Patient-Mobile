@@ -472,7 +472,7 @@ class _DiaryDateFieldState extends State<DiaryDateField> {
       height: height,
       child: DateTimeFormField(
           decoration: InputDecoration(
-            suffixIcon: Icon(Icons.arrow_drop_down),
+            suffixIcon: Icon(Icons.edit_calendar),
           ),
           onDateSelected: (DateTime value) {
             updateDateFunc(value);
@@ -691,4 +691,26 @@ class TwoInfoTile extends StatelessWidget {
       ),
     );
   }
+}
+
+// ADD * BEHIND REQUIRED FIELDS
+Widget requiredField(String title, String isRequired) {
+  return RichText(
+    text: TextSpan(
+      children: <TextSpan>[
+        TextSpan(
+          text: title,
+          style: boldContent,
+        ),
+        TextSpan(
+          text: isRequired,
+          style: const TextStyle(fontSize:15, color: Colors.red),
+        ),
+        TextSpan(
+          text: ':',
+          style: boldContent,
+        ),
+      ],
+    ),
+  );
 }

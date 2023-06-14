@@ -7,7 +7,6 @@ import 'package:patient_mobile_app/resources/globals.dart';
 import '../resources/colours.dart';
 import '../resources/fonts.dart';
 import '../resources/components.dart';
-import '../resources/objects.dart';
 
 class AddMedicationPage extends StatefulWidget {
   const AddMedicationPage({super.key});
@@ -101,9 +100,10 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
                       isVisible = true;
                     });
                     Timer(Duration(seconds: 3), () {
-                      setState(() {
+                      if(mounted){
+                        setState(() {
                         isVisible = false;
-                      });
+                      });}
                     });
                   }
                   else {
@@ -335,7 +335,7 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
                     decoration: InputDecoration(
                       filled: true,
                       fillColor: lighterGrey,
-                      suffixIcon: Icon(Icons.arrow_drop_down),
+                      suffixIcon: Icon(Icons.edit_calendar),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.all(Radius.circular(8)),
                       ),
@@ -398,25 +398,4 @@ List<Widget> getUrlInfo(String title, String url) {
                 ),
               )),
         ]))];
-}
-
-Widget requiredField(String title, String isRequired) {
-  return RichText(
-    text: TextSpan(
-      children: <TextSpan>[
-        TextSpan(
-          text: title,
-          style: TextStyle(fontSize:20, fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        TextSpan(
-          text: isRequired,
-          style: const TextStyle(fontSize:20, color: Colors.red),
-        ),
-        TextSpan(
-          text: ':',
-          style: const TextStyle(fontSize:20, color: Colors.black),
-        ),
-      ],
-    ),
-  );
 }

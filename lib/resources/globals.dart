@@ -128,6 +128,8 @@ List<String> letterFilePaths = [];
 List<String> scanFilePaths = [];
 List<String> labFilePaths = [];
 
+String requiredStr = '* ';
+
 Patient? patientData;
 
 PatientUser? patientUser;
