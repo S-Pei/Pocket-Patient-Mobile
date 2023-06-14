@@ -49,6 +49,10 @@ class _HomePageState extends State<HomePage> {
           print(map['currentMedication']);
           patientData?.setNewMedication(map['currentMedication']);
           medicationNotifier.updateMedication(patientData!.medication);
+        } else if (map['event'] == 'NEW_HOSP_VISIT_ENTRY') {
+          print(map['hospital_visit_history']);
+          patientData?.setNewMedicalHistory(map['hospital_visit_history']);
+          mhNotifier.updateMh(patientData!.medical_history);
         }
       });
       firstRender = false;

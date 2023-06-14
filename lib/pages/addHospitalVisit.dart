@@ -1,11 +1,14 @@
+import 'package:dartx/dartx.dart';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:patient_mobile_app/resources/globals.dart';
+import 'package:patient_mobile_app/resources/objects.dart';
 import '../resources/colours.dart';
 import '../resources/fonts.dart';
 import '../resources/components.dart';
-import '../resources/objects.dart';
+import 'package:file_picker/file_picker.dart';
+import '../resources/globals.dart';
 
 class AddHospitalVisitPage extends StatefulWidget {
   const AddHospitalVisitPage({super.key});
@@ -19,6 +22,15 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
   String dropdownValue = 'GP Consultation';
   DateTime admissionDate = DateTime.now();
   DateTime dischargeDate = DateTime.now();
+  TextEditingController summaryController = TextEditingController();
+  TextEditingController consultantController = TextEditingController();
+  late Future<String?> _filePathFuture;
+
+  @override
+  void initState() {
+    super.initState();
+    _filePathFuture = Future.value('');
+  }
 
   void updateAdmissionDate(DateTime newDate) {
     admissionDate = newDate;
@@ -36,10 +48,26 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
     return dischargeDate;
   }
 
+  void addToLetterUrls() {
+    setState(() {
+      _filePathFuture = _openFilePicker();
+    });
+  }
+
+  Future<String?> _openFilePicker() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles();
+      print('result:$result');
+      if (result != null) {
+         return result.files.single.path!;
+      }
+    } catch (e) {
+      print('Error while picking the file: $e');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    TextEditingController summaryController = TextEditingController();
-    TextEditingController consultantController = TextEditingController();
     Widget checkBox = Checkbox(
       value: addToMh,
       onChanged: (bool? value) {
@@ -55,76 +83,197 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
         isExpanded: true,
         items: [
           DropdownMenuItem(
-            value: 'GP Consultation',
-            child: Text('GP Consultation')),
+              value: 'GP Consultation',
+              child: Text('GP Consultation')),
           DropdownMenuItem(
               value: 'Hospital Visit',
               child: Text('Hospital Visit'))
-        ], onChanged: (String? value) {
+        ],
+        onChanged: (String? value) {
           setState(() {
             dropdownValue = value!;
           });
         });
-    return Scaffold(
-      body: Stack(
-        children: [
-          TitlePageFormat(
-              children: [BackButtonBlue(), SizedBox(height: 15,),
-                SizedBox(height: 30,),
-                AddHospitalVisitInfo(
-                  summaryController: summaryController, consultantController: consultantController, checkBox: checkBox,
-                  dropDown: dropDown, setDates: [updateAdmissionDate, updateDischargeDate],
-                  getDates: [getAdmissionDate, getDischargeDate],
-                ),
-              ]
-          ),
-          homeIcon,
-          const ProfileLogo(),
-        ],
-      ),
-    );
-  }
 
-}
-
-class AddHospitalVisitInfo extends StatelessWidget {
-
-  const AddHospitalVisitInfo({super.key, required this.summaryController, required this.consultantController, required this.checkBox, required this.dropDown, required this.getDates, required this.setDates});
-  final TextEditingController summaryController;
-  final TextEditingController consultantController;
-  final Widget checkBox;
-  final Widget dropDown;
-  final List<ValueGetter<DateTime>> getDates;
-  final List<ValueSetter<DateTime>> setDates;
-
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children:
-        addDateField('Date of Admission', getDates[0], setDates[0]) +
-        addDateField('Date Dischar ged', getDates[1], setDates[1]) +
-        addVisitText('Discharge Summary', summaryController, 'Summary') +
-        addVisitText('Consultant', consultantController, 'Consultant') +
-        addDropDown(dropDown) +
-        addToMedHistCheck(checkBox)
-        // generateVisitDetail('Type of Visit', data.visitType) +
-        // getUrlInfo('Discharge Letter', letter) +
-      ,
-    );
-  }
-
+        return Scaffold(
+            body: Stack(
+                children: [
+                  TitlePageFormat(
+                      children: [BackButtonBlue(),
+                        Column(
+                            crossAxisAlignment: CrossAxisAlignment.stretch,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            mainAxisSize: MainAxisSize.min,
+                            children:
+                            addDateField(
+                                'Date of Admission', getAdmissionDate,
+                                updateAdmissionDate) +
+                                addDateField(
+                                    'Date Discharged', getDischargeDate,
+                                    updateAdmissionDate) +
+                                addVisitText(
+                                    'Discharge Summary', summaryController,
+                                    'Summary', 80) +
+                                addVisitText(
+                                    'Consultant', consultantController,
+                                    'Consultant', 40) +
+                                addDropDown(dropDown) +
+                                [
+                                  Flexible(
+                                      flex: 5,
+                                      fit: FlexFit.loose,
+                                      child: SizedBox(height: 20,)),
+                                  Flexible(
+                                      flex: 10,
+                                      fit: FlexFit.loose,
+                                      child:
+                                      Row(children: [
+                                        Flexible(
+                                            fit: FlexFit.tight,
+                                            flex: 1,
+                                            child: SizedBox(width: 5,)),
+                                        Flexible(
+                                            fit: FlexFit.tight,
+                                            flex: 10,
+                                            child: Container(
+                                                width: 50,
+                                                child: DefaultTextStyle(
+                                                  child: Text(
+                                                      'Discharge Letter:'),
+                                                  style: boldContent,
+                                                  softWrap: true,))),
+                                        Flexible(
+                                            fit: FlexFit.tight,
+                                            flex: 15,
+                                            child: Container(
+                                                height: 100,
+                                                width: 250,
+                                                child: Column(
+                                                  children: [
+                                                    Flexible(
+                                                        fit: FlexFit.loose,
+                                                        flex: 4,
+                                                        child: Container(
+                                                            width: 250,
+                                                            constraints: BoxConstraints(
+                                                                maxHeight: 40),
+                                                            child: ElevatedButton
+                                                                .icon(
+                                                              icon: Icon(Icons
+                                                                  .upload),
+                                                              style: ElevatedButton
+                                                                  .styleFrom(
+                                                                padding: const EdgeInsets
+                                                                    .only(
+                                                                    left: 10,
+                                                                    top: 3,
+                                                                    bottom: 3),
+                                                                shape: RoundedRectangleBorder(
+                                                                  borderRadius: BorderRadius
+                                                                      .circular(
+                                                                      10.0),
+                                                                  side: BorderSide(
+                                                                      width: 1,
+                                                                      color: Colors
+                                                                          .black),
+                                                                ),
+                                                                backgroundColor: lighterGrey,
+                                                                foregroundColor: Colors
+                                                                    .black,
+                                                              ),
+                                                              onPressed: addToLetterUrls,
+                                                              label: Text(
+                                                                'upload attachment',
+                                                                textAlign: TextAlign
+                                                                    .center,),
+                                                            ))
+                                                    ),
+                                                    Flexible(child: SizedBox(
+                                                      height: 5,)),
+                                                    Flexible(
+                                                        flex: 7,
+                                                        fit: FlexFit.loose,
+                                                        child: Container(
+                                                            height: 100,
+                                                            width: 250,
+                                                            child: FutureBuilder<
+                                                                String?>(
+                                                              future: _filePathFuture,
+                                                              builder: (
+                                                                  context,
+                                                                  snapshot) {
+                                                                if (snapshot
+                                                                    .hasData) {
+                                                                  print(
+                                                                      snapshot
+                                                                          .data);
+                                                                  if (snapshot
+                                                                      .data !=
+                                                                      '') {
+                                                                    letterFilePaths
+                                                                        .add(
+                                                                        snapshot
+                                                                            .data!);
+                                                                  }
+                                                                  print(
+                                                                      'letterfilepath: $letterFilePaths');
+                                                                  return getUploadedFilePaths(
+                                                                      letterFilePaths);
+                                                                } else
+                                                                if (snapshot
+                                                                    .hasError) {
+                                                                  return Text(
+                                                                      'Error: ${snapshot
+                                                                          .error}');
+                                                                } else {
+                                                                  return CircularProgressIndicator();
+                                                                }
+                                                              },
+                                                            )))
+                                                  ],
+                                                )
+                                            )
+                                        ),
+                                      ])
+                                  ),
+                                ] +
+                                addToMedHistCheck(checkBox) +
+                                [LongButton(word: 'Add Entry', onPress: () {
+                                  _filePathFuture.then((value) {
+                                    HealthcareHistoryDataEntry newEntry =
+                                    HealthcareHistoryDataEntry(
+                                        id: '-1',
+                                        admissionDate: admissionDate.date
+                                            .toString(),
+                                        dischargeDate: dischargeDate.date
+                                            .toString(),
+                                        consultant: consultantController.text,
+                                        visitType: dropdownValue,
+                                        summary: summaryController.text,
+                                        addToMedicalHistory: addToMh);
+                                    print(letterFilePaths[0]);
+                                    addHospVisitEntry(
+                                        letterFilePaths[0], newEntry);
+                                    Navigator.pop(context);
+                                  });
+                                })
+                                ]
+                          // generateVisitDetail('Type of Visit', data.visitType) +
+                        )
+                      ]),
+                  homeIcon,
+                  const ProfileLogo(),
+                ]));
+      }
 }
 
 class AddVisitDetailsText extends StatelessWidget {
-  const AddVisitDetailsText({super.key, required this.title,  required this.controller, required this.hint});
+  const AddVisitDetailsText({super.key, required this.title,  required this.controller, required this.hint, required this.height});
 
   final String title;
   final TextEditingController controller;
   final String hint;
+  final double height;
 
   @override
   Widget build(BuildContext context) {
@@ -145,6 +294,7 @@ class AddVisitDetailsText extends StatelessWidget {
           child: Container(
               width: 250,
               child: TextFormField(
+                maxLines: 50,
                 controller: controller,
                 decoration: InputDecoration(
                   fillColor: lighterGrey,
@@ -154,7 +304,7 @@ class AddVisitDetailsText extends StatelessWidget {
                   hintText: hint,
                   hintStyle: TextStyle(color: bgGrey),
                   constraints: BoxConstraints(
-                    maxHeight: 40
+                    maxHeight: height
                   ),
                   contentPadding: EdgeInsets.only(left: 10.0)
                 ),
@@ -164,7 +314,7 @@ class AddVisitDetailsText extends StatelessWidget {
   }
 }
 
-List<Widget> addVisitText(String title, TextEditingController controller, String hint) {
+List<Widget> addVisitText(String title, TextEditingController controller, String hint, double height) {
   return [
     Flexible(
         flex: 5,
@@ -174,7 +324,7 @@ List<Widget> addVisitText(String title, TextEditingController controller, String
         flex: 1,
         fit: FlexFit.loose,
         child: DefaultTextStyle(style: smallInfo,
-            child: AddVisitDetailsText(title: title, controller: controller, hint: hint,), softWrap: true)),
+            child: AddVisitDetailsText(title: title, controller: controller, hint: hint, height: height,), softWrap: true)),
   ];
 }
 
@@ -183,7 +333,7 @@ List<Widget> addToMedHistCheck(Widget checkBox) {
     Flexible(
         flex: 5,
         fit: FlexFit.loose,
-        child: SizedBox(height: 20,)),
+        child: SizedBox(height: 10,)),
     Flexible(
         flex: 1,
         fit: FlexFit.loose,
@@ -241,7 +391,7 @@ List<Widget> addDropDown(Widget dropDown) {
                         width: 1.0
                     ),
                     borderRadius: BorderRadius.all(
-                        Radius.circular(10.0) //                 <--- border radius here
+                        Radius.circular(10.0) //
                     ),
                     color: lighterGrey,
                   ),
@@ -279,16 +429,6 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
               fit: FlexFit.loose,
               flex:15,
               child: Container(
-                // padding: EdgeInsets.only(left: 38),
-                //   decoration: BoxDecoration(
-                //     border: Border.all(
-                //         width: 1.0
-                //     ),
-                //     borderRadius: BorderRadius.all(
-                //         Radius.circular(10.0) //                 <--- border radius here
-                //     ),
-                //     color: lighterGrey,
-                //   ),
                   constraints: BoxConstraints(maxHeight: 60),
                   padding: EdgeInsets.zero,
                   width: 250,
@@ -312,51 +452,15 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
         ]))];
 }
 
-
-List<Widget> getUrlInfo(String title, String url) {
-  List<String> splitted = url.split('/');
-  String path = splitted.last;
-  return [
-    Flexible(
-        flex: 5,
-        fit: FlexFit.loose,
-        child: SizedBox(height: 20,)),
-    Flexible(
-        flex: 1,
-        fit: FlexFit.loose,
-        child:
-        Row(children: [
-          Flexible(
-              fit: FlexFit.tight,
-              flex: 1,
-              child: SizedBox(width: 5,)),
-          Flexible(
-              fit: FlexFit.tight,
-              flex: 10,
-              child: Container(
-                  width: 50,
-                  child: DefaultTextStyle(child: Text('$title:'), style: boldContent, softWrap: true,))),
-          Flexible(
-              fit: FlexFit.tight,
-              flex:11,
-              child: Container(
-                width: 250,
-                child: TextButton(
-                    style: TextButton.styleFrom(
-                      padding: const EdgeInsets.all(0.0),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(0.0),
-                      ),
-                      textStyle: smallInfoLink,
-                    ),
-                    onPressed: () {
-                      download(url);
-                    },
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(path, softWrap: true, textAlign: TextAlign.left,),
-                    )
-                ),
-              )),
-        ]))];
+Widget getUploadedFilePaths(List<String> urls) {
+  List<Widget> texts = [];
+  for (var url in urls) {
+    List<String> splitted = url.split('/');
+    String path = splitted.last;
+    texts.add(Text(path));
+  }
+  return SingleChildScrollView(child: Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
+    children: texts,
+  ));
 }

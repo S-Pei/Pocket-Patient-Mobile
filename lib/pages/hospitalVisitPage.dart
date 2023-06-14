@@ -10,24 +10,47 @@ import '../resources/globals.dart';
 import '../resources/objects.dart';
 import 'addHospitalVisit.dart';
 
+class HospitalVisitNotifier extends ValueNotifier<List<HealthcareHistoryDataEntry>> {
+  HospitalVisitNotifier(List<HealthcareHistoryDataEntry> mh) : super(mh);
+
+  void updateMh(List<HealthcareHistoryDataEntry> mh) {
+    print("print mh of update: ");
+    print(mh);
+    value = mh;
+  }
+}
+
 // HOSPITAL VISIT HISTORY PAGE
 class HospitalVisitPage extends StatelessWidget {
   const HospitalVisitPage({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final Map<String, String> medHis = {'20/4/23': 'Broke a leg, fixed leg zsdfgasdfsdfasfdssdf', '30/4/23': 'died'};
-    return Scaffold(
-      body: Stack(
-        children: [
-          TitlePageFormat(
-              children: [SizedBox(height: 15,),HealthcareVisitTitle(), SizedBox(height: 30,),] +
-                  showHealthcareVisitHistory(patientData!.getHealthcareVisits(), context)
-                  ),
-          homeIcon,
-          const ProfileLogo(),
-        ],
-      ),
+    final Map<String, String> medHis = {
+      '20/4/23': 'Broke a leg, fixed leg zsdfgasdfsdfasfdssdf',
+      '30/4/23': 'died'
+    };
+    return ValueListenableBuilder<List<HealthcareHistoryDataEntry>>(
+        valueListenable: mhNotifier,
+        builder: (context, value, child) {
+          return Scaffold(
+            body: Stack(
+              children: [
+                TitlePageFormat(
+                    children: [
+                      SizedBox(height: 15,),
+                      HealthcareVisitTitle(),
+                      SizedBox(height: 30,),
+                    ] +
+                        showHealthcareVisitHistory(
+                            patientData!.getHealthcareVisits(), context)
+                ),
+                homeIcon,
+                const ProfileLogo(),
+              ],
+            ),
+          );
+        }
     );
   }
 }

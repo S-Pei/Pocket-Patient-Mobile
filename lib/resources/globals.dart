@@ -6,13 +6,12 @@ import 'dart:io';
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dartx/dartx.dart';
 import 'package:dio/dio.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:patient_mobile_app/pages/authenticationOverlay.dart';
 import 'package:patient_mobile_app/pages/diaryPage.dart';
 import 'package:patient_mobile_app/pages/fullMedicationPage.dart';
 import 'package:open_file/open_file.dart';
 import 'package:path_provider/path_provider.dart';
+import 'package:patient_mobile_app/pages/hospitalVisitPage.dart';
 
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
@@ -27,7 +26,7 @@ import '../pages/medicalHistoryPage.dart';
 import '../pages/medicationPage.dart';
 import 'dart:async';
 
-bool ios = false;
+bool ios = true;
 String localHost = ios ? '127.0.0.1:8000' : '10.0.2.2:8000';
 const deployedHost = 'patientoncall.herokuapp.com';
 String localHostUrl = 'http://$localHost';
@@ -116,12 +115,18 @@ final loginPage = LoginPage();
 
 final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.medication);
 
+final HospitalVisitNotifier mhNotifier = HospitalVisitNotifier(patientData!.medical_history);
+
 Map<String, Pair<String,String>> hosps = {'1': Pair('St Mary Hospital', '25/4/2023'), '2': Pair('St John Hospital', '26/4/2023')};
 
 Map<String, Widget> medAccIncEntries = {};
 Map<String, bool> medAccIncVisibility = {'1': true, '2': true};
 
 Map<String, Widget> idToHospVisitDet = {};
+
+List<String> letterFilePaths = [];
+List<String> scanFilePaths = [];
+List<String> labFilePaths = [];
 
 Patient? patientData;
 
@@ -381,4 +386,37 @@ void download(String url) async {
 
   // opens the file
   OpenFile.open("$downloadDirPath/$path", type: 'application/pdf');
+}
+
+addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
+  var postUri = Uri.parse('$autoUrl/api/patient-data/patient-add-visit/');
+  Map<String, String> headers = {'Authorization': 'Bearer ${patientUser!.access}',
+  "Content-Type": "multipart/form-data"};
+  var request = http.MultipartRequest("POST", postUri);
+  request.headers.addAll(headers);
+  request.fields['patient-id'] = patientData!.patient_id.toString();
+  request.fields['admissionDate'] = newMedHis.admissionDate;
+  request.fields['dischargeDate'] = newMedHis.dischargeDate;
+  request.fields['summary'] = newMedHis.summary;
+  request.fields['consultant'] = newMedHis.consultant;
+  request.fields['visitType'] = newMedHis.visitType;
+  request.fields['addToMedicalHistory'] = newMedHis.addToMedicalHistory ? 'on' : 'off';
+
+  letterFilePaths.clear();
+
+  request.files.add(await http.MultipartFile.fromPath(
+      'letter', filePath));
+  print(request.fields);
+  request.send().then((response) {
+    if (response.statusCode == 201) {
+      print("Uploaded!");
+      Map<String, dynamic> data = {};
+      data['event'] = 'NEW_HOSP_VISIT_ENTRY';
+      data['patientId'] = patientData!.patient_id;
+      final json = jsonEncode(data);
+      channel!.sink.add(json);
+    } else {
+      print("TT file upload failed");
+    }
+  });
 }
