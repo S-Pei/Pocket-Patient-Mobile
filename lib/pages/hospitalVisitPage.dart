@@ -36,15 +36,68 @@ class HospitalVisitPage extends StatelessWidget {
           return Scaffold(
             body: Stack(
               children: [
-                TitlePageFormat(
-                    children: [
-                      SizedBox(height: 15,),
-                      HealthcareVisitTitle(),
-                      SizedBox(height: 30,),
-                    ] +
-                        showHealthcareVisitHistory(
-                            patientData!.getHealthcareVisits(), context)
+            Center(
+            child: Container(
+            padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+              child: Column(children: [
+                const Flexible(
+                    flex: 4,
+                    fit: FlexFit.tight,
+                    child: SizedBox(
+                      height: 90,
+                    )),
+                Flexible(
+                    flex: 5,
+                    fit: FlexFit.loose,
+                    child: Container(
+                        height: 120,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 15,),
+                              HealthcareVisitTitle(),
+                              SizedBox(height: 15,),
+                          Row(children: [
+                            Flexible(
+                                fit: FlexFit.tight,
+                                flex: 1,
+                                child: SizedBox(width: 5,)),
+                            Flexible(
+                                fit: FlexFit.tight,
+                                flex: 11,
+                                child: Container(
+                                    width: 50,
+                                    child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
+                            Flexible(
+                                fit: FlexFit.tight,
+                                flex: 25,
+                                child: Container(
+                                    width: 250,
+                                    child: DefaultTextStyle(child: Text('Consultant'), style: boldContent, softWrap: true,)
+                                )),
+                              ])
+                      ]))
                 ),
+                Flexible(
+                    flex: 15,
+                    child: SingleChildScrollView(
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children:
+                              showHealthcareVisitHistory(
+                                patientData!.getHealthcareVisits(), context)))
+                ),
+                const Flexible(
+                    flex: 1,
+                    fit: FlexFit.loose,
+                    child: SizedBox(
+                      height: 20,
+                    )),
+                Flexible(
+                  flex: 3,
+                  child: NavigateLongButton(word: 'Add Hospital Entry', nextPage: AddHospitalVisitPage())
+                )
+              ]))),
                 homeIcon,
                 const ProfileLogo(),
               ],
@@ -80,35 +133,35 @@ class HealthcareVisitTitle extends StatelessWidget {
 List<Widget> showHealthcareVisitHistory(Map<String, HealthcareHistoryDataEntry> data, BuildContext context) {
   print('show hospital visit history: ${data}');
   List<Widget> widgets = [];
-  widgets.add(
-    Row(children: [
-      Flexible(
-          fit: FlexFit.tight,
-          flex: 1,
-          child: SizedBox(width: 5,)),
-      Flexible(
-          fit: FlexFit.tight,
-          flex: 20,
-          child: Container(
-              width: 50,
-              child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
-      Flexible(
-          fit: FlexFit.tight,
-          flex: 25,
-          child: Container(
-              width: 250,
-              child: DefaultTextStyle(child: Text('Consultant'), style: boldContent, softWrap: true,)
-          )),
-      Flexible(
-          fit: FlexFit.tight,
-          flex: 20,
-          child: Container(
-              width: 250,
-              // child: DefaultTextStyle(child: Text(''), style: boldContent, softWrap: true,)
-              child: AddInfoButton(nextPage: AddHospitalVisitPage(), width: 100, height: 35,),
-          )),
-    ]),
-  );
+  // widgets.add(
+  //   Row(children: [
+  //     Flexible(
+  //         fit: FlexFit.tight,
+  //         flex: 1,
+  //         child: SizedBox(width: 5,)),
+  //     Flexible(
+  //         fit: FlexFit.tight,
+  //         flex: 11,
+  //         child: Container(
+  //             width: 50,
+  //             child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
+  //     Flexible(
+  //         fit: FlexFit.tight,
+  //         flex: 25,
+  //         child: Container(
+  //             width: 250,
+  //             child: DefaultTextStyle(child: Text('Consultant'), style: boldContent, softWrap: true,)
+  //         )),
+  //     // Flexible(
+  //     //     fit: FlexFit.tight,
+  //     //     flex: 20,
+  //     //     child: Container(
+  //     //         width: 250,
+  //     //         // child: DefaultTextStyle(child: Text(''), style: boldContent, softWrap: true,)
+  //     //         child: AddInfoButton(nextPage: AddHospitalVisitPage(), width: 100, height: 35,),
+  //     //     )),
+  //   ]),
+  // );
   widgets.add(SizedBox(height: 10,));
   for (var entry in data.entries) {
     widgets.add(HealthcareVisitEntry(data: entry.value, uuid: entry.key));
