@@ -99,11 +99,6 @@ class _HomePageState extends State<HomePage> {
             SizedBox(
               height: 50,
             ),
-            NavigateLongButton(
-                word: 'Add Hospital Visit', nextPage: AddHospitalVisitPage()),
-            SizedBox(
-              height: 50,
-            ),
           ]),
           homeIcon,
           const ProfileLogo(),
