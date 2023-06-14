@@ -36,7 +36,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = true;
+const debug = false;
 
 
 // WEBSOCKET INITIALISATION
