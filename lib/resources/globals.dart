@@ -123,6 +123,8 @@ final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.me
 
 final DiaryNotifier diaryUpdate = DiaryNotifier(patientData!.diaryState);
 
+final CategoryNotifier categoryUpdate = CategoryNotifier(patientData!.categoryState);
+
 final HospitalVisitNotifier mhNotifier = HospitalVisitNotifier(patientData!.medical_history);
 
 final MedInsAccNotifier medInsAccNotifier = MedInsAccNotifier(changeNum);
@@ -360,9 +362,6 @@ List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
         radius: 0,
         outerPadding: 0);
       widgets.add(Row(children: [
-        SizedBox(
-          width: 10,
-        ),
         Flexible(flex: 20, child: widget),
       ]));
     widgets.add(SizedBox(height: 10,));
@@ -499,6 +498,15 @@ void submitNewDiaryEntry(String category, DateTime date, String content) {
   data['contentType'] = category;
   data['date'] = date.date.toString();
   data['content'] = content;
+  data['patientId'] = patientData!.patient_id;
+  final json = jsonEncode(data);
+  channel!.sink.add(json);
+}
+
+void submitNewDiaryCategory(String category) {
+  Map<String, dynamic> data = {};
+  data['event'] = 'NEW_DIARY_CLASS';
+  data['contentType'] = category;
   data['patientId'] = patientData!.patient_id;
   final json = jsonEncode(data);
   channel!.sink.add(json);
