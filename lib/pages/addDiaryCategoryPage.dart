@@ -2,6 +2,7 @@ import 'package:dartx/dartx.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:patient_mobile_app/pages/diaryCategoryPage.dart';
 import 'package:patient_mobile_app/pages/diaryPage.dart';
 
 import 'package:patient_mobile_app/resources/colours.dart';
@@ -23,7 +24,7 @@ class AddDiaryCategoryPage extends StatelessWidget {
             top: 100,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: Column(
+              child: const Column(
                 children: [
                   BackButtonWrapper(),
                   SizedBox(height: 15),
@@ -66,7 +67,7 @@ class AddDiaryCategoryTitle extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Text(
-          'Add Diary Entry',
+          'Add Diary Category',
           style: TextStyle(
             fontSize: 30,
             fontWeight: FontWeight.bold,
@@ -107,6 +108,11 @@ class _CategoryInputsState extends State<CategoryInputs> {
               patientData!.addNewDiaryCategory(inputController.text);
               categoryUpdate.updateCategory(patientData!.changeCategoryState());
               Navigator.pop(context);
+              Navigator.pop(context);
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const DiaryCategoryPage()),
+              );
             }),
           ],
         ),

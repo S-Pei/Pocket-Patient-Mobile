@@ -94,6 +94,7 @@ class Patient {
 
     void addNewDiaryCategory(String category) {
       diaryClass[category] = [];
+      print(diaryClass);
     }
 
     bool changeCategoryState() {
