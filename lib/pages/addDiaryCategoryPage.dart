@@ -22,15 +22,17 @@ class AddDiaryCategoryPage extends StatelessWidget {
           const ProfileLogo(),
           Positioned(
             top: 100,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: const Column(
-                children: [
-                  BackButtonWrapper(),
-                  SizedBox(height: 15),
-                  AddDiaryCategoryTitle(),
-                  CategoryInputs(),
-                ],
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: const Column(
+                  children: [
+                    BackButtonWrapper(),
+                    SizedBox(height: 15),
+                    AddDiaryCategoryTitle(),
+                    CategoryInputs(),
+                  ],
+                ),
               ),
             ),
           ),

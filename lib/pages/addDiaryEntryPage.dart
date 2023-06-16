@@ -22,15 +22,17 @@ class AddDiaryEntryPage extends StatelessWidget {
           const ProfileLogo(),
           Positioned(
             top: 100,
-            child: SizedBox(
-              width: MediaQuery.of(context).size.width,
-              child: Column(
-                children: [
-                  BackButtonWrapper(),
-                  SizedBox(height: 15),
-                  AddDiaryEntryTitle(),
-                  DiaryInputs(category),
-                ],
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: MediaQuery.of(context).size.width,
+                child: Column(
+                  children: [
+                    BackButtonWrapper(),
+                    SizedBox(height: 15),
+                    AddDiaryEntryTitle(),
+                    DiaryInputs(category),
+                  ],
+                ),
               ),
             ),
           ),
