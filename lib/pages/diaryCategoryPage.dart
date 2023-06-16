@@ -37,16 +37,24 @@ class DiaryCategoryPage extends StatelessWidget {
                                 height: 90,
                               )),
                           Flexible(
-                              flex: 5,
+                              flex: 6,
                               fit: FlexFit.tight,
                               child: Container(
                                   height: 120,
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(height: 15,),
-                                        DiaryCategoryTitle(),
                                         Flexible(
+                                          flex: 8,
+                                          child: Container(
+                                              margin: EdgeInsets.only(top: 7),
+                                              child: BackButtonWrapper()
+                                          ),
+                                        ),
+                                        const SizedBox(height: 12,),
+                                        const DiaryCategoryTitle(),
+                                        const SizedBox(height: 10,),
+                                        const Flexible(
                                             flex: 3,
                                             fit: FlexFit.loose,
                                             child: SizedBox(
@@ -61,40 +69,8 @@ class DiaryCategoryPage extends StatelessWidget {
                                                   child: Container(
                                                       width: 50,
                                                       child: DefaultTextStyle(child: Text('Categories'), style: boldContent, softWrap: true,))),
-                                              Flexible(
-                                                  fit: FlexFit.tight,
-                                                  flex: 10,
-                                                  child: Container(
-                                                      width: 50,
-                                                      child: ElevatedButton(
-                                                        style: ElevatedButton.styleFrom(
-                                                          shape: RoundedRectangleBorder(
-                                                            borderRadius: BorderRadius.circular(5.0),
-                                                          ),
-                                                          padding: EdgeInsets.all(3),
-                                                          textStyle: boldContent,
-                                                          backgroundColor: mainCyan,
-                                                          foregroundColor: Colors.black,
-                                                          elevation: 10,
-                                                          minimumSize: const Size(100, 20),
-                                                        ),
-                                                        onPressed: () {
-                                                          Navigator.pop(context);
-                                                        },
-                                                        child: Text(
-                                                          'Back',
-                                                          textAlign: TextAlign.center,
-                                                        ),
-                                                      ))
-                                              )
                                             ])
                                         ),
-                                        const Flexible(
-                                            flex: 1,
-                                            fit: FlexFit.tight,
-                                            child: SizedBox(
-                                              height: 20,
-                                            )),
                                       ]))
                           ),
                           Flexible(
@@ -148,3 +124,18 @@ class DiaryCategoryTitle extends StatelessWidget {
   }
 }
 
+class BackButtonWrapper extends StatelessWidget {
+  const BackButtonWrapper({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        Container(
+          // padding: const EdgeInsets.only(left: 20),
+          child: const BackButtonBlue(),
+        ),
+      ],
+    );
+  }
+}

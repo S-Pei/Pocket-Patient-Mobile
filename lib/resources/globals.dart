@@ -307,6 +307,8 @@ List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
         width: MediaQuery.of(context).size.width,
         padding: 10.0,
         colour: contentCyan,
+        radius: 0,
+        outerPadding: 0,
         child: Row(
             children: [
               Flexible(
@@ -321,25 +323,43 @@ List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
                   child: Container(
                       width: 50,
                       child: DefaultTextStyle(
-                        child: Text(entry),
                         style: content,
                         softWrap: true,
+                        child: Text(entry),
                       ))),
             ] +
-                moreInfo),
-        radius: 0,
-        outerPadding: 0);
+                moreInfo));
       widgets.add(Row(children: [
         Flexible(flex: 20, child: widget),
       ]));
-    widgets.add(SizedBox(height: 10,));
+    widgets.add(const SizedBox(height: 10,));
   }
   return widgets;
 }
 
 List<Widget> showDiaryList(List<DiaryEntry>? entries, BuildContext context) {
   List<Widget> widgets = [];
-  widgets.add(SizedBox(height: 10,));
+  widgets.add(const SizedBox(height: 10,));
+  widgets.add(
+    Row(
+      children: [
+        Flexible(
+            fit: FlexFit.tight,
+            flex: 11,
+            child: Container(
+                width: 50,
+                child: const DefaultTextStyle(style: boldContent, softWrap: true, child: Text('Dates'),))),
+        Flexible(
+            fit: FlexFit.tight,
+            flex: 13,
+            child: Container(
+                width: 250,
+                child: const DefaultTextStyle(style: boldContent, softWrap: true, child: Text('Entries'),)
+            )),
+      ],
+    )
+  );
+  widgets.add(const SizedBox(height: 6,));
   for (var entry in entries!) {
     List<Flexible> moreInfo = [Flexible(
         fit: FlexFit.tight,
@@ -351,7 +371,7 @@ List<Widget> showDiaryList(List<DiaryEntry>? entries, BuildContext context) {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(5.0),
                 ),
-                padding: EdgeInsets.all(3),
+                padding: const EdgeInsets.all(3),
                 textStyle: boldContent,
                 backgroundColor: lightGrey,
                 foregroundColor: Colors.black,
@@ -366,7 +386,7 @@ List<Widget> showDiaryList(List<DiaryEntry>? entries, BuildContext context) {
 
                 ));
               },
-              child: Text(
+              child: const Text(
                 'See Entry',
                 textAlign: TextAlign.center,
               ),
@@ -377,6 +397,8 @@ List<Widget> showDiaryList(List<DiaryEntry>? entries, BuildContext context) {
         width: MediaQuery.of(context).size.width,
         padding: 10.0,
         colour: contentCyan,
+        radius: 0,
+        outerPadding: 0,
         child: Row(
             children: [
               Flexible(
@@ -385,39 +407,31 @@ List<Widget> showDiaryList(List<DiaryEntry>? entries, BuildContext context) {
                   child: Container(
                       width: 70,
                       child: DefaultTextStyle(
-                        child: Text(entry.date),
                         style: content,
                         softWrap: true,
+                        child: Text(entry.date),
                       ))),
-              // Flexible(
-              //     fit: FlexFit.tight,
-              //     flex: 1,
-              //     child: Container(
-              //         width: 5000
-              //     )),
               Flexible(
                   fit: FlexFit.tight,
                   flex: 7,
                   child: Container(
                       width: 250,
-                      padding: EdgeInsets.only(left: 15),
+                      padding: const EdgeInsets.only(left: 15),
                       child: DefaultTextStyle(
+                        style: content,
+                        softWrap: true,
                         child: Text(
                           entry.content,
                           overflow: TextOverflow.ellipsis,
                           maxLines: 3
                         ),
-                        style: content,
-                        softWrap: true,
                       )))
             ] +
-                moreInfo),
-        radius: 0,
-        outerPadding: 0);
+                moreInfo));
     widgets.add(Row(children: [
       Flexible(flex: 20, child: widget),
     ]));
-    widgets.add(SizedBox(height: 10,));
+    widgets.add(const SizedBox(height: 10,));
   }
   return widgets;
 }

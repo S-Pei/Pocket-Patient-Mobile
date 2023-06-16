@@ -54,7 +54,6 @@ class BackButtonWrapper extends StatelessWidget {
       ],
     );
   }
-
 }
 
 // ADD ENTRY TITLE

@@ -40,75 +40,27 @@ class DiaryPage extends StatelessWidget {
                               child: SizedBox(
                                 height: 90,
                               )),
-                          Flexible(
-                              flex: 4,
+                          const Flexible(
+                              flex: 5,
                               fit: FlexFit.tight,
-                              child: Container(
+                              child: SizedBox(
                                   height: 100,
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        const DiaryPageTitle(),
-                                         const Flexible(
+                                        BackButtonBlue(),
+                                        SizedBox(height: 5,),
+                                        DiaryPageTitle(),
+                                        Flexible(
                                             flex: 1,
                                             fit: FlexFit.loose,
                                             child: SizedBox(
                                               height: 20,
                                             )),
-                                        Flexible(
-                                          flex: 4,
-                                            child: Row(children: [
-                                          Flexible(
-                                              fit: FlexFit.tight,
-                                              flex: 11,
-                                              child: Container(
-                                                  width: 50,
-                                                  child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
-                                          Flexible(
-                                              fit: FlexFit.tight,
-                                              flex: 13,
-                                              child: Container(
-                                                  width: 250,
-                                                  child: DefaultTextStyle(child: Text('Entries'), style: boldContent, softWrap: true,)
-                                              )),
-                                          Flexible(
-                                              fit: FlexFit.tight,
-                                              flex: 10,
-                                              child: Container(
-                                                  width: 50,
-                                                  child: ElevatedButton(
-                                                    style: ElevatedButton.styleFrom(
-                                                      shape: RoundedRectangleBorder(
-                                                        borderRadius: BorderRadius.circular(5.0),
-                                                      ),
-                                                      padding: EdgeInsets.all(3),
-                                                      textStyle: boldContent,
-                                                      backgroundColor: mainCyan,
-                                                      foregroundColor: Colors.black,
-                                                      elevation: 10,
-                                                      minimumSize: const Size(100, 20),
-                                                    ),
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text(
-                                                      'Back',
-                                                      textAlign: TextAlign.center,
-                                                    ),
-                                                  ))
-                                          )
-                                        ])
-                                        ),
-                                        const Flexible(
-                                            flex: 1,
-                                            fit: FlexFit.loose,
-                                            child: SizedBox(
-                                              height: 15,
-                                            )),
                                       ]))
                           ),
                           Flexible(
-                              flex: 15,
+                              flex: 18,
                               child: SingleChildScrollView(
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -182,6 +134,4 @@ class AddDiaryEntryButton extends StatelessWidget {
       ),
     );
   }
-
-
 }

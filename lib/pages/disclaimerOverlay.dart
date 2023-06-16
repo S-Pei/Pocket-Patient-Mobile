@@ -28,13 +28,13 @@ class DisclaimerWidget extends StatelessWidget {
                 // child: SingleChildScrollView(
                     child: Column(
                         children: [
-                          RichText(text: TextSpan(text: 'DISCLAIMER', style: redTitle,
+                          RichText(text: const TextSpan(text: 'DISCLAIMER', style: redTitle,
                           children: [
                             TextSpan(text: ': Hiding medical data might post serious risk to your medical diagnosis.',
                             style: title,)
                           ])),
-                          Text('Are you sure you would like to hide your data selection?', style: content, softWrap: true,),
-                          SizedBox(height: 20,),
+                          const Text('Are you sure you would like to hide your data selection?', style: content, softWrap: true,),
+                          const SizedBox(height: 20,),
                           Column(
                               children: [
                                 Row(
