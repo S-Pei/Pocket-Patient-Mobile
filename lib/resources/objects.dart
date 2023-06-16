@@ -13,6 +13,7 @@ class Patient {
     List<MedicationEntry> medication;
     final Map<String, List<DiaryEntry>> diaryClass;
     List<HealthcareHistoryDataEntry> medical_history;
+    bool diaryState = true;
 
     Patient({
       required this.patient_id,
@@ -84,6 +85,11 @@ class Patient {
     void addNewDiaryEntry(String category, DateTime date, String content) {
       String dateStr = date.toString().split(" ")[0];
       diaryClass[category]?.add(DiaryEntry(date: dateStr, content: content));
+    }
+
+    bool changeDiaryState() {
+      diaryState = !diaryState;
+      return diaryState;
     }
 
     // void addNewDiaryEntry(String className, List<DiaryEntry> entries) {

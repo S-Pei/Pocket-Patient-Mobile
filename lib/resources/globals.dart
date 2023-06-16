@@ -121,6 +121,8 @@ final loginPage = LoginPage();
 
 final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.medication);
 
+final DiaryNotifier diaryUpdate = DiaryNotifier(patientData!.diaryState);
+
 final HospitalVisitNotifier mhNotifier = HospitalVisitNotifier(patientData!.medical_history);
 
 final MedInsAccNotifier medInsAccNotifier = MedInsAccNotifier(changeNum);

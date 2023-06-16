@@ -126,11 +126,8 @@ class _DiaryInputsState extends State<DiaryInputs> {
               LongButton(word: 'Submit diary', onPress: () {
                 submitNewDiaryEntry(category, selectedDate, inputController.text);
                 patientData!.addNewDiaryEntry(category, selectedDate, inputController.text);
-                MaterialPageRoute(
-                    builder: (context) =>
-                        DiaryPage(category)
-                );
-
+                diaryUpdate.updateDiary(patientData!.changeDiaryState());
+                Navigator.pop(context);
               }),
             ],
           ),

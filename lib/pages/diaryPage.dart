@@ -8,6 +8,15 @@ import 'package:patient_mobile_app/resources/globals.dart';
 
 import '../resources/objects.dart';
 
+class DiaryNotifier extends ValueNotifier<bool> {
+  DiaryNotifier(bool state) : super(state);
+
+  void updateDiary(bool changeState) {
+    print("updates diary");
+    value = changeState;
+  }
+}
+
 class DiaryPage extends StatelessWidget {
   final String category;
   const DiaryPage(this.category, {super.key});
@@ -15,8 +24,8 @@ class DiaryPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<DiaryEntry>? entries = patientData?.getDiaryEntries(category);
-    return ValueListenableBuilder<List<HealthcareHistoryDataEntry>>(
-        valueListenable: mhNotifier,
+    return ValueListenableBuilder<bool>(
+        valueListenable: diaryUpdate,
         builder: (context, value, child) {
           return Scaffold(
             body: Stack(
