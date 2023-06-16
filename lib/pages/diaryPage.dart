@@ -41,16 +41,15 @@ class DiaryPage extends StatelessWidget {
                                 height: 90,
                               )),
                           Flexible(
-                              flex: 5,
-                              fit: FlexFit.loose,
+                              flex: 4,
+                              fit: FlexFit.tight,
                               child: Container(
-                                  height: 120,
+                                  height: 100,
                                   child: Column(
                                       crossAxisAlignment: CrossAxisAlignment.start,
                                       children: [
-                                        SizedBox(height: 15,),
-                                        DiaryPageTitle(),
-                                         Flexible(
+                                        const DiaryPageTitle(),
+                                         const Flexible(
                                             flex: 1,
                                             fit: FlexFit.loose,
                                             child: SizedBox(
@@ -67,7 +66,7 @@ class DiaryPage extends StatelessWidget {
                                                   child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
                                           Flexible(
                                               fit: FlexFit.tight,
-                                              flex: 10,
+                                              flex: 13,
                                               child: Container(
                                                   width: 250,
                                                   child: DefaultTextStyle(child: Text('Entries'), style: boldContent, softWrap: true,)
@@ -104,16 +103,10 @@ class DiaryPage extends StatelessWidget {
                                             flex: 1,
                                             fit: FlexFit.loose,
                                             child: SizedBox(
-                                              height: 20,
+                                              height: 15,
                                             )),
                                       ]))
                           ),
-                          // const Flexible(
-                          //     flex: 1,
-                          //     fit: FlexFit.loose,
-                          //     child: SizedBox(
-                          //       height: 20,
-                          //     )),
                           Flexible(
                               flex: 15,
                               child: SingleChildScrollView(

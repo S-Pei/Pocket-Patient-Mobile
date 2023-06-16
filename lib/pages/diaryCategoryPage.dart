@@ -38,7 +38,7 @@ class DiaryCategoryPage extends StatelessWidget {
                               )),
                           Flexible(
                               flex: 5,
-                              fit: FlexFit.loose,
+                              fit: FlexFit.tight,
                               child: Container(
                                   height: 120,
                                   child: Column(
@@ -47,13 +47,13 @@ class DiaryCategoryPage extends StatelessWidget {
                                         SizedBox(height: 15,),
                                         DiaryCategoryTitle(),
                                         Flexible(
-                                            flex: 1,
+                                            flex: 3,
                                             fit: FlexFit.loose,
                                             child: SizedBox(
-                                              height: 20,
+                                              height: 15,
                                             )),
                                         Flexible(
-                                            flex: 4,
+                                            flex: 5,
                                             child: Row(children: [
                                               Flexible(
                                                   fit: FlexFit.tight,
@@ -61,7 +61,6 @@ class DiaryCategoryPage extends StatelessWidget {
                                                   child: Container(
                                                       width: 50,
                                                       child: DefaultTextStyle(child: Text('Categories'), style: boldContent, softWrap: true,))),
-
                                               Flexible(
                                                   fit: FlexFit.tight,
                                                   flex: 10,
@@ -92,7 +91,7 @@ class DiaryCategoryPage extends StatelessWidget {
                                         ),
                                         const Flexible(
                                             flex: 1,
-                                            fit: FlexFit.loose,
+                                            fit: FlexFit.tight,
                                             child: SizedBox(
                                               height: 20,
                                             )),

@@ -29,10 +29,9 @@ class Patient {
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
-      print(json);
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
-      var diaryMapClass = jsonDecode(json['diary-info']);
+      var diaryMapClass = json['diary-info'];
       var diaryKeys = diaryMapClass.keys.toList();
       print("printing list keys");
       print(diaryKeys);

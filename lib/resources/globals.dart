@@ -149,7 +149,6 @@ Patient? patientData;
 PatientUser? patientUser;
 
 Future<Patient> fetchData(String url) async {
-
   final response = await http.get(
       Uri.parse(url),
       headers: <String, String>{
@@ -263,45 +262,14 @@ List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context)
 List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
   List<Widget> widgets = [];
   widgets.add(
-    Row(children: [
+    const Row(children: [
       Flexible(
           fit: FlexFit.tight,
           flex: 1,
           child: SizedBox(width: 5,)),
-      Flexible(
-          fit: FlexFit.tight,
-          flex: 10,
-          child: Container(
-              width: 50,
-              child: DefaultTextStyle(child: Text('Categories'), style: boldContent, softWrap: true,))),
-      Flexible(
-          fit: FlexFit.tight,
-          flex: 5,
-          child: Container(
-            width: 50,
-            child: ElevatedButton(
-              style: ElevatedButton.styleFrom(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(5.0),
-                ),
-                padding: EdgeInsets.all(3),
-                textStyle: boldContent,
-                backgroundColor: mainCyan,
-                foregroundColor: Colors.black,
-                elevation: 10,
-                minimumSize: const Size(100, 20),
-              ),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: Text(
-                'Back',
-                textAlign: TextAlign.center,
-              ),
-          ))),
     ]),
   );
-  widgets.add(SizedBox(height: 10,));
+  widgets.add(const SizedBox(height: 10,));
   for (var entry in sections) {
     List<Flexible> moreInfo = [Flexible(
           fit: FlexFit.tight,
@@ -313,7 +281,7 @@ List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(5.0),
                   ),
-                  padding: EdgeInsets.all(3),
+                  padding: const EdgeInsets.all(3),
                   textStyle: boldContent,
                   backgroundColor: lightGrey,
                   foregroundColor: Colors.black,
@@ -328,7 +296,7 @@ List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
                         DiaryPage(entry)),
                   );
                 },
-                child: Text(
+                child: const Text(
                   'See Entries',
                   textAlign: TextAlign.center,
                 ),
