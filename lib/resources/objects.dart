@@ -11,7 +11,7 @@ class Patient {
     final String dob;
     final String patient_address;
     List<MedicationEntry> medication;
-    final List<DiaryEntry> diary;
+    final Map<String, List<DiaryEntry>> diaryClass;
     List<HealthcareHistoryDataEntry> medical_history;
 
     Patient({
@@ -23,17 +23,27 @@ class Patient {
       required this.patient_address,
       required this.medical_history,
       required this.medication,
-      required this.diary,
+      required this.diaryClass,
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
       print(json);
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
-      var diaryList = json['diary'];
+      var diaryMapClass = jsonDecode(json['diary-info']);
+      var diaryKeys = diaryMapClass.keys.toList();
+      print("printing list keys");
+      print(diaryKeys);
       List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
       List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
-      List<DiaryEntry> drList = diaryList.map<DiaryEntry>((dr) => DiaryEntry.fromDic(dr)).toList();
+      Map<String, List<DiaryEntry>> drMap = {};
+      diaryKeys.map((dk)
+      {
+        var value = diaryMapClass[dk];
+        drMap[dk] = value.map<DiaryEntry>((cm) => DiaryEntry.fromDic(cm)).toList();
+      }
+      ).toList();
+      print(drMap);
       return Patient(
         patient_id: json['patient-id'],
         patient_name: json['patient-name-small'],
@@ -43,7 +53,7 @@ class Patient {
         patient_address: json['patient-address'],
         medical_history: mhList,
         medication: cmList,
-        diary: drList,
+        diaryClass: drMap,
       );
     }
 
@@ -57,20 +67,28 @@ class Patient {
       return data;
     }
 
-    Map<String, Pair<String, String>> getDiarySummary() {
-      Map<String, Pair<String, String>> data = {};
-      var i = 0;
-      for (var dr in diary) {
-        data['$i'] = Pair(dr.date, dr.content);
-        i++;
-      }
-      return data;
+    // Map<String, Pair<String, String>> getDiarySummary() {
+    //   Map<String, Pair<String, String>> data = {};
+    //   var i = 0;
+    //   for (var dr in diary) {
+    //     data['$i'] = Pair(dr.date, dr.content);
+    //     i++;
+    //   }
+    //   return data;
+    // }
+
+    List<DiaryEntry>? getDiaryEntries(String category) {
+      return diaryClass[category];
     }
 
-    void addNewDiaryEntry(DateTime date, String content) {
+    void addNewDiaryEntry(String category, DateTime date, String content) {
       String dateStr = date.toString().split(" ")[0];
-      diary.add(DiaryEntry(date: dateStr, content: content));
+      diaryClass[category]?.add(DiaryEntry(date: dateStr, content: content));
     }
+
+    // void addNewDiaryEntry(String className, List<DiaryEntry> entries) {
+    //   diaryClass.add(DiaryEntryClass(diaryClass: className, entries: entries));
+    // }
 
     Map<String, HealthcareHistoryDataEntry> getHealthcareVisits() {
       print('healthcare visit history: ${medical_history}');
@@ -153,6 +171,29 @@ class MedicationEntry {
   }
 }
 
+// class DiaryEntryClass {
+//   final String diaryClass;
+//   final List<DiaryEntry> entries;
+//
+//   DiaryEntryClass({
+//     required this.diaryClass,
+//     required this.entries,
+//   });
+//
+//   factory DiaryEntryClass.fromDic(String className, List<dynamic> diary) {
+//     print("got into diary entry class creation");
+//     return DiaryEntryClass(
+//         diaryClass: className,
+//         entries: diary.map<DiaryEntry>((cm) => DiaryEntry.fromDic(cm)).toList()
+//         );
+//   }
+//
+//   @override
+//   String toString() {
+//     return "Class: ${diaryClass}\nEntry: ${entries.toString()}";
+//   }
+// }
+
 class DiaryEntry {
   final String date;
   final String content;
@@ -163,9 +204,16 @@ class DiaryEntry {
   });
 
   factory DiaryEntry.fromDic(Map<String, dynamic> dic) {
+    print("got into diary entry creation");
     return DiaryEntry(
       date: dic['date'],
       content: dic['content']);
+  }
+
+  @override
+  String toString() {
+    // TODO: implement toString
+    return "${date}: ${content}\n";
   }
 }
 

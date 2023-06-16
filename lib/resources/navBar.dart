@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/diaryCategoryPage.dart';
 import 'colours.dart';
 import '../pages/hospitalVisitPage.dart';
 import '../pages/medicationPage.dart';
@@ -22,7 +23,8 @@ class _InfoPageState extends State<InfoPage> {
   final List<Widget> _pages = [
     const MedicationPage(),
     const MedicalHistoryPage(),
-    const HospitalVisitPage()
+    const HospitalVisitPage(),
+    const DiaryCategoryPage()
   ];
 
   @override

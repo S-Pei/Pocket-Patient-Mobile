@@ -14,12 +14,15 @@ import 'package:path_provider/path_provider.dart';
 import 'package:patient_mobile_app/pages/hospitalVisitPage.dart';
 import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 
+import 'package:patient_mobile_app/resources/colours.dart';
 import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
 import 'package:permission_handler/permission_handler.dart';
 import 'package:web_socket_channel/web_socket_channel.dart';
 
+import '../pages/diaryCategoryPage.dart';
+import '../pages/fullDiaryEntry.dart';
 import '../pages/homePage.dart';
 import 'package:http/http.dart' as http;
 import '../pages/loginPage.dart';
@@ -36,7 +39,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = false;
+const debug = true;
 
 
 // WEBSOCKET INITIALISATION
@@ -107,6 +110,8 @@ final medicalHistoryTitle = MedicalHistoryTitle();
 final medicationTitle = MedicationTitle();
 
 const diaryPageTitle = DiaryPageTitle();
+
+final diaryCategoryTitle = DiaryCategoryTitle();
 
 var firstRender = true;
 
@@ -251,45 +256,199 @@ List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context)
   return tableRow;
 }
 
-List<Widget> showDiaryList(Map<String, Pair<String, String>> data, BuildContext context) {
+List<Widget> showDiaryCategory(List<String> sections, BuildContext context) {
   List<Widget> widgets = [];
   widgets.add(
-    const Row(children: [
+    Row(children: [
       Flexible(
           fit: FlexFit.tight,
           flex: 1,
-          child: SizedBox(width: 5),
-      ),
+          child: SizedBox(width: 5,)),
       Flexible(
           fit: FlexFit.tight,
-          flex: 12,
-          child: SizedBox(
+          flex: 10,
+          child: Container(
               width: 50,
-              child: DefaultTextStyle(
-                style: boldContent,
-                softWrap: true,
-                child: Text('Date'),
-              ),
-          ),
-      ),
+              child: DefaultTextStyle(child: Text('Categories'), style: boldContent, softWrap: true,))),
       Flexible(
           fit: FlexFit.tight,
-          flex: 25,
-          child: SizedBox(
-              width: 250,
-              child: DefaultTextStyle(
-                  style: boldContent,
-                  softWrap: true,
-                  child: Text('Content'),
+          flex: 5,
+          child: Container(
+            width: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                padding: EdgeInsets.all(3),
+                textStyle: boldContent,
+                backgroundColor: mainCyan,
+                foregroundColor: Colors.black,
+                elevation: 10,
+                minimumSize: const Size(100, 20),
               ),
-          ),
-      ),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: Text(
+                'Back',
+                textAlign: TextAlign.center,
+              ),
+          ))),
     ]),
   );
-  widgets.add(const SizedBox(height: 10));
-  for (var entry in data.entries) {
-    widgets.add(TwoInfoTile(data1: entry.value.first, data2: entry.value.second, id : entry.key));
-    widgets.add(const SizedBox(height: 10,));
+  widgets.add(SizedBox(height: 10,));
+  for (var entry in sections) {
+    List<Flexible> moreInfo = [Flexible(
+          fit: FlexFit.tight,
+          flex: 5,
+          child: Container(
+              width: 50,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(5.0),
+                  ),
+                  padding: EdgeInsets.all(3),
+                  textStyle: boldContent,
+                  backgroundColor: lightGrey,
+                  foregroundColor: Colors.black,
+                  elevation: 10,
+                  minimumSize: const Size(100, 20),
+                ),
+                onPressed: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) =>
+                        DiaryPage(entry)),
+                  );
+                },
+                child: Text(
+                  'See Entries',
+                  textAlign: TextAlign.center,
+                ),
+              ))),
+    ];
+    Widget widget = ColouredBox(
+        height: 50.0,
+        width: MediaQuery.of(context).size.width,
+        padding: 10.0,
+        colour: contentCyan,
+        child: Row(
+            children: [
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 1,
+                  child: Container(
+                      width: 5000
+                      )),
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 10,
+                  child: Container(
+                      width: 50,
+                      child: DefaultTextStyle(
+                        child: Text(entry),
+                        style: content,
+                        softWrap: true,
+                      ))),
+            ] +
+                moreInfo),
+        radius: 0,
+        outerPadding: 0);
+      widgets.add(Row(children: [
+        SizedBox(
+          width: 10,
+        ),
+        Flexible(flex: 20, child: widget),
+      ]));
+    widgets.add(SizedBox(height: 10,));
+  }
+  return widgets;
+}
+
+List<Widget> showDiaryList(List<DiaryEntry>? entries, BuildContext context) {
+  List<Widget> widgets = [];
+  widgets.add(SizedBox(height: 10,));
+  for (var entry in entries!) {
+    List<Flexible> moreInfo = [Flexible(
+        fit: FlexFit.tight,
+        flex: 4,
+        child: Container(
+            width: 50,
+            child: ElevatedButton(
+              style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(5.0),
+                ),
+                padding: EdgeInsets.all(3),
+                textStyle: boldContent,
+                backgroundColor: lightGrey,
+                foregroundColor: Colors.black,
+                elevation: 10,
+                minimumSize: const Size(100, 20),
+              ),
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => FullDiaryPage(entry)
+
+                ));
+              },
+              child: Text(
+                'See Entry',
+                textAlign: TextAlign.center,
+              ),
+            )))
+    ];
+    Widget widget = ColouredBox(
+        height: 50.0,
+        width: MediaQuery.of(context).size.width,
+        padding: 10.0,
+        colour: contentCyan,
+        child: Row(
+            children: [
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 4,
+                  child: Container(
+                      width: 70,
+                      child: DefaultTextStyle(
+                        child: Text(entry.date),
+                        style: content,
+                        softWrap: true,
+                      ))),
+              // Flexible(
+              //     fit: FlexFit.tight,
+              //     flex: 1,
+              //     child: Container(
+              //         width: 5000
+              //     )),
+              Flexible(
+                  fit: FlexFit.tight,
+                  flex: 7,
+                  child: Container(
+                      width: 250,
+                      padding: EdgeInsets.only(left: 15),
+                      child: DefaultTextStyle(
+                        child: Text(
+                          entry.content,
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 3
+                        ),
+                        style: content,
+                        softWrap: true,
+                      )))
+            ] +
+                moreInfo),
+        radius: 0,
+        outerPadding: 0);
+    widgets.add(Row(children: [
+      Flexible(flex: 20, child: widget),
+    ]));
+    widgets.add(SizedBox(height: 10,));
   }
   return widgets;
 }
@@ -332,9 +491,10 @@ void revokeAccess() {
   toHide.clear();
 }
 
-void submitNewDiaryEntry(DateTime date, String content) {
+void submitNewDiaryEntry(String category, DateTime date, String content) {
   Map<String, dynamic> data = {};
   data['event'] = 'NEW_DIARY_ENTRY';
+  data['contentType'] = category;
   data['date'] = date.date.toString();
   data['content'] = content;
   data['patientId'] = patientData!.patient_id;

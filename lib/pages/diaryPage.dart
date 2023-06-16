@@ -6,26 +6,131 @@ import 'package:patient_mobile_app/resources/components.dart';
 import 'package:patient_mobile_app/resources/fonts.dart';
 import 'package:patient_mobile_app/resources/globals.dart';
 
+import '../resources/objects.dart';
+
 class DiaryPage extends StatelessWidget {
-  const DiaryPage({super.key});
+  final String category;
+  const DiaryPage(this.category, {super.key});
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          TitlePageFormat(
+    List<DiaryEntry>? entries = patientData?.getDiaryEntries(category);
+    return ValueListenableBuilder<List<HealthcareHistoryDataEntry>>(
+        valueListenable: mhNotifier,
+        builder: (context, value, child) {
+          return Scaffold(
+            body: Stack(
               children: [
-                const SizedBox(height: 15,),
-                diaryPageTitle,
-                const SizedBox(height: 30,),
-              ] + showDiaryList(patientData!.getDiarySummary(), context),
-          ),
-          homeIcon,
-          const ProfileLogo(),
-          const AddDiaryEntryButton(),
-        ],
-      ),
+                Center(
+                    child: Container(
+                        padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+                        child: Column(children: [
+                          const Flexible(
+                              flex: 4,
+                              fit: FlexFit.tight,
+                              child: SizedBox(
+                                height: 90,
+                              )),
+                          Flexible(
+                              flex: 5,
+                              fit: FlexFit.loose,
+                              child: Container(
+                                  height: 120,
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        SizedBox(height: 15,),
+                                        DiaryPageTitle(),
+                                         Flexible(
+                                            flex: 1,
+                                            fit: FlexFit.loose,
+                                            child: SizedBox(
+                                              height: 20,
+                                            )),
+                                        Flexible(
+                                          flex: 4,
+                                            child: Row(children: [
+                                          Flexible(
+                                              fit: FlexFit.tight,
+                                              flex: 11,
+                                              child: Container(
+                                                  width: 50,
+                                                  child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
+                                          Flexible(
+                                              fit: FlexFit.tight,
+                                              flex: 10,
+                                              child: Container(
+                                                  width: 250,
+                                                  child: DefaultTextStyle(child: Text('Entries'), style: boldContent, softWrap: true,)
+                                              )),
+                                          Flexible(
+                                              fit: FlexFit.tight,
+                                              flex: 10,
+                                              child: Container(
+                                                  width: 50,
+                                                  child: ElevatedButton(
+                                                    style: ElevatedButton.styleFrom(
+                                                      shape: RoundedRectangleBorder(
+                                                        borderRadius: BorderRadius.circular(5.0),
+                                                      ),
+                                                      padding: EdgeInsets.all(3),
+                                                      textStyle: boldContent,
+                                                      backgroundColor: mainCyan,
+                                                      foregroundColor: Colors.black,
+                                                      elevation: 10,
+                                                      minimumSize: const Size(100, 20),
+                                                    ),
+                                                    onPressed: () {
+                                                      Navigator.pop(context);
+                                                    },
+                                                    child: Text(
+                                                      'Back',
+                                                      textAlign: TextAlign.center,
+                                                    ),
+                                                  ))
+                                          )
+                                        ])
+                                        ),
+                                        const Flexible(
+                                            flex: 1,
+                                            fit: FlexFit.loose,
+                                            child: SizedBox(
+                                              height: 20,
+                                            )),
+                                      ]))
+                          ),
+                          // const Flexible(
+                          //     flex: 1,
+                          //     fit: FlexFit.loose,
+                          //     child: SizedBox(
+                          //       height: 20,
+                          //     )),
+                          Flexible(
+                              flex: 15,
+                              child: SingleChildScrollView(
+                                  child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children:
+                                      showDiaryList(
+                                          entries, context)))
+                          ),
+                          const Flexible(
+                              flex: 1,
+                              fit: FlexFit.loose,
+                              child: SizedBox(
+                                height: 20,
+                              )),
+                          Flexible(
+                              flex: 3,
+                              child: NavigateLongButton(word: 'Add Diary Entry', nextPage: AddDiaryEntryPage(category))
+                          )
+                        ]))),
+                homeIcon,
+                const ProfileLogo(),
+              ],
+            ),
+          );
+        }
     );
   }
 }
@@ -53,7 +158,8 @@ class DiaryPageTitle extends StatelessWidget {
 }
 
 class AddDiaryEntryButton extends StatelessWidget {
-  const AddDiaryEntryButton({super.key});
+  final String category;
+  const AddDiaryEntryButton(this.category, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -68,7 +174,7 @@ class AddDiaryEntryButton extends StatelessWidget {
         child: LongButton(word: 'Add Diary Entry', onPress: (){
           Navigator.push(
             context,
-            MaterialPageRoute(builder: (context) => const AddDiaryEntryPage()),
+            MaterialPageRoute(builder: (context) => AddDiaryEntryPage(category)),
           );
         }),
       ),

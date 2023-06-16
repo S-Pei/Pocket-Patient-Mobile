@@ -133,35 +133,7 @@ class HealthcareVisitTitle extends StatelessWidget {
 List<Widget> showHealthcareVisitHistory(Map<String, HealthcareHistoryDataEntry> data, BuildContext context) {
   print('show hospital visit history: ${data}');
   List<Widget> widgets = [];
-  // widgets.add(
-  //   Row(children: [
-  //     Flexible(
-  //         fit: FlexFit.tight,
-  //         flex: 1,
-  //         child: SizedBox(width: 5,)),
-  //     Flexible(
-  //         fit: FlexFit.tight,
-  //         flex: 11,
-  //         child: Container(
-  //             width: 50,
-  //             child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
-  //     Flexible(
-  //         fit: FlexFit.tight,
-  //         flex: 25,
-  //         child: Container(
-  //             width: 250,
-  //             child: DefaultTextStyle(child: Text('Consultant'), style: boldContent, softWrap: true,)
-  //         )),
-  //     // Flexible(
-  //     //     fit: FlexFit.tight,
-  //     //     flex: 20,
-  //     //     child: Container(
-  //     //         width: 250,
-  //     //         // child: DefaultTextStyle(child: Text(''), style: boldContent, softWrap: true,)
-  //     //         child: AddInfoButton(nextPage: AddHospitalVisitPage(), width: 100, height: 35,),
-  //     //     )),
-  //   ]),
-  // );
+
   widgets.add(SizedBox(height: 10,));
   for (var entry in data.entries) {
     widgets.add(HealthcareVisitEntry(data: entry.value, uuid: entry.key));

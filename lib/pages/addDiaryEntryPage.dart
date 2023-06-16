@@ -10,7 +10,8 @@ import 'package:patient_mobile_app/resources/globals.dart';
 
 
 class AddDiaryEntryPage extends StatelessWidget {
-  const AddDiaryEntryPage({super.key});
+  final String category;
+  const AddDiaryEntryPage(this.category, {super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,12 +24,12 @@ class AddDiaryEntryPage extends StatelessWidget {
             top: 100,
             child: SizedBox(
               width: MediaQuery.of(context).size.width,
-              child: const Column(
+              child: Column(
                 children: [
                   BackButtonWrapper(),
                   SizedBox(height: 15),
                   AddDiaryEntryTitle(),
-                  DiaryInputs(),
+                  DiaryInputs(category),
                 ],
               ),
             ),
@@ -80,16 +81,21 @@ class AddDiaryEntryTitle extends StatelessWidget {
 
 // WRAPPER FOR BOTH DATE AND CONTENT FIELD
 class DiaryInputs extends StatefulWidget {
-  const DiaryInputs({super.key});
+  final String category;
+  const DiaryInputs(this.category, {super.key});
 
   @override
-  State<StatefulWidget> createState() => _DiaryInputsState();
+  State<StatefulWidget> createState() => _DiaryInputsState(category);
 }
 
 class _DiaryInputsState extends State<DiaryInputs> {
   DateTime selectedDate = DateTime.now();
 
   final inputController = TextEditingController();
+
+  final String category;
+
+  _DiaryInputsState(this.category);
 
   void updateSelectedDate(DateTime newDate) {
     selectedDate = newDate;
@@ -118,12 +124,13 @@ class _DiaryInputsState extends State<DiaryInputs> {
               Container(height: 30, width: 100,),
               DiaryContentTextField(inputController: inputController,),
               LongButton(word: 'Submit diary', onPress: () {
-                submitNewDiaryEntry(selectedDate, inputController.text);
-                patientData!.addNewDiaryEntry(selectedDate, inputController.text);
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(builder: (context) => const DiaryPage()),
+                submitNewDiaryEntry(category, selectedDate, inputController.text);
+                patientData!.addNewDiaryEntry(category, selectedDate, inputController.text);
+                MaterialPageRoute(
+                    builder: (context) =>
+                        DiaryPage(category)
                 );
+
               }),
             ],
           ),
