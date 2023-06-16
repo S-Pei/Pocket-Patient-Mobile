@@ -25,44 +25,80 @@ class MedicationPage extends StatelessWidget {
     return ValueListenableBuilder<List<MedicationEntry>>(
       valueListenable: medicationNotifier,
       builder: (context, value, child) {
-        return  Scaffold(
-                  body: Stack(
-                    children: [
-                      TitlePageFormat(
-                          children: [SizedBox(height: 15,),medicationTitle, SizedBox(height: 30,),
-                            Row(children: [
-                              AddInfoButton(nextPage: AddMedicationPage(), width: 100, height: 30),
-                                  Expanded(child: SizedBox(width: 70)),
-                                  PrintButton(),
-                                ]),
-                            Container(
-                              color: superLightCyan,
-                                child: Table(
-                                  border: TableBorder.all(), // Add border to the table
-                                  children: [
-                                    TableRow(
-                                      children: [
-                                        TableCell(
-                                          child: Text('Drug', textAlign: TextAlign.center,), // Content of column 1
-                                        ),
-                                        TableCell(
-                                          child: Text('Dosage', textAlign: TextAlign.center,), // Content of column 2
-                                        ),
-                                        TableCell(
-                                          child: Text('More Info', textAlign: TextAlign.center,), // Content of column 3
-                                        ),
-                                      ],
-                                    ),
-                                ] + showMedications(value, context),
-                              ),
-                            )
-                          ]
-                      ),
-                      homeIcon,
-                      const ProfileLogo(),
-                    ],
-                  ),
-                );
+        return Scaffold(
+            body: Stack(
+                children: [
+              Center(
+              child: Container(
+              padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+              child: Column(children: [
+                const Flexible(
+                    flex: 4,
+                    fit: FlexFit.tight,
+                    child: SizedBox(
+                      height: 90,
+                    )),
+                Flexible(
+                    flex: 7,
+                    fit: FlexFit.loose,
+                    child: Container(
+                        height: 300,
+                        child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 15,),medicationTitle, SizedBox(height: 10,),
+                              Row(children: [
+                                Expanded(child: SizedBox(width: 70)),
+                                PrintButton(),
+                              ])],
+                    ))
+              ),
+
+              Flexible(
+                  flex: 15,
+                  child: SingleChildScrollView(
+                      child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                          Container(
+                          color: superLightCyan,
+                          child: Table(
+                            border: TableBorder.all(), // Add border to the table
+                            children: [
+                              TableRow(
+                                children: [
+                                TableCell(
+                                  child: Text('Drug', textAlign: TextAlign.center,), // Content of column 1
+                                ),
+                                TableCell(
+                                  child: Text('Dosage', textAlign: TextAlign.center,), // Content of column 2
+                                ),
+                                TableCell(
+                                  child: Text('More Info', textAlign: TextAlign.center,), // Content of column 3
+                                ),
+                            ],
+                            ),
+                          ] + showMedications(value, context),
+                        ),
+                    )
+                    ]
+              ))),
+              const Flexible(
+                  flex: 1,
+                  fit: FlexFit.loose,
+                  child: SizedBox(
+                    height: 20,
+                  )),
+              Flexible(
+                  flex: 3,
+                  child: NavigateLongButton(word: 'Add Medication Entry', nextPage: AddMedicationPage())
+              )
+            ]))),
+              homeIcon,
+              const ProfileLogo(),
+            ],
+          ),
+        );
       }
     );
   }
