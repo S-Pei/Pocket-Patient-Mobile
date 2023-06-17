@@ -280,7 +280,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                           imagingUrl: '',
                                           labUrl: ''
                                       );
-                                      print(letterFilePaths[0]);
+                                      // print(letterFilePaths[0]);
                                       addHospVisitEntry(
                                           letterFilePath, newEntry);
                                       Navigator.pop(context);

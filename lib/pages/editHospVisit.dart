@@ -266,7 +266,9 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                       consultant: consultantController.text,
                                       visitType: dropdownValue,
                                       summary: summaryController.text,
-                                      addToMedicalHistory: addToMh);
+                                      addToMedicalHistory: addToMh,
+                                      labUrl: '',
+                                      imagingUrl: '');
                                   print('filePath: ');
                                   editHospHistory(
                                       letterFilePath, newEntry);
