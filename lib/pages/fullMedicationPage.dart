@@ -77,8 +77,24 @@ class MedicationInfo extends StatelessWidget {
           generateMedicationDetail('End Date', data.endDate) +
           generateMedicationDetail('Duration', data.duration) +
           generateMedicationDetail('Method', data.route) +
-          generateMedicationDetail('Comments', data.comments)
-          // getUrlInfo('Discharge Letter', letter) +
+          generateMedicationDetail('Comments', data.comments) +
+          [ const SizedBox(height: 30,),
+            (() {
+              if (data.byPatient) {
+                return NavigateLongButton(word: 'Edit', nextPage: FullMedicationPage(data: data));
+              } else {
+                return const SizedBox(height: 10,);
+              }
+            }()),
+            const SizedBox(height: 15,),
+            (() {
+              if (data.byPatient) {
+                return DeleteButton(word: 'Delete', onPress: (){});
+              } else {
+                return const SizedBox(height: 10,);
+              }
+            }()),
+          ]
           // addToMedHist(data.addToMedicalHistory)
     );
   }

@@ -240,6 +240,41 @@ class PrintButton extends StatelessWidget {
   }
 }
 
+class DeleteButton extends StatelessWidget {
+  const DeleteButton({super.key, required this.word, required this.onPress});
+
+  final String word;
+  final void Function() onPress;
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+        height: 60,
+        width: MediaQuery.of(context).size.width,
+        child: SizedBox(
+          height: 60,
+          width: 350,
+          child: ElevatedButton(
+            style: ElevatedButton.styleFrom(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10.0),
+                ),
+                elevation: 10,
+                textStyle: boldContent,
+                backgroundColor: buttonRed,
+                foregroundColor: Colors.white),
+            onPressed: onPress,
+            child: Text(
+              word,
+              softWrap: true,
+              textAlign: TextAlign.center,
+            ),
+          ),
+        ),
+    );
+  }
+}
+
 // OVERLAY
 class CustomOverlay {
   OverlayEntry? _overlayEntry;
