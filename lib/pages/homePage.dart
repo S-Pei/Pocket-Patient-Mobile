@@ -101,7 +101,7 @@ class _HomePageState extends State<HomePage> {
             ),
           ]),
           homeIcon,
-          const ProfileLogo(),
+          // const ProfileLogo(),
         ],
       ),
     );
@@ -155,6 +155,8 @@ class MainPageTitle extends StatelessWidget {
                       style: smallInfo,
                       child: InfoFormat(title: 'Address', info: address),
                       softWrap: true),
+                  // DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Contact', info: '7435 123128'), softWrap: true),
+                  // DefaultTextStyle(style: smallInfo, child: InfoFormat(title: 'Emergency Contact', info: '7786 112345'), softWrap: true),
                 ],
               ),
             ];
