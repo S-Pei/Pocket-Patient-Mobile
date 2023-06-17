@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
           });
         } else if (map['event'] == 'CHANGE-IN-MEDICATION' ||
                     map['event'] == 'NEW_MEDICATION_ENTRY' ||
-                    map['event'] == 'REMOVE_MEDICATION_ENTRY') {
+                    map['event'] == 'REMOVE_MEDICATION_ENTRY' ||
+                    map['event'] == 'EDIT_MEDICATION_ENTRY') {
           print("in the event of " + map['event']);
           print(map['currentMedication']);
           patientData?.setNewMedication(map['currentMedication']);

@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:date_field/date_field.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:patient_mobile_app/pages/medicationPage.dart';
 import 'package:patient_mobile_app/resources/globals.dart';
 import 'package:patient_mobile_app/resources/objects.dart';
 import '../resources/colours.dart';
@@ -128,7 +129,7 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
                     setState(() {
                       isVisible = true;
                     });
-                    Timer(Duration(seconds: 3), () {
+                    Timer(const Duration(seconds: 3), () {
                       if(mounted){
                         setState(() {
                         isVisible = false;
@@ -136,16 +137,29 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
                     });
                   }
                   else {
-                    submitNewMedicationEntry(drugController.text,
-                                              dosageController.text,
-                                              startDate,
-                                              "${durationController.text} $dropdownValue",
-                                              routeController.text,
-                                              commentsController.text
-                                            );
-                    Navigator.pop(context);
+                    if (oldData == null) {
+                      submitNewMedicationEntry(drugController.text,
+                          dosageController.text,
+                          startDate,
+                          "${durationController.text} $dropdownValue",
+                          routeController.text,
+                          commentsController.text
+                      );
+                      Navigator.pop(context);
+                    } else {
+                      submitUpdateMedicationEntry(
+                          oldData!.id,
+                          drugController.text,
+                          dosageController.text,
+                          startDate,
+                          "${durationController.text} $dropdownValue",
+                          routeController.text,
+                          commentsController.text
+                      );
+                      Navigator.pop(context);
+                      Navigator.pop(context);
+                    }
                   }
-                  // submitNewDiaryEntry(startDate, drugController.text);
                 }
                 ),
               ]

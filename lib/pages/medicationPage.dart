@@ -77,7 +77,7 @@ class MedicationPage extends StatelessWidget {
                                 ),
                             ],
                             ),
-                          ] + showMedications(value, context),
+                          ] + showMedications(patientData!.medication, context),
                         ),
                     )
                     ]
