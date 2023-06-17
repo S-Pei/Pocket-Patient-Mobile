@@ -39,7 +39,7 @@ class MedicationPage extends StatelessWidget {
                       height: 90,
                     )),
                 Flexible(
-                    flex: 7,
+                    flex: 6,
                     fit: FlexFit.loose,
                     child: Container(
                         height: 300,
@@ -53,7 +53,6 @@ class MedicationPage extends StatelessWidget {
                               ])],
                     ))
               ),
-
               Flexible(
                   flex: 15,
                   child: SingleChildScrollView(

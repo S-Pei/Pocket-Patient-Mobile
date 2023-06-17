@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/medicationPage.dart';
 import '../resources/colours.dart';
 import '../resources/components.dart';
 import '../resources/fonts.dart';
@@ -89,7 +90,9 @@ class MedicationInfo extends StatelessWidget {
             const SizedBox(height: 15,),
             (() {
               if (data.byPatient) {
-                return DeleteButton(word: 'Delete', onPress: (){});
+                return DeleteButton(word: 'Delete', onPress: () {
+                  deleteOnPress(data, context);
+                });
               } else {
                 return const SizedBox(height: 10,);
               }
@@ -141,6 +144,15 @@ class MedicationDetail extends StatelessWidget {
               child: DefaultTextStyle(style: content, softWrap: true, child: Text(info),)
           )),
     ]);
+  }
+}
+
+void deleteOnPress(MedicationEntry data, BuildContext context) {
+  deleteMedicationEntry(data.id);
+  if (patientData!.deleteMedication(data.id)) {
+    Navigator.pop(context);
+    Navigator.pop(context);
+    Navigator.push(context, MaterialPageRoute(builder: (context) => const MedicationPage()));
   }
 }
 

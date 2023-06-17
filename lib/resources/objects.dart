@@ -123,6 +123,16 @@ class Patient {
       this.medication = cm_list;
     }
 
+    bool deleteMedication(medicationId) {
+      for (var med in medication) {
+        if (med.id == medicationId) {
+          medication.remove(med);
+          return true;
+        }
+      }
+      return false;
+    }
+
     void setNewMedicalHistory(medicalHistoryList) {
       print("print medHis: ");
       print(medical_history);
