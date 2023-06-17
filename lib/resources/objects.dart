@@ -33,8 +33,6 @@ class Patient {
       var medicationList = json['current-medication'];
       var diaryMapClass = json['diary-info'];
       var diaryKeys = diaryMapClass.keys.toList();
-      print("printing list keys");
-      print(diaryKeys);
       List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
       List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
       Map<String, List<DiaryEntry>> drMap = {};
@@ -44,7 +42,6 @@ class Patient {
         drMap[dk] = value.map<DiaryEntry>((cm) => DiaryEntry.fromDic(cm)).toList();
       }
       ).toList();
-      print(drMap);
       return Patient(
         patient_id: json['patient-id'],
         patient_name: json['patient-name-small'],
@@ -94,7 +91,6 @@ class Patient {
 
     void addNewDiaryCategory(String category) {
       diaryClass[category] = [];
-      print(diaryClass);
     }
 
     bool changeCategoryState() {
@@ -220,7 +216,6 @@ class DiaryEntry {
   });
 
   factory DiaryEntry.fromDic(Map<String, dynamic> dic) {
-    print("got into diary entry creation");
     return DiaryEntry(
       date: dic['date'],
       content: dic['content']);

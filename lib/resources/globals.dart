@@ -39,7 +39,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = false;
+const debug = true;
 
 
 // WEBSOCKET INITIALISATION
@@ -226,9 +226,11 @@ List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context)
     tableRow.add(TableRow(
       children: [
         TableCell(
-          child: Text(entry.drug, textAlign: TextAlign.center,),
+          verticalAlignment: TableCellVerticalAlignment.middle,
+          child: Text(entry.drug, textAlign: TextAlign.center, ),
         ),
         TableCell(
+          verticalAlignment: TableCellVerticalAlignment.middle,
           child: Text(entry.dosage, textAlign: TextAlign.center,),
         ),
         TableCell(
@@ -236,7 +238,6 @@ List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context)
             onTap: () {
               // Handle button tap here
               // Navigate to another page
-
             },
             child: Container(
               padding: EdgeInsets.all(8.0),
@@ -245,7 +246,7 @@ List<TableRow> showMedications(List<MedicationEntry> data, BuildContext context)
                   // Handle button tap here if needed
                   Navigator.push(
                     context,
-                    MaterialPageRoute(builder: (context) => FullMedicationPage(fullData: entry)),
+                    MaterialPageRoute(builder: (context) => FullMedicationPage(data: entry)),
                   );
                 },
                 child: Text('More Info'),

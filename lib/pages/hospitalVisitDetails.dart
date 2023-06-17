@@ -27,7 +27,6 @@ class HospitalVisitDetailsPage extends StatelessWidget {
       ),
     );
   }
-
 }
 
 class HospitalVisitDetailsTitle extends StatelessWidget {
