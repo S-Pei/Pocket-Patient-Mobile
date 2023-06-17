@@ -505,7 +505,7 @@ class _VisibilityTileState extends State<VisibilityTile> {
   @override
   Widget build(BuildContext context) {
     if (idToHospVisitDet[_data.id] == null) {
-      idToHospVisitDet[_data.id] = HospitalVisitDetailsPage(data: _data);
+      idToHospVisitDet[_data.id] = HospitalVisitDetailsPage(id: _data.id);
     }
     List<Flexible> moreInfo = editMode
         ? []

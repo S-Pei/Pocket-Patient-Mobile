@@ -20,6 +20,15 @@ class HospitalVisitNotifier extends ValueNotifier<List<HealthcareHistoryDataEntr
   }
 }
 
+class HospitalVisitDetailsNotifier extends ValueNotifier<bool> {
+  HospitalVisitDetailsNotifier(updateDets) : super(updateDets);
+
+  void updateMhDet(bool val) {
+    print("print mh of update: ");
+    value = val;
+  }
+}
+
 // HOSPITAL VISIT HISTORY PAGE
 class HospitalVisitPage extends StatelessWidget {
   const HospitalVisitPage({super.key});
@@ -240,7 +249,7 @@ class MoreInfoButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    Widget detailsPage = HospitalVisitDetailsPage(data: data,);
+    Widget detailsPage = HospitalVisitDetailsPage(id: data.id,);
     if (idToHospVisitDet[data.id] == null) {
       idToHospVisitDet[data.id] = detailsPage;
     } else {

@@ -5,6 +5,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:flutter/material.dart';
 import 'package:patient_mobile_app/pages/addHospitalVisit.dart';
 import 'package:patient_mobile_app/pages/diaryPage.dart';
+import 'package:patient_mobile_app/pages/hospitalVisitDetails.dart';
 import 'package:patient_mobile_app/pages/medInsAccPage.dart';
 import '../resources/colours.dart';
 import '../resources/globals.dart';
@@ -55,6 +56,14 @@ class _HomePageState extends State<HomePage> {
           print('new history: ${map['hospital_visit_history']}');
           patientData?.setNewMedicalHistory(map['hospital_visit_history']);
           mhNotifier.updateMh(patientData!.medical_history);
+        } else if (map['event'] == 'EDIT_HOSP_VISIT_ENTRY') {
+          print('new history: ${map['hospital_visit_history']}');
+          patientData?.setNewMedicalHistory(map['hospital_visit_history']);
+          mhNotifier.updateMh(patientData!.medical_history);
+          final modifiedMh = HealthcareHistoryDataEntry.fromDic(map['edited_visit_entry']);
+          print('id= ${map['mhId']}');
+          idToHospVisitDet[map['mhId']] = HospitalVisitDetailsPage(id: map['mhId'],);
+          hospVisitDetsNotifier.updateMhDet(!updateDets);
         }
       });
       firstRender = false;

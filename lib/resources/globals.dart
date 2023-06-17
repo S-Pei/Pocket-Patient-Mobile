@@ -39,7 +39,7 @@ const deployedHostUrl = 'https://$deployedHost';
 
 String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
-const debug = false;
+const debug = true;
 
 
 // WEBSOCKET INITIALISATION
@@ -128,6 +128,7 @@ final CategoryNotifier categoryUpdate = CategoryNotifier(patientData!.categorySt
 final HospitalVisitNotifier mhNotifier = HospitalVisitNotifier(patientData!.medical_history);
 
 final MedInsAccNotifier medInsAccNotifier = MedInsAccNotifier(changeNum);
+final HospitalVisitDetailsNotifier hospVisitDetsNotifier = HospitalVisitDetailsNotifier(updateDets);
 
 Map<String, Pair<String,String>> hosps = {};
 
@@ -136,9 +137,11 @@ Map<String, bool> medAccIncVisibility = {};
 
 Map<String, Widget> idToHospVisitDet = {};
 
-List<String> letterFilePaths = [];
+String letterFilePath = '';
 List<String> scanFilePaths = [];
 List<String> labFilePaths = [];
+
+bool updateDets = false;
 
 int changeNum = 0;
 
@@ -579,7 +582,7 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
   request.fields['visitType'] = newMedHis.visitType;
   request.fields['addToMedicalHistory'] = newMedHis.addToMedicalHistory ? 'on' : 'off';
 
-  letterFilePaths.clear();
+  letterFilePath = '';
 
   request.files.add(await http.MultipartFile.fromPath(
       'letter', filePath));
@@ -603,4 +606,60 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
       print("TT file upload failed");
     }
   });
+}
+
+editHospHistory(String? filePath, HealthcareHistoryDataEntry modified) async {
+  var postUri = Uri.parse('$autoUrl/api/patient-data/patient-edit-visit/');
+  Map<String, String> headers = {'Authorization': 'Bearer ${patientUser!.access}',
+    "Content-Type": "multipart/form-data"};
+  var request = http.MultipartRequest("POST", postUri);
+  request.headers.addAll(headers);
+  request.fields['patient-id'] = patientData!.patient_id.toString();
+  request.fields['mhId'] = modified.id;
+  request.fields['admissionDate'] = modified.admissionDate;
+  request.fields['dischargeDate'] = modified.dischargeDate;
+  request.fields['summary'] = modified.summary;
+  request.fields['consultant'] = modified.consultant;
+  request.fields['visitType'] = modified.visitType;
+  request.fields['addToMedicalHistory'] = modified.addToMedicalHistory ? 'on' : 'off';
+
+  letterFilePath = '';
+  if (filePath != null && filePath != '') {
+    request.files.add(await http.MultipartFile.fromPath(
+        'letter', filePath!));
+  }
+
+  print(request.fields);
+  request.send().then((response) {
+    if (response.statusCode == 200) {
+      print("Uploaded!");
+      // print('uploaded data: $modified');
+      Map<String, dynamic> data = {};
+      data['event'] = 'EDIT_HOSP_VISIT_ENTRY';
+      data['patientId'] = patientData!.patient_id;
+      // data['doctor_update'] = false;
+      http.Response.fromStream(response).then((value)
+      {
+        data['mhId'] = jsonDecode(value.body)['id'];
+        print(data['mhId']);
+        final json = jsonEncode(data);
+        channel!.sink.add(json);
+      });
+
+    } else {
+      print("TT file upload failed");
+    }
+  });
+}
+
+
+Widget getUploadedFilePath(String? url) {
+  if (url != null) {
+    List<String> splitted = url.split('/');
+    String path = splitted.last;
+    return Text(path);
+  } else {
+    return const Text('');
+  }
+
 }
