@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/editHospVisit.dart';
 import 'package:patient_mobile_app/resources/globals.dart';
 import '../resources/colours.dart';
 import '../resources/fonts.dart';
@@ -6,27 +7,34 @@ import '../resources/components.dart';
 import '../resources/objects.dart';
 
 class HospitalVisitDetailsPage extends StatelessWidget {
-  const HospitalVisitDetailsPage({super.key, required this.data});
-  final HealthcareHistoryDataEntry data;
+  const HospitalVisitDetailsPage({super.key, required this.id});
+  final String id;
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        children: [
-          TitlePageFormat(
+    return ValueListenableBuilder<bool>(
+        valueListenable: hospVisitDetsNotifier,
+        builder: (context, value, child) {
+          HealthcareHistoryDataEntry data = patientData!.getHealthcareVisits()[id]!;
+          return Scaffold(
+            body: Stack(
               children: [
-                const BackButtonBlue(),
-                const SizedBox(height: 15,),
-                HospitalVisitDetailsTitle(data: data,),
-                const SizedBox(height: 30,),
-                HospitalVisitInfo(data: data),
-              ]
-          ),
-          homeIcon,
-          const ProfileLogo(),
-        ],
-      ),
+                TitlePageFormat(
+                    children: [BackButtonBlue(), SizedBox(height: 15,),
+                      HospitalVisitDetailsTitle(data: data,),
+                      SizedBox(height: 20,),
+                      HospitalVisitInfo(data: data),
+                      SizedBox(height: 30,),
+                      NavigateLongButton(word: 'Edit Entry',
+                          nextPage: EditHospitalVisitPage(data: data))
+                    ]
+                ),
+                homeIcon,
+                const ProfileLogo(),
+              ],
+            ),
+          );
+        }
     );
   }
 }

@@ -89,8 +89,11 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
               value: 'GP Consultation',
               child: Text('GP Consultation')),
           DropdownMenuItem(
-              value: 'Hospital Visit',
-              child: Text('Hospital Visit'))
+              value: 'Hospital Clinic',
+              child: Text('Hospital Clinic')),
+          DropdownMenuItem(
+              value: 'Hospital Admission',
+              child: Text('Hospital Admission'))
         ],
         onChanged: (String? value) {
           setState(() {
@@ -113,7 +116,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                 updateAdmissionDate) +
                                 addDateField(
                                     'Date Discharged', getDischargeDate,
-                                    updateAdmissionDate) +
+                                    updateDischargeDate) +
                                 addVisitText(
                                     'Discharge Summary', summaryController,
                                     'Summary', 80) +
@@ -189,37 +192,29 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                                     .center,),
                                                             ))
                                                     ),
-                                                    Flexible(child: SizedBox(
-                                                      height: 5,)),
+                                                    Flexible(
+                                                      flex: 3,
+                                                      child: SizedBox(
+                                                      height: 30,)),
                                                     Flexible(
                                                         flex: 5,
                                                         fit: FlexFit.loose,
                                                         child: Container(
                                                             height: 40,
                                                             width: 250,
+                                                            padding: EdgeInsets.only(left: 10),
                                                             child: FutureBuilder<
                                                                 String?>(
                                                               future: _filePathFuture,
-                                                              builder: (
-                                                                  context,
-                                                                  snapshot) {
-                                                                if (snapshot
-                                                                    .hasData) {
-                                                                  print(
-                                                                      snapshot
-                                                                          .data);
-                                                                  if (snapshot
-                                                                      .data !=
-                                                                      '') {
-                                                                    letterFilePaths
-                                                                        .add(
-                                                                        snapshot
-                                                                            .data!);
+                                                              builder: (context,snapshot) {
+                                                                if (snapshot.hasData) {
+                                                                  print(snapshot.data);
+                                                                  if (snapshot.data !='') {
+                                                                    letterFilePath = snapshot.data!;
                                                                   }
-                                                                  print(
-                                                                      'letterfilepath: $letterFilePaths');
-                                                                  return getUploadedFilePaths(
-                                                                      letterFilePaths);
+                                                                  print('letterfilepath: $letterFilePath');
+                                                                  return getUploadedFilePath(
+                                                                      letterFilePath);
                                                                 } else
                                                                 if (snapshot
                                                                     .hasError) {
@@ -239,7 +234,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                   ),
                                 ] +
                                 addToMedHistCheck(checkBox) +
-                                [SizedBox(height: 10,),
+                                [
                                   Row(
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
@@ -255,7 +250,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                       ),
                                     ],
                                   ),
-                                  SizedBox(height: 20,),
+                                  SizedBox(height: 10,),
                                   LongButton(word: 'Add Entry', onPress: () {
                                   _filePathFuture.then((value) {
                                     if (summaryController.text == "" ||
@@ -287,7 +282,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                       );
                                       print(letterFilePaths[0]);
                                       addHospVisitEntry(
-                                          letterFilePaths[0], newEntry);
+                                          letterFilePath, newEntry);
                                       Navigator.pop(context);
                                     }
                                   });
@@ -488,17 +483,4 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
                   ))
               )
         ]))];
-}
-
-Widget getUploadedFilePaths(List<String> urls) {
-  List<Widget> texts = [];
-  for (var url in urls) {
-    List<String> splitted = url.split('/');
-    String path = splitted.last;
-    texts.add(Text(path));
-  }
-  return SingleChildScrollView(child: Column(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    children: texts,
-  ));
 }
