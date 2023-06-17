@@ -56,6 +56,9 @@ class _HomePageState extends State<HomePage> {
           print('new history: ${map['hospital_visit_history']}');
           patientData?.setNewMedicalHistory(map['hospital_visit_history']);
           mhNotifier.updateMh(patientData!.medical_history);
+        } else if (map['event'] == 'NEW_DIARY_CLASS') {
+          patientData!.addNewDiaryCategory(map['category']);
+          categoryUpdate.updateCategory(patientData!.changeCategoryState());
         }
       });
       firstRender = false;
