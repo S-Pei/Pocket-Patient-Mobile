@@ -2,6 +2,7 @@
 import 'dart:convert';
 
 import 'package:dartx/dartx.dart';
+import 'package:patient_mobile_app/resources/globals.dart';
 
 class Patient {
     final int patient_id;
@@ -13,6 +14,8 @@ class Patient {
     List<MedicationEntry> medication;
     final Map<String, List<DiaryEntry>> diaryClass;
     List<HealthcareHistoryDataEntry> medical_history;
+    List<LabHistoryDataEntry> lab_history;
+    List<ImagingHistoryDataEntry> imaging_history;
     bool diaryState = true;
     bool categoryState = true;
 
@@ -26,14 +29,23 @@ class Patient {
       required this.medical_history,
       required this.medication,
       required this.diaryClass,
+      required this.lab_history,
+      required this.imaging_history
     });
 
     factory Patient.fromJson(Map<String, dynamic> json) {
       var medicalHistoryList = json['medical-history'];
       var medicationList = json['current-medication'];
+      var labHistoryList = json['lab-history'];
+      var imagingHistoryList = json['imaging-history'];
       var diaryMapClass = json['diary-info'];
       var diaryKeys = diaryMapClass.keys.toList();
-      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
+      List<LabHistoryDataEntry> lhList = labHistoryList.map<LabHistoryDataEntry>((lh)
+        => LabHistoryDataEntry.fromDict(lh)).toList();
+      List<ImagingHistoryDataEntry> imList = imagingHistoryList.map<ImagingHistoryDataEntry>((im)
+        => ImagingHistoryDataEntry.fromDict(im)).toList();
+      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh)
+        => HealthcareHistoryDataEntry.fromDic(mh, lhList, imList)).toList();
       List<MedicationEntry> cmList = medicationList.map<MedicationEntry>((cm) => MedicationEntry.fromDic(cm)).toList();
       Map<String, List<DiaryEntry>> drMap = {};
       diaryKeys.map((dk)
@@ -52,6 +64,8 @@ class Patient {
         medical_history: mhList,
         medication: cmList,
         diaryClass: drMap,
+        lab_history: lhList,
+        imaging_history: imList
       );
     }
 
@@ -64,16 +78,6 @@ class Patient {
       }
       return data;
     }
-
-    // Map<String, Pair<String, String>> getDiarySummary() {
-    //   Map<String, Pair<String, String>> data = {};
-    //   var i = 0;
-    //   for (var dr in diary) {
-    //     data['$i'] = Pair(dr.date, dr.content);
-    //     i++;
-    //   }
-    //   return data;
-    // }
 
     List<DiaryEntry>? getDiaryEntries(String category) {
       return diaryClass[category];
@@ -97,10 +101,6 @@ class Patient {
       categoryState = !categoryState;
       return categoryState;
     }
-
-    // void addNewDiaryEntry(String className, List<DiaryEntry> entries) {
-    //   diaryClass.add(DiaryEntryClass(diaryClass: className, entries: entries));
-    // }
 
     Map<String, HealthcareHistoryDataEntry> getHealthcareVisits() {
       print('healthcare visit history: ${medical_history}');
@@ -137,12 +137,12 @@ class Patient {
       print("print medHis: ");
       print(medical_history);
       print("print medication list: ");
-      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh) => HealthcareHistoryDataEntry.fromDic(mh)).toList();
+      List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh)
+        => HealthcareHistoryDataEntry.fromDic(mh, this.lab_history, this.imaging_history)).toList();
       print("print mh list: ");
       print(mhList);
       this.medical_history = mhList;
     }
-
 
   @override
     String toString() {
@@ -193,29 +193,6 @@ class MedicationEntry {
   }
 }
 
-// class DiaryEntryClass {
-//   final String diaryClass;
-//   final List<DiaryEntry> entries;
-//
-//   DiaryEntryClass({
-//     required this.diaryClass,
-//     required this.entries,
-//   });
-//
-//   factory DiaryEntryClass.fromDic(String className, List<dynamic> diary) {
-//     print("got into diary entry class creation");
-//     return DiaryEntryClass(
-//         diaryClass: className,
-//         entries: diary.map<DiaryEntry>((cm) => DiaryEntry.fromDic(cm)).toList()
-//         );
-//   }
-//
-//   @override
-//   String toString() {
-//     return "Class: ${diaryClass}\nEntry: ${entries.toString()}";
-//   }
-// }
-
 class DiaryEntry {
   final String date;
   final String content;
@@ -261,7 +238,7 @@ class PatientUser {
   }
 }
 
-  class HealthcareHistoryDataEntry {
+class HealthcareHistoryDataEntry {
     final String id;
     final String admissionDate;
     final String dischargeDate;
@@ -270,6 +247,8 @@ class PatientUser {
     final String visitType;
     final String? letterUrl;
     final bool addToMedicalHistory;
+    final String labUrl;
+    final String imagingUrl;
 
     HealthcareHistoryDataEntry({
       required this.id,
@@ -279,10 +258,20 @@ class PatientUser {
       required this.visitType,
       this.letterUrl,
       required this.summary,
-      required this.addToMedicalHistory
+      required this.addToMedicalHistory,
+      required this.labUrl,
+      required this.imagingUrl
     });
 
-    factory HealthcareHistoryDataEntry.fromDic(Map<String, dynamic> dic) {
+    factory HealthcareHistoryDataEntry.fromDic(Map<String, dynamic> dic, List<LabHistoryDataEntry>? lhList, List<ImagingHistoryDataEntry>? imList) {
+      String labUrl = '';
+      String imagingUrl = '';
+      for (var lh in lhList ?? patientData!.lab_history) {
+        if (lh.visitEntry == dic['id']) { labUrl = lh.labReportUrl; }
+      }
+      for (var im in imList ?? patientData!.imaging_history) {
+        if (im.visitEntry == dic['id']) { labUrl = im.report; }
+      }
       return HealthcareHistoryDataEntry(
         id: dic['id'],
         admissionDate: dic['admissionDate'],
@@ -291,7 +280,9 @@ class PatientUser {
         visitType: dic['visitType'],
         letterUrl: dic['letter'],
         summary: dic['summary'],
-        addToMedicalHistory: dic['addToMedicalHistory']
+        addToMedicalHistory: dic['addToMedicalHistory'],
+        labUrl: labUrl,
+        imagingUrl: imagingUrl
       );
     }
 
@@ -300,3 +291,62 @@ class PatientUser {
       return '{ ${admissionDate} : ${summary}}';
     }
   }
+
+class LabHistoryDataEntry {
+  final String id;
+  final String date;
+  final String labType;
+  final String labReportUrl;
+  final String visitEntry;
+
+  LabHistoryDataEntry({
+    required this.id,
+    required this.date,
+    required this.labType,
+    required this.labReportUrl,
+    required this.visitEntry
+  });
+
+  factory LabHistoryDataEntry.fromDict(Map<String, dynamic> lh) {
+    return LabHistoryDataEntry(
+        id: lh['id'],
+        date: lh['date'],
+        labType: lh['labType'],
+        labReportUrl: lh['report'],
+        visitEntry: lh['visitEntry']
+    );
+  }
+}
+
+class ImagingHistoryDataEntry {
+  final String id;
+  final String date;
+  final String scanType;
+  final String region;
+  final String indication;
+  final String report;
+  final String visitEntry;
+
+
+  ImagingHistoryDataEntry({
+    required this.id,
+    required this.date,
+    required this.scanType,
+    required this.region,
+    required this.indication,
+    required this.report,
+    required this.visitEntry
+  });
+
+  factory ImagingHistoryDataEntry.fromDict(Map<String, dynamic> lh) {
+    return ImagingHistoryDataEntry(
+        id: lh['id'],
+        date: lh['date'],
+        scanType: lh['scanType'],
+        region: lh['region'],
+        indication: lh['indication'],
+        report: lh['report'],
+        visitEntry: lh['visitEntry']
+    );
+  }
+}

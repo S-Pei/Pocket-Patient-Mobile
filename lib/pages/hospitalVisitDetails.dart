@@ -15,9 +15,11 @@ class HospitalVisitDetailsPage extends StatelessWidget {
       body: Stack(
         children: [
           TitlePageFormat(
-              children: [BackButtonBlue(), SizedBox(height: 15,),
+              children: [
+                const BackButtonBlue(),
+                const SizedBox(height: 15,),
                 HospitalVisitDetailsTitle(data: data,),
-                SizedBox(height: 30,),
+                const SizedBox(height: 30,),
                 HospitalVisitInfo(data: data),
               ]
           ),
@@ -45,7 +47,7 @@ class HospitalVisitDetailsTitle extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            DefaultTextStyle(style: smallTitle, child: Text('St Mary Hospital')),
+            const DefaultTextStyle(style: smallTitle, child: Text('St Mary Hospital')),
             DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 25/4/2023 by ${data.consultant}')),
           ],
         ));
@@ -61,6 +63,9 @@ class HospitalVisitInfo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String letter = data.letterUrl == null ? '' : data.letterUrl!;
+    String lab = data.labUrl;
+    String imaging = data.imagingUrl;
+
     return Column(
       crossAxisAlignment: CrossAxisAlignment.stretch,
       mainAxisAlignment: MainAxisAlignment.center,
@@ -72,6 +77,8 @@ class HospitalVisitInfo extends StatelessWidget {
         generateVisitDetail('Consultant', data.consultant) +
         generateVisitDetail('Type of Visit', data.visitType) +
         getUrlInfo('Discharge Letter', letter) +
+        getUrlInfo('Lab Report', lab) +
+        getUrlInfo('Imaging Report', imaging) +
         addToMedHist(data.addToMedicalHistory)
       ,
     );

@@ -281,7 +281,10 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                           consultant: consultantController.text,
                                           visitType: dropdownValue,
                                           summary: summaryController.text,
-                                          addToMedicalHistory: addToMh);
+                                          addToMedicalHistory: addToMh,
+                                          imagingUrl: '',
+                                          labUrl: ''
+                                      );
                                       print(letterFilePaths[0]);
                                       addHospVisitEntry(
                                           letterFilePaths[0], newEntry);
