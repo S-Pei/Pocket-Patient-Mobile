@@ -64,6 +64,7 @@ class _HomePageState extends State<HomePage> {
           print('id= ${map['mhId']}');
           idToHospVisitDet[map['mhId']] = HospitalVisitDetailsPage(id: map['mhId'],);
           hospVisitDetsNotifier.updateMhDet(!updateDets);
+          updateDets = !updateDets;
         }
       });
       firstRender = false;

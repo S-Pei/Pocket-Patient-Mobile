@@ -47,7 +47,7 @@ class HospitalVisitPage extends StatelessWidget {
               children: [
             Center(
             child: Container(
-            padding: const EdgeInsets.only(left: 30.0, right: 30.0),
+            padding: const EdgeInsets.only(left: 28.0, right: 28.0),
               child: Column(children: [
                 const Flexible(
                     flex: 4,
@@ -174,7 +174,9 @@ class HealthcareVisitEntry extends StatelessWidget {
                   width: 50,
                   // alignment: Alignment.center,
                   child: Column(
-                    children: [
+                    children: data.admissionDate == data.dischargeDate ?
+                    [DefaultTextStyle(style: content, child: Text(data.admissionDate), softWrap: true,)] :
+                    [
                       DefaultTextStyle(child: Text(data.admissionDate), style: content, softWrap: true,),
                       DefaultTextStyle(child: Text('-'), style: content, softWrap: true,),
                       DefaultTextStyle(child: Text(data.dischargeDate), style: content, softWrap: true,),
