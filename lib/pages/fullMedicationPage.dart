@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:patient_mobile_app/pages/addMedication.dart';
 import 'package:patient_mobile_app/pages/medicationPage.dart';
 import '../resources/colours.dart';
 import '../resources/components.dart';
@@ -82,7 +83,7 @@ class MedicationInfo extends StatelessWidget {
           [ const SizedBox(height: 30,),
             (() {
               if (data.byPatient) {
-                return NavigateLongButton(word: 'Edit', nextPage: FullMedicationPage(data: data));
+                return NavigateLongButton(word: 'Edit', nextPage: AddMedicationPage(oldData: data,));
               } else {
                 return const SizedBox(height: 10,);
               }

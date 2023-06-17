@@ -88,9 +88,9 @@ class MedicationPage extends StatelessWidget {
                   child: SizedBox(
                     height: 20,
                   )),
-              Flexible(
+              const Flexible(
                   flex: 3,
-                  child: NavigateLongButton(word: 'Add Medication Entry', nextPage: AddMedicationPage())
+                  child: NavigateLongButton(word: 'Add Medication Entry', nextPage: AddMedicationPage(oldData: null,))
               )
             ]))),
               homeIcon,
