@@ -138,8 +138,8 @@ Map<String, bool> medAccIncVisibility = {};
 Map<String, Widget> idToHospVisitDet = {};
 
 String letterFilePath = '';
-List<String> scanFilePaths = [];
-List<String> labFilePaths = [];
+String imagingFilePath = '';
+String labFilePath = '';
 
 bool updateDets = false;
 
@@ -598,10 +598,16 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
   request.fields['visitType'] = newMedHis.visitType;
   request.fields['addToMedicalHistory'] = newMedHis.addToMedicalHistory ? 'on' : 'off';
 
-  letterFilePath = '';
-
   request.files.add(await http.MultipartFile.fromPath(
-      'letter', filePath));
+      'letter', letterFilePath));
+  request.files.add(await http.MultipartFile.fromPath(
+      'lab', labFilePath));
+  request.files.add(await http.MultipartFile.fromPath(
+      'imaging', imagingFilePath));
+  letterFilePath = '';
+  imagingFilePath = '';
+  labFilePath = '';
+
   print(request.fields);
   request.send().then((response) {
     if (response.statusCode == 201) {
