@@ -46,7 +46,8 @@ class _HomePageState extends State<HomePage> {
           });
         } else if (map['event'] == 'CHANGE-IN-MEDICATION' ||
                     map['event'] == 'NEW_MEDICATION_ENTRY' ||
-                    map['event'] == 'REMOVE_MEDICATION_ENTRY') {
+                    map['event'] == 'REMOVE_MEDICATION_ENTRY' ||
+                    map['event'] == 'EDIT_MEDICATION_ENTRY') {
           print("in the event of " + map['event']);
           print(map['currentMedication']);
           patientData?.setNewMedication(map['currentMedication']);
@@ -55,6 +56,9 @@ class _HomePageState extends State<HomePage> {
           print('new history: ${map['hospital_visit_history']}');
           patientData?.setNewMedicalHistory(map['hospital_visit_history']);
           mhNotifier.updateMh(patientData!.medical_history);
+        } else if (map['event'] == 'NEW_DIARY_CLASS') {
+          patientData!.addNewDiaryCategory(map['category']);
+          categoryUpdate.updateCategory(patientData!.changeCategoryState());
         }
       });
       firstRender = false;

@@ -39,7 +39,7 @@ class MedicationPage extends StatelessWidget {
                       height: 90,
                     )),
                 Flexible(
-                    flex: 7,
+                    flex: 6,
                     fit: FlexFit.loose,
                     child: Container(
                         height: 300,
@@ -53,7 +53,6 @@ class MedicationPage extends StatelessWidget {
                               ])],
                     ))
               ),
-
               Flexible(
                   flex: 15,
                   child: SingleChildScrollView(
@@ -78,7 +77,7 @@ class MedicationPage extends StatelessWidget {
                                 ),
                             ],
                             ),
-                          ] + showMedications(value, context),
+                          ] + showMedications(patientData!.medication, context),
                         ),
                     )
                     ]
@@ -89,9 +88,9 @@ class MedicationPage extends StatelessWidget {
                   child: SizedBox(
                     height: 20,
                   )),
-              Flexible(
+              const Flexible(
                   flex: 3,
-                  child: NavigateLongButton(word: 'Add Medication Entry', nextPage: AddMedicationPage())
+                  child: NavigateLongButton(word: 'Add Medication Entry', nextPage: AddMedicationPage(oldData: null,))
               )
             ]))),
               homeIcon,

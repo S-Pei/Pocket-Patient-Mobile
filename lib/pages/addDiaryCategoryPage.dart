@@ -107,14 +107,7 @@ class _CategoryInputsState extends State<CategoryInputs> {
             DiaryContentTextField(inputController: inputController,),
             LongButton(word: 'Submit category', onPress: () {
               submitNewDiaryCategory(inputController.text);
-              patientData!.addNewDiaryCategory(inputController.text);
-              categoryUpdate.updateCategory(patientData!.changeCategoryState());
               Navigator.pop(context);
-              Navigator.pop(context);
-              Navigator.push(
-                context,
-                MaterialPageRoute(builder: (context) => const DiaryCategoryPage()),
-              );
             }),
           ],
         ),

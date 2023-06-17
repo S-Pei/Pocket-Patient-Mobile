@@ -511,6 +511,21 @@ void submitNewMedicationEntry(String drug, String dosage, DateTime startDate, St
   // medicationNotifier.updateMedication(patientData!.medication);
 }
 
+submitUpdateMedicationEntry(String id, String drug, String dosage, DateTime startDate, String duration, String route, String comments) {
+  Map<String, dynamic> data = {};
+  data['event'] = 'EDIT_MEDICATION_ENTRY';
+  data['id'] = id;
+  data['drug'] = drug;
+  data['dosage'] = dosage;
+  data['startDate'] = startDate.date.toString();
+  data['duration'] = duration;
+  data['route'] = route;
+  data['comments'] = comments;
+  data['patientId'] = patientData!.patient_id;
+  final json = jsonEncode(data);
+  channel!.sink.add(json);
+}
+
 void deleteMedicationEntry(String id) {
   Map<String, dynamic> data = {};
   data['event'] = 'REMOVE_MEDICATION_ENTRY';
