@@ -108,11 +108,6 @@ class _CategoryInputsState extends State<CategoryInputs> {
             LongButton(word: 'Submit category', onPress: () {
               submitNewDiaryCategory(inputController.text);
               Navigator.pop(context);
-              // Navigator.pop(context);
-              // Navigator.push(
-              //   context,
-              //   MaterialPageRoute(builder: (context) => const DiaryCategoryPage()),
-              // );
             }),
           ],
         ),
