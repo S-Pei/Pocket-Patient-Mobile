@@ -134,14 +134,24 @@ class Patient {
     }
 
     void setNewMedicalHistory(medicalHistoryList) {
-      print("print medHis: ");
-      print(medical_history);
-      print("print medication list: ");
+      // print("print medHis: ");
+      // print(medical_history);
+      // print("print medication list: ");
       List<HealthcareHistoryDataEntry> mhList = medicalHistoryList.map<HealthcareHistoryDataEntry>((mh)
-        => HealthcareHistoryDataEntry.fromDic(mh, this.lab_history, this.imaging_history)).toList();
-      print("print mh list: ");
-      print(mhList);
-      this.medical_history = mhList;
+        => HealthcareHistoryDataEntry.fromDic(mh, lab_history, imaging_history)).toList();
+      // print("print mh list: ");
+      // print(mhList);
+      medical_history = mhList;
+    }
+
+    void addNewLabHistory(Map<String, dynamic> labHistoryDict) {
+      LabHistoryDataEntry newLabEntry = LabHistoryDataEntry.fromDict(labHistoryDict);
+      lab_history.add(newLabEntry);
+    }
+
+    void addNewImagingHistory(Map<String, dynamic> imagingHistoryDict) {
+      ImagingHistoryDataEntry newImagingEntry = ImagingHistoryDataEntry.fromDict(imagingHistoryDict);
+      imaging_history.add(newImagingEntry);
     }
 
   @override
@@ -270,8 +280,12 @@ class HealthcareHistoryDataEntry {
         if (lh.visitEntry == dic['id']) { labUrl = lh.labReportUrl; }
       }
       for (var im in imList ?? patientData!.imaging_history) {
-        if (im.visitEntry == dic['id']) { labUrl = im.report; }
+        if (im.visitEntry == dic['id']) { imagingUrl = im.report; }
       }
+
+      print('lab url: $labUrl');
+      print('imaging url: $imagingUrl');
+
       return HealthcareHistoryDataEntry(
         id: dic['id'],
         admissionDate: dic['admissionDate'],

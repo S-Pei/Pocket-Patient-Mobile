@@ -77,7 +77,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
   Future<String?> _openFilePicker() async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles();
-      print('result:$result');
+      // print('result:$result');
       if (result != null) {
          return result.files.single.path!;
       }
@@ -227,11 +227,11 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                             future: _letterPathFuture,
                                                             builder: (context,snapshot) {
                                                               if (snapshot.hasData) {
-                                                                print(snapshot.data);
+                                                                // print(snapshot.data);
                                                                 if (snapshot.data !='') {
                                                                   letterFilePath = snapshot.data!;
                                                                 }
-                                                                print('letterfilepath: $letterFilePath');
+                                                                // print('letterfilepath: $letterFilePath');
                                                                 return getUploadedFilePath(
                                                                     letterFilePath);
                                                               } else
@@ -326,11 +326,11 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                               future: _labPathFuture,
                                                               builder: (context,snapshot) {
                                                                 if (snapshot.hasData) {
-                                                                  print(snapshot.data);
+                                                                  // print(snapshot.data);
                                                                   if (snapshot.data !='') {
                                                                     labFilePath = snapshot.data!;
                                                                   }
-                                                                  print('labfilepath: $labFilePath');
+                                                                  // print('labfilepath: $labFilePath');
                                                                   return getUploadedFilePath(
                                                                       labFilePath);
                                                                 } else
@@ -425,11 +425,11 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                               future: _imagingPathFuture,
                                                               builder: (context,snapshot) {
                                                                 if (snapshot.hasData) {
-                                                                  print(snapshot.data);
+                                                                  // print(snapshot.data);
                                                                   if (snapshot.data !='') {
                                                                     imagingFilePath = snapshot.data!;
                                                                   }
-                                                                  print('imagingfilepath: $imagingFilePath');
+                                                                  // print('imagingfilepath: $imagingFilePath');
                                                                   return getUploadedFilePath(
                                                                       imagingFilePath);
                                                                 } else
@@ -461,45 +461,42 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                     ),
                                   ],
                                 ),
-                                SizedBox(height: 10,),
-                                LongButton(word: 'Add Entry', onPress: () {
-                                _letterPathFuture;
-                                _labPathFuture;
-                                _imagingPathFuture.then((value) {
-                                  if (summaryController.text == "" ||
-                                      consultantController.text == "") {
-                                    setState(() {
-                                      isVisible = true;
-                                    });
-                                    Timer(Duration(seconds: 3), () {
-                                      if(mounted){
-                                        setState(() {
-                                          isVisible = false;
-                                        });}
-                                    });
-                                  } else {
-                                    HealthcareHistoryDataEntry newEntry =
-                                    HealthcareHistoryDataEntry(
-                                        id: '-1',
-                                        admissionDate: admissionDate.date
-                                            .toString(),
-                                        dischargeDate: dischargeDate.date
-                                            .toString(),
-                                        consultant: consultantController.text,
-                                        visitType: dropdownValue,
-                                        summary: summaryController.text,
-                                        addToMedicalHistory: addToMh,
-                                        imagingUrl: '',
-                                        labUrl: ''
-                                    );
-                                    print('letter: $letterFilePath');
-                                    addHospVisitEntry(
-                                        letterFilePath, newEntry);
-                                    Navigator.pop(context);
-                                  }
-                                });
+                                const SizedBox(height: 10,),
+                                LongButton(word: 'Add Entry', onPress: () async {
+                                var value = await Future.wait([_letterPathFuture, _labPathFuture, _imagingPathFuture]);
+                                if (summaryController.text == "" ||
+                                    consultantController.text == "") {
+                                  setState(() {
+                                    isVisible = true;
+                                  });
+                                  Timer(const Duration(seconds: 3), () {
+                                    if(mounted){
+                                      setState(() {
+                                        isVisible = false;
+                                      });
+                                    }
+                                  });
+                                } else {
+                                  HealthcareHistoryDataEntry newEntry =
+                                  HealthcareHistoryDataEntry(
+                                      id: '-1',
+                                      admissionDate: admissionDate.date
+                                          .toString(),
+                                      dischargeDate: dischargeDate.date
+                                          .toString(),
+                                      consultant: consultantController.text,
+                                      visitType: dropdownValue,
+                                      summary: summaryController.text,
+                                      addToMedicalHistory: addToMh,
+                                      imagingUrl: '',
+                                      labUrl: ''
+                                  );
+                                  addHospVisitEntry(
+                                      letterFilePath, newEntry);
+                                  Navigator.pop(context);
+                                }
                               }),
-                              SizedBox(height: 50,)
+                              const SizedBox(height: 50,)
                               ]
                         // generateVisitDetail('Type of Visit', data.visitType) +
                       )]),
@@ -777,12 +774,12 @@ Widget addFileField(String title, void Function() addFunc, Future<String?> fileF
                           future: fileFuture,
                           builder: (context,snapshot) {
                             if (snapshot.hasData) {
-                              print(snapshot.data);
+                              // print(snapshot.data);
                               if (snapshot.data !='') {
                                 filePathStorage = snapshot.data!;
                               }
-                              print('file future=${fileFuture.toString()}');
-                              print('file path: $filePathStorage');
+                              // print('file future=${fileFuture.toString()}');
+                              // print('file path: $filePathStorage');
                               return getUploadedFilePath(
                                   filePathStorage);
                             } else

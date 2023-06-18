@@ -160,7 +160,7 @@ Future<Patient> fetchData(String url) async {
       },
   );
   if (response.statusCode == 200) {
-    print('patient data: ${json.decode(response.body)}');
+    // print('patient data: ${json.decode(response.body)}');
     return Patient.fromJson(json.decode(response.body));
   } else {
     // Handle error if the request fails
@@ -169,7 +169,7 @@ Future<Patient> fetchData(String url) async {
 }
 
 void fetchToken(context, username, password) async {
-  print('fetching token');
+  // print('fetching token');
   final response = await http.post(
     Uri.parse(debug ? 'http://$localHost/api/token/' : 'https://$deployedHost/api/token/'),
     headers: <String, String>{
@@ -608,7 +608,7 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
   imagingFilePath = '';
   labFilePath = '';
 
-  print(request.fields);
+  // print(request.fields);
   request.send().then((response) {
     if (response.statusCode == 201) {
       print("Uploaded!");
@@ -619,11 +619,11 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
       http.Response.fromStream(response).then((value)
       {
         data['mhId'] = jsonDecode(value.body)['id'];
-        print(data['mhId']);
+        data['labId'] = jsonDecode(value.body)['labId'];
+        data['imagingId'] = jsonDecode(value.body)['imagingId'];
         final json = jsonEncode(data);
         channel!.sink.add(json);
       });
-
     } else {
       print("TT file upload failed");
     }
