@@ -62,46 +62,76 @@ class MedicationDetailsTitle extends StatelessWidget {
 }
 
 
-class MedicationInfo extends StatelessWidget {
+class MedicationInfo extends StatefulWidget {
 
   const MedicationInfo({super.key, required this.data});
 
   final MedicationEntry data;
 
   @override
+  State<StatefulWidget> createState() => _MedicationInfo(data: data);
+}
+
+class _MedicationInfo extends State<MedicationInfo> {
+  _MedicationInfo({required this.data});
+
+  MedicationEntry data;
+  String delete = "Delete";
+
+  @override
+  void initState() {
+    delete = "Delete";
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
-      crossAxisAlignment: CrossAxisAlignment.stretch,
-      mainAxisAlignment: MainAxisAlignment.center,
-      mainAxisSize: MainAxisSize.min,
-      children:
-      generateMedicationDetail('Start Date', data.startDate) +
-          generateMedicationDetail('End Date', data.endDate) +
-          generateMedicationDetail('Duration', data.duration) +
-          generateMedicationDetail('Method', data.route) +
-          generateMedicationDetail('Comments', data.comments) +
-          [ const SizedBox(height: 30,),
-            (() {
-              if (data.byPatient) {
-                return NavigateLongButton(word: 'Edit', nextPage: AddMedicationPage(oldData: data,));
-              } else {
-                return const SizedBox(height: 10,);
-              }
-            }()),
-            const SizedBox(height: 15,),
-            (() {
-              if (data.byPatient) {
-                return DeleteButton(word: 'Delete', onPress: () {
-                  deleteOnPress(data, context);
-                });
-              } else {
-                return const SizedBox(height: 10,);
-              }
-            }()),
-          ]
-          // addToMedHist(data.addToMedicalHistory)
+        crossAxisAlignment: CrossAxisAlignment.stretch,
+        mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
+        children:
+        generateMedicationDetail('Start Date', data.startDate) +
+            generateMedicationDetail('End Date', data.endDate) +
+            generateMedicationDetail('Duration', data.duration) +
+            generateMedicationDetail('Method', data.route) +
+            generateMedicationDetail('Comments', data.comments) +
+            [ const SizedBox(height: 30,),
+              (() {
+                if (data.byPatient) {
+                  return NavigateLongButton(word: 'Edit', nextPage: AddMedicationPage(oldData: data,));
+                } else {
+                  return const SizedBox(height: 10,);
+                }
+              }()),
+              const SizedBox(height: 15,),
+              (() {
+                if (data.byPatient) {
+                  return DeleteButton(word: delete, onPress: () {
+                    if (delete == "Delete") {
+                      setState(() {
+                        delete = "Confirm";
+                      });
+                      Timer(const Duration(seconds: 3), () {
+                        if (mounted) {
+                          setState(() {
+                            delete = "Delete";
+                          });
+                        }
+                      });
+                    } else if (delete == "Confirm") {
+                      deleteOnPress(data, context);
+                    }
+                  });
+                } else {
+                  return const SizedBox(height: 10,);
+                }
+              }()),
+            ]
+      // addToMedHist(data.addToMedicalHistory)
     );
   }
+
 }
 
 List<Widget> generateMedicationDetail(String title, String info) {
