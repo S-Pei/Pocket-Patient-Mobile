@@ -283,9 +283,6 @@ class HealthcareHistoryDataEntry {
         if (im.visitEntry == dic['id']) { imagingUrl = im.report; }
       }
 
-      print('lab url: $labUrl');
-      print('imaging url: $imagingUrl');
-
       return HealthcareHistoryDataEntry(
         id: dic['id'],
         admissionDate: dic['admissionDate'],

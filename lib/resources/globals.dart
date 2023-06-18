@@ -645,13 +645,33 @@ editHospHistory(String? filePath, HealthcareHistoryDataEntry modified) async {
   request.fields['visitType'] = modified.visitType;
   request.fields['addToMedicalHistory'] = modified.addToMedicalHistory ? 'on' : 'off';
 
-  letterFilePath = '';
+  print("filepath now: $filePath");
+  print("labfilepath now: $labFilePath");
+  print("imagingfilepath now: $imagingFilePath");
+
   if (filePath != null && filePath != '') {
     request.files.add(await http.MultipartFile.fromPath(
-        'letter', filePath!));
+        'letter', filePath));
   }
 
-  print(request.fields);
+  if (labFilePath != '') {
+    request.files.add(await http.MultipartFile.fromPath(
+        'lab', labFilePath));
+  }
+
+  if (imagingFilePath != '') {
+    request.files.add(await http.MultipartFile.fromPath(
+        'imaging', imagingFilePath));
+  }
+
+  print("sending lab url: $labFilePath");
+  print("sending imaging url: $imagingFilePath");
+
+  letterFilePath = '';
+  labFilePath = '';
+  imagingFilePath = '';
+
+  // print(request.fields);
   request.send().then((response) {
     if (response.statusCode == 200) {
       print("Uploaded!");
@@ -663,7 +683,8 @@ editHospHistory(String? filePath, HealthcareHistoryDataEntry modified) async {
       http.Response.fromStream(response).then((value)
       {
         data['mhId'] = jsonDecode(value.body)['id'];
-        print(data['mhId']);
+        print('lab history: ${jsonDecode(value.body)['labId']}');
+        print('imaging history: ${jsonDecode(value.body)['imagingId']}');
         final json = jsonEncode(data);
         channel!.sink.add(json);
       });

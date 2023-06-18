@@ -33,10 +33,10 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
 
   @override
   void initState() {
-    super.initState();
     _letterPathFuture = Future.value('');
     _labPathFuture = Future.value('');
     _imagingPathFuture = Future.value('');
+    super.initState();
   }
 
   void updateAdmissionDate(DateTime newDate) {
@@ -88,6 +88,9 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
 
   @override
   Widget build(BuildContext context) {
+    letterFilePath = '';
+    labFilePath = '';
+    imagingFilePath = '';
     Widget checkBox = Checkbox(
       value: addToMh,
       onChanged: (bool? value) {
@@ -227,11 +230,10 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                             future: _letterPathFuture,
                                                             builder: (context,snapshot) {
                                                               if (snapshot.hasData) {
-                                                                // print(snapshot.data);
                                                                 if (snapshot.data !='') {
                                                                   letterFilePath = snapshot.data!;
                                                                 }
-                                                                // print('letterfilepath: $letterFilePath');
+                                                                print('letterfilepath: $letterFilePath');
                                                                 return getUploadedFilePath(
                                                                     letterFilePath);
                                                               } else

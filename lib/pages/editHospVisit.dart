@@ -33,12 +33,16 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
   TextEditingController summaryController = TextEditingController();
   TextEditingController consultantController = TextEditingController();
   late Future<String?> _filePathFuture;
+  late Future<String?> _labPathFuture;
+  late Future<String?> _imagingPathFuture;
   bool isVisible = true;
 
   @override
   void initState() {
     super.initState();
-    _filePathFuture = Future.value('');
+    _filePathFuture = Future.value(data.letterUrl ?? '');
+    _labPathFuture = Future.value(data.labUrl);
+    _imagingPathFuture = Future.value(data.imagingUrl);
     addToMh = data.addToMedicalHistory;
     dropdownValue = data.visitType;
     admissionDate = DateTime.parse(data.admissionDate);
@@ -66,6 +70,18 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
   void addToLetterUrls() {
     setState(() {
       _filePathFuture = _openFilePicker();
+    });
+  }
+
+  void addToLabUrls() {
+    setState(() {
+      _labPathFuture = _openFilePicker();
+    });
+  }
+
+  void addToImagingUrls() {
+    setState(() {
+      _imagingPathFuture = _openFilePicker();
     });
   }
 
@@ -137,16 +153,15 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                 'Consultant', 40) +
                             addDropDown(dropDown) +
                             [
+                              const SizedBox(height: 20,),
                               Flexible(
                                   flex: 5,
                                   fit: FlexFit.loose,
-                                  child: SizedBox(height: 20,)),
-                              Flexible(
-                                  flex: 10,
-                                  fit: FlexFit.loose,
                                   child:
-                                  Row(children: [
-                                    Flexible(
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                    const Flexible(
                                         fit: FlexFit.tight,
                                         flex: 1,
                                         child: SizedBox(width: 5,)),
@@ -154,6 +169,7 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                         fit: FlexFit.tight,
                                         flex: 10,
                                         child: Container(
+                                            padding: const EdgeInsets.only(top: 5),
                                             width: 50,
                                             child: requiredField('Discharge Letter', requiredStr)
                                         )
@@ -162,16 +178,122 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                         fit: FlexFit.tight,
                                         flex: 15,
                                         child: Container(
-                                            height: 100,
+                                            height: 70,
                                             width: 250,
                                             child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
                                               children: [
                                                 Flexible(
-                                                    fit: FlexFit.loose,
-                                                    flex: 7,
+                                                    fit: FlexFit.tight,
+                                                    flex: 2,
                                                     child: Container(
                                                         width: 250,
-                                                        constraints: BoxConstraints(
+                                                        constraints: const BoxConstraints(
+                                                            maxHeight: 40),
+                                                        child: ElevatedButton
+                                                            .icon(
+                                                          icon: Icon(Icons
+                                                              .upload),
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            padding: const EdgeInsets
+                                                                .only(
+                                                                left: 10,
+                                                                top: 3,
+                                                                bottom: 3),
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .circular(
+                                                                  10.0),
+                                                              side: const BorderSide(
+                                                                  width: 1,
+                                                                  color: Colors
+                                                                      .black),
+                                                            ),
+                                                            backgroundColor: lighterGrey,
+                                                            foregroundColor: Colors
+                                                                .black,
+                                                          ),
+                                                          onPressed: addToLetterUrls,
+                                                          label: const Text(
+                                                            'upload attachment',
+                                                            textAlign: TextAlign
+                                                                .center,),
+                                                        ))
+                                                ),
+                                                const Flexible(child: SizedBox(
+                                                  height: 5,)),
+                                                Flexible(
+                                                    flex: 2,
+                                                    fit: FlexFit.loose,
+                                                    child: Container(
+                                                        height: 100,
+                                                        width: 250,
+                                                        child: FutureBuilder<
+                                                            String?>(
+                                                          future: _filePathFuture,
+                                                          builder: (
+                                                              context,
+                                                              snapshot) {
+                                                            if (snapshot.hasData) {
+                                                              // print(snapshot.data);
+                                                              if (snapshot.data !='') {
+                                                                letterFilePath = snapshot.data!;
+                                                              }
+                                                              isVisible = false;
+                                                              return getUploadedFilePath(letterFilePath);
+                                                            } else
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                  'Error: ${snapshot
+                                                                      .error}');
+                                                            } else {
+                                                              return const CircularProgressIndicator();
+                                                            }
+                                                          },
+                                                        )))
+                                              ],
+                                            )
+                                        )
+                                    ),
+                                  ])
+                              ),
+                              Flexible(
+                                  flex: 5,
+                                  fit: FlexFit.loose,
+                                  child:
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                    const Flexible(
+                                        fit: FlexFit.tight,
+                                        flex: 1,
+                                        child: SizedBox(width: 5,)),
+                                    Flexible(
+                                        fit: FlexFit.tight,
+                                        flex: 10,
+                                        child: Container(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            width: 50,
+                                            child: requiredField('Lab Report', requiredStr)
+                                        )
+                                    ),
+                                    Flexible(
+                                        fit: FlexFit.tight,
+                                        flex: 15,
+                                        child: Container(
+                                            height: 70,
+                                            width: 250,
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.start,
+                                              children: [
+                                                Flexible(
+                                                    fit: FlexFit.tight,
+                                                    flex: 2,
+                                                    child: Container(
+                                                        width: 250,
+                                                        constraints: const BoxConstraints(
                                                             maxHeight: 40),
                                                         child: ElevatedButton
                                                             .icon(
@@ -197,7 +319,111 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                                             foregroundColor: Colors
                                                                 .black,
                                                           ),
-                                                          onPressed: addToLetterUrls,
+                                                          onPressed: addToLabUrls,
+                                                          label: Text(
+                                                            'upload attachment',
+                                                            textAlign: TextAlign
+                                                                .center,),
+                                                        ))
+                                                ),
+                                                const Flexible(child: SizedBox(
+                                                  height: 5,)),
+                                                Flexible(
+                                                    flex: 2,
+                                                    fit: FlexFit.loose,
+                                                    child: Container(
+                                                        height: 40,
+                                                        width: 250,
+                                                        child: FutureBuilder<
+                                                            String?>(
+                                                          future: _labPathFuture,
+                                                          builder: (
+                                                              context,
+                                                              snapshot) {
+                                                            if (snapshot.hasData) {
+                                                              // print(snapshot.data);
+                                                              if (snapshot.data !='') {
+                                                                labFilePath = snapshot.data!;
+                                                              }
+                                                              isVisible = false;
+                                                              return getUploadedFilePath(labFilePath);
+                                                            } else
+                                                            if (snapshot
+                                                                .hasError) {
+                                                              return Text(
+                                                                  'Error: ${snapshot
+                                                                      .error}');
+                                                            } else {
+                                                              return const CircularProgressIndicator();
+                                                            }
+                                                          },
+                                                        )))
+                                              ],
+                                            )
+                                        )
+                                    ),
+                                  ])
+                              ),
+                              Flexible(
+                                  flex: 5,
+                                  fit: FlexFit.loose,
+                                  child:
+                                  Row(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                    const Flexible(
+                                        fit: FlexFit.tight,
+                                        flex: 1,
+                                        child: SizedBox(width: 5,)),
+                                    Flexible(
+                                        fit: FlexFit.tight,
+                                        flex: 10,
+                                        child: Container(
+                                            padding: const EdgeInsets.only(top: 5),
+                                            width: 50,
+                                            child: requiredField('Discharge Letter', requiredStr)
+                                        )
+                                    ),
+                                    Flexible(
+                                        fit: FlexFit.tight,
+                                        flex: 15,
+                                        child: Container(
+                                            height: 70,
+                                            width: 250,
+                                            child: Column(
+                                              children: [
+                                                Flexible(
+                                                    fit: FlexFit.tight,
+                                                    flex: 2,
+                                                    child: Container(
+                                                        width: 250,
+                                                        constraints: const BoxConstraints(
+                                                            maxHeight: 40),
+                                                        child: ElevatedButton
+                                                            .icon(
+                                                          icon: Icon(Icons
+                                                              .upload),
+                                                          style: ElevatedButton
+                                                              .styleFrom(
+                                                            padding: const EdgeInsets
+                                                                .only(
+                                                                left: 10,
+                                                                top: 3,
+                                                                bottom: 3),
+                                                            shape: RoundedRectangleBorder(
+                                                              borderRadius: BorderRadius
+                                                                  .circular(
+                                                                  10.0),
+                                                              side: BorderSide(
+                                                                  width: 1,
+                                                                  color: Colors
+                                                                      .black),
+                                                            ),
+                                                            backgroundColor: lighterGrey,
+                                                            foregroundColor: Colors
+                                                                .black,
+                                                          ),
+                                                          onPressed: addToImagingUrls,
                                                           label: Text(
                                                             'upload attachment',
                                                             textAlign: TextAlign
@@ -207,33 +433,24 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                                 Flexible(child: SizedBox(
                                                   height: 5,)),
                                                 Flexible(
-                                                  flex: 6,
-                                                  child: isVisible ? Container(
-                                                    height: 20,
-                                                    child: data.letterUrl == null ? const Text( '')
-                                                        : getUploadedFilePath(data.letterUrl)
-                                                  ) : const Text('')
-                                                ),
-                                                Flexible(
-                                                    flex: 5,
+                                                    flex: 2,
                                                     fit: FlexFit.loose,
                                                     child: Container(
                                                         height: 40,
                                                         width: 250,
                                                         child: FutureBuilder<
                                                             String?>(
-                                                          future: _filePathFuture,
+                                                          future: _imagingPathFuture,
                                                           builder: (
                                                               context,
                                                               snapshot) {
                                                             if (snapshot.hasData) {
-                                                              print(snapshot.data);
+                                                              // print(snapshot.data);
                                                               if (snapshot.data !='') {
-                                                                letterFilePath = snapshot.data!;
+                                                                imagingFilePath = snapshot.data!;
                                                               }
-                                                              print('letterfilepath: $letterFilePath');
                                                               isVisible = false;
-                                                              return getUploadedFilePath(letterFilePath);
+                                                              return getUploadedFilePath(imagingFilePath);
                                                             } else
                                                             if (snapshot
                                                                 .hasError) {
@@ -241,7 +458,7 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                                                   'Error: ${snapshot
                                                                       .error}');
                                                             } else {
-                                                              return CircularProgressIndicator();
+                                                              return const CircularProgressIndicator();
                                                             }
                                                           },
                                                         )))
