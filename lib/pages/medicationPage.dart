@@ -39,7 +39,7 @@ class MedicationPage extends StatelessWidget {
                       height: 90,
                     )),
                 Flexible(
-                    flex: 6,
+                    flex: 7,
                     fit: FlexFit.loose,
                     child: Container(
                         height: 300,
@@ -94,7 +94,6 @@ class MedicationPage extends StatelessWidget {
               )
             ]))),
               homeIcon,
-              const ProfileLogo(),
             ],
           ),
         );

@@ -114,7 +114,6 @@ class _HomePageState extends State<HomePage> {
             ),
           ]),
           homeIcon,
-          // const ProfileLogo(),
         ],
       ),
     );

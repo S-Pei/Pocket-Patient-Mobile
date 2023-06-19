@@ -29,7 +29,6 @@ class FullMedicationPage extends StatelessWidget {
               ]
           ),
           homeIcon,
-          const ProfileLogo(),
         ],
       ),
     );

@@ -108,7 +108,6 @@ class HospitalVisitPage extends StatelessWidget {
                 )
               ]))),
                 homeIcon,
-                const ProfileLogo(),
               ],
             ),
           );
@@ -133,7 +132,7 @@ class HealthcareVisitTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultTextStyle(style: smallTitle, child: Text('Healthcare Visit History')),
-            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 25/4/2023')),
+            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 19/6/2023')),
           ],
         ));
   }
@@ -169,7 +168,7 @@ class HealthcareVisitEntry extends StatelessWidget {
             children: [
           Flexible(
               fit: FlexFit.tight,
-              flex: 4,
+              flex: 5,
               child: Container(
                   width: 50,
                   // alignment: Alignment.center,
@@ -189,7 +188,7 @@ class HealthcareVisitEntry extends StatelessWidget {
               child: SizedBox(width: 10,)),
           Flexible(
               fit: FlexFit.tight,
-              flex: 6,
+              flex: 7,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,

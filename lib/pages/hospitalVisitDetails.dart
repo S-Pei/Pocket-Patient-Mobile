@@ -26,11 +26,11 @@ class HospitalVisitDetailsPage extends StatelessWidget {
                       HospitalVisitInfo(data: data),
                       SizedBox(height: 30,),
                       NavigateLongButton(word: 'Edit Entry',
-                          nextPage: EditHospitalVisitPage(data: data))
+                          nextPage: EditHospitalVisitPage(data: data)),
+                      SizedBox(height: 20,)
                     ]
                 ),
                 homeIcon,
-                const ProfileLogo(),
               ],
             ),
           );
