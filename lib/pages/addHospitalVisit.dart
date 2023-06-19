@@ -146,7 +146,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                   'Consultant', 40) +
                               addDropDown(dropDown) +
                               [
-                                Flexible(
+                                const Flexible(
                                     flex: 5,
                                     fit: FlexFit.loose,
                                     child: SizedBox(height: 20,)),
@@ -154,8 +154,10 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                     flex: 10,
                                     fit: FlexFit.loose,
                                     child:
-                                    Row(children: [
-                            Flexible(
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                            const Flexible(
                                 fit: FlexFit.tight,
                                 flex: 1,
                                 child: SizedBox(width: 5,)),
@@ -163,97 +165,102 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                 fit: FlexFit.tight,
                                 flex: 10,
                                 child: Container(
+                                    padding: const EdgeInsets.only(top: 10),
                                     width: 50,
-                                    child: DefaultTextStyle(
-                                      child: Text('Discharge Letter:'), style: boldContent,)
+                                    child: const DefaultTextStyle(
+                                      style: boldContent,
+                                      child: Text('Discharge Letter:'),
+                                    )
                                 )
                             ),
                             Flexible(
-                                          fit: FlexFit.tight,
-                                          flex: 15,
+                              fit: FlexFit.tight,
+                              flex: 15,
+                              child: Container(
+                                  height: 100,
+                                  width: 250,
+                                  child: Column(
+                                    children: [
+                                      Flexible(
+                                          fit: FlexFit.loose,
+                                          flex: 7,
                                           child: Container(
-                                              height: 100,
                                               width: 250,
-                                              child: Column(
-                                                children: [
-                                                  Flexible(
-                                                      fit: FlexFit.loose,
-                                                      flex: 7,
-                                                      child: Container(
-                                                          width: 250,
-                                                          constraints: BoxConstraints(
-                                                              maxHeight: 40),
-                                                          child: ElevatedButton
-                                                              .icon(
-                                                            icon: Icon(Icons
-                                                                .upload),
-                                                            style: ElevatedButton
-                                                                .styleFrom(
-                                                              padding: const EdgeInsets
-                                                                  .only(
-                                                                  left: 10,
-                                                                  top: 3,
-                                                                  bottom: 3),
-                                                              shape: RoundedRectangleBorder(
-                                                                borderRadius: BorderRadius
-                                                                    .circular(
-                                                                    10.0),
-                                                                side: BorderSide(
-                                                                    width: 1,
-                                                                    color: Colors
-                                                                        .black),
-                                                              ),
-                                                              backgroundColor: lighterGrey,
-                                                              foregroundColor: Colors
-                                                                  .black,
-                                                            ),
-                                                            onPressed: addToLetterUrls,
-                                                            label: Text(
-                                                              'upload attachment',
-                                                              textAlign: TextAlign
-                                                                  .center,),
-                                                          ))
+                                              constraints: const BoxConstraints(
+                                                  maxHeight: 40),
+                                              child: ElevatedButton
+                                                  .icon(
+                                                icon: const Icon(Icons
+                                                    .upload),
+                                                style: ElevatedButton
+                                                    .styleFrom(
+                                                  padding: const EdgeInsets
+                                                      .only(
+                                                      left: 10,
+                                                      top: 3,
+                                                      bottom: 3),
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius
+                                                        .circular(
+                                                        10.0),
+                                                    side: const BorderSide(
+                                                        width: 1,
+                                                        color: Colors
+                                                            .black),
                                                   ),
-                                                  Flexible(
-                                                    flex: 3,
-                                                    child: SizedBox(
-                                                    height: 30,)),
-                                                  Flexible(
-                                                      flex: 5,
-                                                      fit: FlexFit.loose,
-                                                      child: Container(
-                                                          height: 40,
-                                                          width: 250,
-                                                          padding: EdgeInsets.only(left: 10),
-                                                          child: FutureBuilder<
-                                                              String?>(
-                                                            future: _letterPathFuture,
-                                                            builder: (context,snapshot) {
-                                                              if (snapshot.hasData) {
-                                                                if (snapshot.data !='') {
-                                                                  letterFilePath = snapshot.data!;
-                                                                }
-                                                                print('letterfilepath: $letterFilePath');
-                                                                return getUploadedFilePath(
-                                                                    letterFilePath);
-                                                              } else
-                                                              if (snapshot
-                                                                  .hasError) {
-                                                                return Text(
-                                                                    'Error: ${snapshot
-                                                                        .error}');
-                                                              } else {
-                                                                return CircularProgressIndicator();
-                                                              }
-                                                            },
-                                                          )))]))),
+                                                  backgroundColor: lighterGrey,
+                                                  foregroundColor: Colors
+                                                      .black,
+                                                ),
+                                                onPressed: addToLetterUrls,
+                                                label: const Text(
+                                                  'upload attachment',
+                                                  textAlign: TextAlign
+                                                      .center,),
+                                              ))
+                                      ),
+                                      const Flexible(
+                                        flex: 1,
+                                        child: SizedBox(
+                                        height: 30,)),
+                                      Flexible(
+                                          flex: 5,
+                                          fit: FlexFit.loose,
+                                          child: Container(
+                                              height: 40,
+                                              width: 250,
+                                              padding: const EdgeInsets.only(left: 10),
+                                              child: FutureBuilder<
+                                                  String?>(
+                                                future: _letterPathFuture,
+                                                builder: (context,snapshot) {
+                                                  if (snapshot.hasData) {
+                                                    if (snapshot.data !='') {
+                                                      letterFilePath = snapshot.data!;
+                                                    }
+                                                    print('letterfilepath: $letterFilePath');
+                                                    return getUploadedFilePath(
+                                                        letterFilePath);
+                                                  } else
+                                                  if (snapshot
+                                                      .hasError) {
+                                                    return Text(
+                                                        'Error: ${snapshot
+                                                            .error}');
+                                                  } else {
+                                                    return CircularProgressIndicator();
+                                                  }
+                                                },
+                                              )))]))),
                                     ])),
                                 Flexible(
                                     flex: 10,
                                     fit: FlexFit.loose,
                                     child:
-                                    Row(children: [
-                                      Flexible(
+                                    Row(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                      const Flexible(
                                           fit: FlexFit.tight,
                                           flex: 1,
                                           child: SizedBox(width: 5,)),
@@ -261,9 +268,12 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                           fit: FlexFit.tight,
                                           flex: 10,
                                           child: Container(
+                                              padding: const EdgeInsets.only(top: 10),
                                               width: 50,
-                                              child: DefaultTextStyle(
-                                                child: Text('Lab Report:'), style: boldContent,)
+                                              child: const DefaultTextStyle(
+                                                style: boldContent,
+                                                child: Text('Lab Report:'),
+                                              )
                                           )
                                       ),
                                       Flexible(
@@ -306,13 +316,13 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                                     .black,
                                                               ),
                                                               onPressed: addToLabUrl,
-                                                              label: Text(
+                                                              label: const Text(
                                                                 'upload attachment',
                                                                 textAlign: TextAlign
                                                                     .center,),
                                                             ))
                                                     ),
-                                                    Flexible(
+                                                    const Flexible(
                                                         flex: 3,
                                                         child: SizedBox(
                                                           height: 30,)),
@@ -351,8 +361,10 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                     flex: 10,
                                     fit: FlexFit.loose,
                                     child:
-                                    Row(children: [
-                                      Flexible(
+                                    Row(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                      const Flexible(
                                           fit: FlexFit.tight,
                                           flex: 1,
                                           child: SizedBox(width: 5,)),
@@ -360,9 +372,11 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                           fit: FlexFit.tight,
                                           flex: 10,
                                           child: Container(
+                                              padding: const EdgeInsets.only(top: 10),
                                               width: 50,
-                                              child: DefaultTextStyle(
-                                                child: Text('Imaging Report:'), style: boldContent,)
+                                              child: const DefaultTextStyle(
+                                                style: boldContent,
+                                                child: Text('Imaging Report:'),)
                                           )
                                       ),
                                       Flexible(
@@ -378,11 +392,11 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                         flex: 7,
                                                         child: Container(
                                                             width: 250,
-                                                            constraints: BoxConstraints(
+                                                            constraints: const BoxConstraints(
                                                                 maxHeight: 40),
                                                             child: ElevatedButton
                                                                 .icon(
-                                                              icon: Icon(Icons
+                                                              icon: const Icon(Icons
                                                                   .upload),
                                                               style: ElevatedButton
                                                                   .styleFrom(
@@ -395,7 +409,7 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                                   borderRadius: BorderRadius
                                                                       .circular(
                                                                       10.0),
-                                                                  side: BorderSide(
+                                                                  side: const BorderSide(
                                                                       width: 1,
                                                                       color: Colors
                                                                           .black),
@@ -405,23 +419,25 @@ class _AddHospitalVisitPageState extends State<AddHospitalVisitPage> {
                                                                     .black,
                                                               ),
                                                               onPressed: addToImagingUrl,
-                                                              label: Text(
+                                                              label: const Text(
                                                                 'upload attachment',
                                                                 textAlign: TextAlign
                                                                     .center,),
                                                             ))
                                                     ),
-                                                    Flexible(
+                                                    const Flexible(
                                                         flex: 3,
                                                         child: SizedBox(
-                                                          height: 30,)),
+                                                          height: 30
+                                                        ),
+                                                    ),
                                                     Flexible(
                                                         flex: 5,
                                                         fit: FlexFit.loose,
                                                         child: Container(
                                                             height: 40,
                                                             width: 250,
-                                                            padding: EdgeInsets.only(left: 10),
+                                                            padding: const EdgeInsets.only(left: 10),
                                                             child: FutureBuilder<
                                                                 String?>(
                                                               future: _imagingPathFuture,
@@ -663,7 +679,7 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
               flex: 1,
               child: SizedBox(width: 5,)),
           Flexible(
-              fit: FlexFit.loose,
+              fit: FlexFit.tight,
               flex: 10,
               child:
               requiredField(title, requiredStr)
@@ -700,8 +716,10 @@ Widget addFileField(String title, void Function() addFunc, Future<String?> fileF
       flex: 10,
       fit: FlexFit.loose,
       child:
-        Row(children: [
-          Flexible(
+        Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+          const Flexible(
             fit: FlexFit.tight,
             flex: 1,
             child: SizedBox(width: 5,)),
@@ -709,9 +727,13 @@ Widget addFileField(String title, void Function() addFunc, Future<String?> fileF
             fit: FlexFit.tight,
             flex: 10,
             child: Container(
+              decoration: BoxDecoration(
+                border: Border.all(color: Colors.yellow)
+              ),
               width: 50,
               child: DefaultTextStyle(
-                child: Text(title), style: boldContent,)
+                style: boldContent,
+                child: Text(title),)
           )
           ),
         Flexible(
