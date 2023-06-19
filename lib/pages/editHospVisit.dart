@@ -37,6 +37,10 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
   late Future<String?> _imagingPathFuture;
   bool isVisible = true;
 
+  int letterHasChange = 0;
+  int labHasChange = 0;
+  int imagingHasChange = 0;
+
   @override
   void initState() {
     super.initState();
@@ -239,6 +243,7 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                                               // print(snapshot.data);
                                                               if (snapshot.data !='') {
                                                                 letterFilePath = snapshot.data!;
+                                                                letterHasChange ++;
                                                               }
                                                               isVisible = false;
                                                               return getUploadedFilePath(letterFilePath);
@@ -341,9 +346,9 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                                               context,
                                                               snapshot) {
                                                             if (snapshot.hasData) {
-                                                              // print(snapshot.data);
                                                               if (snapshot.data !='') {
                                                                 labFilePath = snapshot.data!;
+                                                                labHasChange ++;
                                                               }
                                                               isVisible = false;
                                                               return getUploadedFilePath(labFilePath);
@@ -448,6 +453,7 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                                               // print(snapshot.data);
                                                               if (snapshot.data !='') {
                                                                 imagingFilePath = snapshot.data!;
+                                                                imagingHasChange ++;
                                                               }
                                                               isVisible = false;
                                                               return getUploadedFilePath(imagingFilePath);
@@ -488,7 +494,9 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                                       imagingUrl: '');
                                   print('filePath: ');
                                   editHospHistory(
-                                      letterFilePath, newEntry);
+                                      letterFilePath, newEntry,
+                                      letterHasChange, labHasChange,
+                                      imagingHasChange);
                                   Navigator.pop(context);
                                 }),
                               SizedBox(height: 50,)

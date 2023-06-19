@@ -630,7 +630,8 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
   });
 }
 
-editHospHistory(String? filePath, HealthcareHistoryDataEntry modified) async {
+editHospHistory(String? filePath, HealthcareHistoryDataEntry modified,
+    int letterHasChange, int labHasChange, int imagingHasChange) async {
   var postUri = Uri.parse('$autoUrl/api/patient-data/patient-edit-visit/');
   Map<String, String> headers = {'Authorization': 'Bearer ${patientUser!.access}',
     "Content-Type": "multipart/form-data"};
@@ -648,18 +649,21 @@ editHospHistory(String? filePath, HealthcareHistoryDataEntry modified) async {
   print("filepath now: $filePath");
   print("labfilepath now: $labFilePath");
   print("imagingfilepath now: $imagingFilePath");
+  print("letterHasChange: $letterHasChange");
+  print("labHasChange: $labHasChange");
+  print("imagingHasChange: $imagingHasChange");
 
-  if (filePath != null && filePath != '') {
+  if (filePath != null && filePath != '' && letterHasChange > 2) {
     request.files.add(await http.MultipartFile.fromPath(
         'letter', filePath));
   }
 
-  if (labFilePath != '') {
+  if (labFilePath != '' && labHasChange > 2) {
     request.files.add(await http.MultipartFile.fromPath(
         'lab', labFilePath));
   }
 
-  if (imagingFilePath != '') {
+  if (imagingFilePath != '' && imagingHasChange > 2) {
     request.files.add(await http.MultipartFile.fromPath(
         'imaging', imagingFilePath));
   }
