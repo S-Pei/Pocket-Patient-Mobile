@@ -40,7 +40,6 @@ class _HomePageState extends State<HomePage> {
         print('Received: ${data}');
         final map = jsonDecode(data);
         if (map['event'] == 'REQUEST_PATIENT_DATA_ACCESS') {
-          print('request');
           sendAuthNotif();
           setState(() {
             overlay.showOverlay(context, const OverlayWidget());
@@ -53,16 +52,17 @@ class _HomePageState extends State<HomePage> {
           patientData?.setNewMedication(map['currentMedication']);
           medicationNotifier.updateMedication(patientData!.medication);
         } else if (map['event'] == 'NEW_HOSP_VISIT_ENTRY') {
-          // print('new history: ${map['hospital_visit_history']}');
-          if (map['new_lab_history'] != null) { patientData?.addNewLabHistory(map['new_lab_history']); }
-          if (map['new_imaging_history'] != null) { patientData?.addNewImagingHistory(map['new_imaging_history']); }
+          if (!map["new_lab_history"].isEmpty) { patientData?.addNewLabHistory(map['new_lab_history']); }
+          if (!map["new_imaging_history"].isEmpty) { patientData?.addNewImagingHistory(map['new_imaging_history']); }
           patientData?.setNewMedicalHistory(map['hospital_visit_history']);
           mhNotifier.updateMh(patientData!.medical_history);
         } else if (map['event'] == 'NEW_DIARY_CLASS') {
           patientData!.addNewDiaryCategory(map['category']);
           categoryUpdate.updateCategory(patientData!.changeCategoryState());
         } else if (map['event'] == 'EDIT_HOSP_VISIT_ENTRY') {
-          // print('new history: ${map['hospital_visit_history']}');
+          print('map: $map');
+          if (!map["new_lab_history"].isEmpty) { patientData?.addNewLabHistory(map['new_lab_history']); }
+          if (!map["new_imaging_history"].isEmpty) { patientData?.addNewImagingHistory(map['new_imaging_history']); }
           patientData?.setNewMedicalHistory(map['hospital_visit_history']);
           mhNotifier.updateMh(patientData!.medical_history);
           idToHospVisitDet[map['mhId']] = HospitalVisitDetailsPage(id: map['mhId'],);

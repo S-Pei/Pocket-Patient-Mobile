@@ -598,12 +598,19 @@ addHospVisitEntry(String filePath, HealthcareHistoryDataEntry newMedHis) async {
   request.fields['visitType'] = newMedHis.visitType;
   request.fields['addToMedicalHistory'] = newMedHis.addToMedicalHistory ? 'on' : 'off';
 
-  request.files.add(await http.MultipartFile.fromPath(
-      'letter', letterFilePath));
-  request.files.add(await http.MultipartFile.fromPath(
-      'lab', labFilePath));
-  request.files.add(await http.MultipartFile.fromPath(
-      'imaging', imagingFilePath));
+  if (letterFilePath != '') {
+    request.files.add(await http.MultipartFile.fromPath(
+        'letter', letterFilePath));
+  }
+
+  if (labFilePath != '') {
+    request.files.add(await http.MultipartFile.fromPath(
+        'lab', labFilePath));
+  }
+  if (imagingFilePath != '') {
+    request.files.add(await http.MultipartFile.fromPath(
+        'imaging', imagingFilePath));
+  }
   letterFilePath = '';
   imagingFilePath = '';
   labFilePath = '';
