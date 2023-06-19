@@ -98,7 +98,7 @@ class _HomePageState extends State<HomePage> {
               height: 50,
             ),
             NavigateLongButton(
-                word: 'Hospital Visit History',
+                word: 'Healthcare Visit History',
                 nextPage: InfoPage(selectedIndex: 2)),
             SizedBox(
               height: 50,
@@ -144,6 +144,7 @@ class MainPageTitle extends StatelessWidget {
                 '${patientData?.first_name} ${patientData?.last_name}';
             String dob = '${patientData?.dob}';
             String address = '${patientData?.patient_address}';
+            String id = '${patientData?.patient_id}';
             children = <Widget>[
               Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -157,7 +158,7 @@ class MainPageTitle extends StatelessWidget {
                   DefaultTextStyle(
                       style: smallInfo,
                       child:
-                          InfoFormat(title: 'NHS Number', info: '123 456 7890'),
+                          InfoFormat(title: 'NHS Number', info: id),
                       softWrap: true),
                   DefaultTextStyle(
                       style: smallInfo,

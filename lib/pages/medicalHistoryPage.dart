@@ -40,7 +40,7 @@ class MedicalHistoryTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultTextStyle(style: smallTitle, child: Text('My Medical History')),
-            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 25/4/2023')),
+            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 20/6/2023')),
           ],
         ));
   }

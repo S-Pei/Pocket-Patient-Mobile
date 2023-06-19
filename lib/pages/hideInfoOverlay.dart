@@ -26,8 +26,9 @@ class _SelectMedicalHistoryOverlayState extends State<SelectMedicalHistoryOverla
                 children: [Flexible(
                     child: Container(
                         color: Colors.white,
-                        padding: const EdgeInsets.all(50.0),
-                        child: Column(
+                        padding: const EdgeInsets.only(top: 10.0, left: 30, right: 30, bottom: 30),
+                        child: SingleChildScrollView(
+                            child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               SizedBox(
@@ -42,7 +43,7 @@ class _SelectMedicalHistoryOverlayState extends State<SelectMedicalHistoryOverla
                                     overlay.hideOverlay();
                                     overlay.showOverlay(context, const DisclaimerWidget());
                                   })
-                                ]))),
+                                ])))),
                   // Container(height: 100, color: Colors.transparent,),
                 ],),
                 homeIcon,

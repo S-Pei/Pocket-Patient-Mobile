@@ -31,13 +31,13 @@ class DiaryCategoryPage extends StatelessWidget {
                         padding: const EdgeInsets.only(left: 30.0, right: 30.0),
                         child: Column(children: [
                           const Flexible(
-                              flex: 4,
+                              flex: 5,
                               fit: FlexFit.tight,
                               child: SizedBox(
                                 height: 90,
                               )),
                           Flexible(
-                              flex: 6,
+                              flex: 7,
                               fit: FlexFit.tight,
                               child: Container(
                                   height: 120,
@@ -46,10 +46,7 @@ class DiaryCategoryPage extends StatelessWidget {
                                       children: [
                                         Flexible(
                                           flex: 8,
-                                          child: Container(
-                                              margin: EdgeInsets.only(top: 7),
-                                              child: BackButtonWrapper()
-                                          ),
+                                          child: BackButtonBlue()
                                         ),
                                         const SizedBox(height: 12,),
                                         const DiaryCategoryTitle(),
@@ -117,7 +114,7 @@ class DiaryCategoryTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultTextStyle(style: smallTitle, child: Text('My Diary Categories')),
-            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 25/4/2023')),
+            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 20/6/2023')),
           ],
         ));
   }

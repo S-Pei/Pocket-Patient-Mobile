@@ -208,7 +208,7 @@ List<Widget> showMedicalHistory(List<HealthcareHistoryDataEntry> data, BuildCont
                 child: DefaultTextStyle(child: Text('Date'), style: boldContent, softWrap: true,))),
         Flexible(
             fit: FlexFit.tight,
-            flex: 25,
+            flex: 22,
             child: Container(
                 width: 250,
                 child: DefaultTextStyle(child: Text('Condition'), style: boldContent, softWrap: true,)

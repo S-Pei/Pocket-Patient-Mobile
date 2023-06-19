@@ -79,7 +79,7 @@ class HospitalVisitPage extends StatelessWidget {
                                     child: DefaultTextStyle(child: Text('Dates'), style: boldContent, softWrap: true,))),
                             Flexible(
                                 fit: FlexFit.tight,
-                                flex: 25,
+                                flex: 22,
                                 child: Container(
                                     width: 250,
                                     child: DefaultTextStyle(child: Text('Consultant'), style: boldContent, softWrap: true,)
@@ -104,7 +104,7 @@ class HospitalVisitPage extends StatelessWidget {
                     )),
                 Flexible(
                   flex: 3,
-                  child: NavigateLongButton(word: 'Add Hospital Entry', nextPage: AddHospitalVisitPage())
+                  child: NavigateLongButton(word: 'Add Visit Entry', nextPage: AddHospitalVisitPage())
                 )
               ]))),
                 homeIcon,
@@ -132,7 +132,7 @@ class HealthcareVisitTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             DefaultTextStyle(style: smallTitle, child: Text('Healthcare Visit History')),
-            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 19/6/2023')),
+            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 20/6/2023')),
           ],
         ));
   }

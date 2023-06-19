@@ -56,7 +56,7 @@ class HospitalVisitDetailsTitle extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             const DefaultTextStyle(style: smallTitle, child: Text('St Mary Hospital')),
-            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 25/4/2023 by ${data.consultant}')),
+            DefaultTextStyle(style: smallInfo, child: Text('Last Updated: 20/6/2023 by ${data.consultant}')),
           ],
         ));
   }

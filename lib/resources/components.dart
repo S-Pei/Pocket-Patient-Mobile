@@ -585,7 +585,7 @@ class _VisibilityTileState extends State<VisibilityTile> {
             children: [
                   Flexible(
                       fit: FlexFit.tight,
-                      flex: 3,
+                      flex: 4,
                       child: Container(
                           width: 50,
                           child: DefaultTextStyle(
