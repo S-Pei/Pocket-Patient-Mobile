@@ -16,8 +16,6 @@ class Patient {
     List<HealthcareHistoryDataEntry> medical_history;
     List<LabHistoryDataEntry> lab_history;
     List<ImagingHistoryDataEntry> imaging_history;
-    bool diaryState = true;
-    bool categoryState = true;
 
     Patient({
       required this.patient_id,

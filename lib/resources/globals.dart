@@ -41,6 +41,9 @@ String autoUrl = debug ? localHostUrl : deployedHostUrl;
 
 const debug = false;
 
+bool diaryState = true;
+bool categoryState = true;
+
 
 // WEBSOCKET INITIALISATION
 WebSocketChannel? channel;
@@ -121,9 +124,9 @@ final loginPage = LoginPage();
 
 final MedicationNotifier medicationNotifier = MedicationNotifier(patientData!.medication);
 
-final DiaryNotifier diaryUpdate = DiaryNotifier(patientData!.diaryState);
+final DiaryNotifier diaryUpdate = DiaryNotifier(diaryState);
 
-final CategoryNotifier categoryUpdate = CategoryNotifier(patientData!.categoryState);
+final CategoryNotifier categoryUpdate = CategoryNotifier(categoryState);
 
 final HospitalVisitNotifier mhNotifier = HospitalVisitNotifier(patientData!.medical_history);
 
