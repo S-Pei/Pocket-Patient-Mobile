@@ -580,7 +580,7 @@ List<Widget> addToMedHistCheck(Widget checkBox) {
         fit: FlexFit.loose,
         child:
         Row(children: [
-          Flexible(
+          const Flexible(
               fit: FlexFit.tight,
               flex: 1,
               child: SizedBox(width: 5,)),
@@ -605,7 +605,7 @@ List<Widget> addToMedHistCheck(Widget checkBox) {
 
 List<Widget> addDropDown(Widget dropDown) {
   return [
-    Flexible(
+    const Flexible(
         flex: 5,
         fit: FlexFit.loose,
         child: SizedBox(height: 20,)),
@@ -614,7 +614,7 @@ List<Widget> addDropDown(Widget dropDown) {
         fit: FlexFit.loose,
         child:
         Row(children: [
-          Flexible(
+          const Flexible(
               fit: FlexFit.tight,
               flex: 1,
               child: SizedBox(width: 5,)),
@@ -635,13 +635,13 @@ List<Widget> addDropDown(Widget dropDown) {
                     border: Border.all(
                         width: 1.0
                     ),
-                    borderRadius: BorderRadius.all(
+                    borderRadius: const BorderRadius.all(
                         Radius.circular(10.0) //
                     ),
                     color: lighterGrey,
                   ),
-                  constraints: BoxConstraints(maxHeight: 40),
-                  padding: EdgeInsets.only(left: 10.0),
+                  constraints: const BoxConstraints(maxHeight: 40),
+                  padding: const EdgeInsets.only(left: 10.0),
                   width: 250,
                   child: dropDown
               )
@@ -651,7 +651,7 @@ List<Widget> addDropDown(Widget dropDown) {
 
 List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSetter<DateTime> setDate) {
   return [
-    Flexible(
+    const Flexible(
         flex: 5,
         fit: FlexFit.loose,
         child: SizedBox(height: 20,)),
@@ -660,12 +660,13 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
         fit: FlexFit.loose,
         child:
         Row(children: [
-          Flexible(
+          const Flexible(
               fit: FlexFit.tight,
               flex: 1,
-              child: SizedBox(width: 5,)),
+              child: SizedBox(width: 5),
+          ),
           Flexible(
-              fit: FlexFit.loose,
+              fit: FlexFit.tight,
               flex: 10,
               child:
               requiredField(title, requiredStr)
@@ -674,11 +675,11 @@ List<Widget> addDateField(String title, ValueGetter<DateTime> getDate, ValueSett
               fit: FlexFit.loose,
               flex:15,
               child: Container(
-                  constraints: BoxConstraints(maxHeight: 60),
+                  constraints: const BoxConstraints(maxHeight: 60),
                   padding: EdgeInsets.zero,
                   width: 250,
                   child: DateTimeFormField(
-                    decoration: InputDecoration(
+                    decoration: const InputDecoration(
                       filled: true,
                       fillColor: lighterGrey,
                       suffixIcon: Icon(Icons.edit_calendar),
