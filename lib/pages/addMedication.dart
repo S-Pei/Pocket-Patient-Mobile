@@ -165,7 +165,6 @@ class _AddMedicationPageState extends State<AddMedicationPage> {
               ]
           ),
           homeIcon,
-          const ProfileLogo(),
         ],
       ),
     );

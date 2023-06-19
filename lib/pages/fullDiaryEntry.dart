@@ -34,7 +34,6 @@ class FullDiaryPage extends StatelessWidget {
               ]
           ),
           homeIcon,
-          const ProfileLogo(),
         ],
       ),
     );

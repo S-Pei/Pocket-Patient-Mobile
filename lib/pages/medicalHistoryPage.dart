@@ -18,7 +18,6 @@ class MedicalHistoryPage extends StatelessWidget {
               children: [SizedBox(height: 15,),medicalHistoryTitle, SizedBox(height: 30,),] +
                   showMedicalHistory(patientData!.getMedHisSummary(), context, false)),
           homeIcon,
-          const ProfileLogo(),
         ],
       ),
     );

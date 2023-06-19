@@ -80,7 +80,6 @@ class DiaryPage extends StatelessWidget {
                           )
                         ]))),
                 homeIcon,
-                const ProfileLogo(),
               ],
             ),
           );

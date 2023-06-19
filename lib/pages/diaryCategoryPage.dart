@@ -94,7 +94,6 @@ class DiaryCategoryPage extends StatelessWidget {
                           )
                         ]))),
                 homeIcon,
-                const ProfileLogo(),
               ],
             ),
           );

@@ -505,7 +505,6 @@ class _EditHospitalVisitPageState extends State<EditHospitalVisitPage> {
                     )
                   ]),
               homeIcon,
-              const ProfileLogo(),
             ]));
   }
 }

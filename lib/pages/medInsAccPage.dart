@@ -52,7 +52,6 @@ class _MedAccInsPageState extends State<MedAccInsPage> {
                           SizedBox(height: 30,),
                         ] + showMedIns(hosps, context)))),
             homeIcon,
-            const ProfileLogo(),
           ],
         ),
       );
